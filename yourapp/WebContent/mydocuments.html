@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>JSFS DEMO YourApp</title>
+<script src="json2.js"></script>
+<script src="byps.js"></script>
+<script src="jsfs.js"></script>
+<script>
+
+var jsfsUrl = "/jsfs-dispatcher/jsfs";
+var yourAppUrl = "/yourapp/fstokens"
+
+var client = null;
+var jsfs = null;
+
+window.onload = function() {
+	initJsfs();
+}
+
+window.onbeforeunload = function() {
+	doneJsfs();
+}
+
+// Implementation of FileSystemNotify
+var FileSystemNotifyImpl = function() {
+
+	this.notify = function(notifyInfo) {
+		if (notifyInfo.error) {
+			alert("Notify error: " + notifyInfo.error);
+		}
+		else if (notifyInfo._typeId == 9906860) {
+			alert("File change: " + notifyInfo.kind + ", file=" + notifyInfo.fileInfo.name);
+		}
+		else if (notifyInfo._typeId == 665368294) {
+			alert("Process terminated, exitcode=" + notifyInfo.exitCode + 
+					", extraInfo=" + notifyInfo.extraInfo +
+					", stdout=" + notifyInfo.standardOutput);
+		}
+	};
+	
+};
+FileSystemNotifyImpl.prototype = new com.wilutions.jsfs.BSkeleton_FileSystemNotify();
+
+
+JsfsAuthentication = function(appUrl) {
+	
+	this._token = "";
+	
+	this._internalAuthenticate = function(client, asyncResult) {
+		
+		var me = this;
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', appUrl, true);
+		
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState != 4) return;
+			if (xhr.status == 200) {
+				me._token = xhr.responseText;
+				asyncResult(true, null);
+			}
+			else {
+				var ex = new byps.BException(byps.BExceptionC.IOERROR, "HTTP status " + xhr.status, xhr.responseText);
+				asyncResult(false, ex);
+			}
+		};
+		
+		xhr.send();		
+	};
+	
+	this.authenticate = function(client, asyncResult) {
+		
+		var me = this;
+		
+		this._internalAuthenticate(client, function(ignored, ex) {
+
+			var jsfsToken = me._token;
+			
+			var notifyImpl = new FileSystemNotifyImpl();
+			client.addRemote(notifyImpl);
+		
+			client.fileSystemServiceRegistry.registerNotifyService(jsfsToken, notifyImpl, function(ignored, ex) {
+				if (ex) {
+					asyncResult(false, ex);
+				}
+				else {
+					
+					client.fileSystemServiceRegistry.getService(jsfsToken, function(jsfsService, ex) {
+						
+						if (ex) {
+							asyncResult(false, ex);
+						}
+						else {
+							jsfs = jsfsService;
+							asyncResult(false, null);
+						}
+					});
+				}
+			});
+		});
+		
+	};
+	
+	this.isReloginException = function(client, ex, typeId) { 
+		return client.transport.isReloginException(ex, typeId); 
+	};
+	
+	this.getSession = function(client, typeId, asyncResult) { 
+		if (asyncResult) {
+			asyncResult(null, null);
+		}
+	};
+};
+
+function initJsfs() {
+	
+	var wire = new byps.BWireClient(jsfsUrl, 0, 60);
+	var transportFactory = new byps.BTransportFactory(
+			com.wilutions.jsfs.BApiDescriptor_JSFS.instance(), wire, 1);
+	client = com.wilutions.jsfs.createClient_JSFS(transportFactory);
+	
+	client.setAuthentication(new JsfsAuthentication(yourAppUrl));
+	
+	client.start(function(ignored, ex) {
+		if (ex) {
+			alert("Error " + ex);
+		}
+		else {
+			alert("OK ");
+			
+		}
+	});
+}
+
+function doneJsfs() {
+	if (client) {
+		client.done();
+	}
+}
+
+const FOLDERID_Documents = "{FDD39AD0-238F-46AF-ADB4-6C85480369C7}";
+const FOLDERID_Recent = "{AE50C081-EBD2-438A-8655-8A092E34987A}";
+
+function fslist2() {
+	
+	//var dir = "%HOMEDRIVE%%HOMEPATH%";
+	var dir = FOLDERID_Recent;
+	
+	jsfs.findFiles(dir + "\\*.*", null, function(fileInfos, ex) {
+		if (ex) {
+			alert("" + ex);
+		}
+		else {
+			var msg = "";
+			for (var i = 0; i < fileInfos.length; i++) {
+				msg += fileInfos[i].name + "\n";
+			}
+			alert(msg);
+		}
+	});
+	
+};
+
+function fslist() {
+	
+	const FOLDERID_Documents = "{FDD39AD0-238F-46AF-ADB4-6C85480369C7}";
+	
+	try {
+		var fileInfos = jsfs.findFiles(FOLDERID_Documents + "\\*.*", null);
+		for (var i = 0; i < fileInfos.length; i++) {
+			processFile(fileInfos[i].name);
+		}
+	}
+	catch (ex) {
+		alert(ex);
+	}
+	
+};
+
+function startProgram() {
+	try {
+		var opts = new com.wilutions.jsfs.ExecuteOptions();
+		opts.extraInfo = JSON.stringify({program : "ipconfig output",});
+		opts.standardInput = "BBB\nAAA\nCCC\n";
+		opts.captureOutput = true;
+		opts.captureError = true;
+		jsfs.executeNotifyExit(["sort.exe", ""], opts);
+		//jsfs.execute(["%HOMEDRIVE%%HOMEPATH%/Recent/Antivir.pdf.lnk"]);
+	}
+	catch (ex) {
+		alert(""+ex);
+	}
+}
+
+function fsexecute() {
+	setTimeout("startProgram()", 10);
+}
+
+var watchFolderId = 0;
+
+function beginWatch() {
+	jsfs.beginWatchFolder("c:\\Users\\Wolfgang\\Desktop", true, "extra", function(notifyId, ex) {
+		if (ex) {
+			alert("Error: " + ex);
+		}
+		else {
+			watchFolderId = notifyId;
+		}
+	});
+}
+
+function endWatch() {
+	jsfs.endWatchFolder(watchFolderId);
+}
+
+
+</script>
+</head>
+<body>
+
+
+
+<input type="button" value="init" onclick="initJsfs()" />
+<input type="button" value="list" onclick="fslist()" />
+<input type="button" value="execute" onclick="fsexecute()" />
+
+<input type="button" value="beginWatch" onclick="beginWatch()" />
+<input type="button" value="endWatch" onclick="endWatch()" />
+
+
+
+</body>
+</html>

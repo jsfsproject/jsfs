@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<!--
+	This is an example about how to use JSFS in your web application.  
+ -->
+<title>Your Web Application</title>
+
+<!-- 
+	Import Douglas Crockfords JSON library
+-->
+<script src="json2.js"></script>
+
+<!--
+	Import BYPS communication library  
+ -->
+<script src="byps.js"></script>
+
+<!-- 
+	Import API definitions and serialization classes to
+	access JSFS Agent and JSFS Dispatcher
+ -->
+<script src="jsfs.js"></script>
+
+<script>
+
+/**
+ * JSFS Dispatcher URL
+ */
+var jsfsDispatcherUrl = "/jsfs-dispatcher/jsfs";
+
+/**
+ * URL to the token service of your web application.
+ */
+var tokenServiceUrl = "/yourapp/fstokens"
+
+/**
+ * BYPS client object.
+ * Provides access to the service interface of the JSFS dispatcher.
+ */
+var bclient = null;
+
+/**
+ * JSFS Agent service interface. 
+ */
+var jsfsAgent = null;
+
+
+/**
+ * Notification interface implementation.
+ * The JSFS Agent can call the functions of this interface in order to 
+ * notify the browser about an event in the file system.
+ * E.g. this interface is used to notify about changes in a folder,
+ * after the function beginWatch() has started.
+ * BYPS claims the implementation to "inherit" from
+ * the generated BSkeleton_FileSystemNotify class. This is done
+ * by setting the skeleton class as the prototype.
+ */
+var FileSystemNotifyImpl = function() {
+
+	this.notify = function(notifyInfo) {
+		if (notifyInfo.error) {
+			alert("Notify error: " + notifyInfo.error);
+		}
+		else if (notifyInfo.extraInfo == "Watch Desktop") { //if (notifyInfo._typeId == 9906860) {
+			var kind = "Nothing";
+			switch (notifyInfo.kind) {
+			case com.wilutions.jsfs.EWatchFolderNotifyKind.EntryCreated: kind = "EntryCreated"; break;
+			case com.wilutions.jsfs.EWatchFolderNotifyKind.EntryModified: kind = "EntryModified"; break;
+			case com.wilutions.jsfs.EWatchFolderNotifyKind.EntryDeleted: kind = "EntryDeleted"; break;
+			}
+			alert("File change: " + kind + ", file=" + notifyInfo.fileInfo.name);
+		}
+		else if (notifyInfo.extraInfo == "DOS sort") { // if (notifyInfo._typeId == 665368294) {
+			alert("Process terminated, exitcode=" + notifyInfo.exitCode + 
+					", extraInfo=" + notifyInfo.extraInfo +
+					", stdout=" + notifyInfo.standardOutput);
+		}
+	};
+	
+};
+FileSystemNotifyImpl.prototype = new com.wilutions.jsfs.BSkeleton_FileSystemNotify();
+
+/**
+ * Authentication class.
+ * This class is used by the BYPS framework to perform authentication.
+ * For the use of JSFS, it connects to "Your Web Application" and requests a token.
+ * When the token is received, the FileSystemNotifyImpl object is registered
+ * with the JSFS dispatcher.
+ */
+JsfsAuthentication = function() {
+	
+	/**
+	 * Token received from "Your Web Application"
+	 */
+	this._token = "";
+	
+	this.getToken = function() {
+		return this._token;
+	}
+	
+	/**
+	 * Query for token.
+	 * Sends a GET request to the token service at tokenServiceUrl.
+	 * Expects a token in the response text.
+	 * This private function is called from this.authenticate().
+	 */
+	this._internalAuthenticate = function(bclient, asyncResult) {
+		
+		var me = this;
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', tokenServiceUrl, true);
+		
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState != 4) return;
+			if (xhr.status == 200) {
+				me._token = xhr.responseText;
+				asyncResult(true, null);
+			}
+			else {
+				var ex = new byps.BException(byps.BExceptionC.IOERROR, "HTTP status " + xhr.status, xhr.responseText);
+				asyncResult(false, ex);
+			}
+		};
+		
+		xhr.send();		
+	};
+	
+	
+	/**
+	 * Authentication function.
+	 * This function is called by the BYPS framework if authentication is required.
+	 * It is invoked after the protocol is negotiated or if a HTTP status 401 is received 
+	 * from a previsious request.
+	 */
+	this.authenticate = function(bclient, asyncResult) {
+		
+		var me = this;
+		
+		// Send request to token service of "Your Web Application".
+		this._internalAuthenticate(bclient, function(ignored, ex) {
+			
+			if (ex) {
+				asyncResult(false, ex);
+			}
+			else {
+				
+				// Received token
+				var jsfsToken = me._token;
+				
+				// Register notify service with JSFS Dispatcher. 
+				// At first, the service object has to be added to the 
+				// list of local available remote interfaces. This is done by
+				// calling bclient.addRemote().
+				// Secondly, the service object is published to the JSFS Dispatcher 
+				// by calling bclient.dispatcherService.registernNotifyService.
+				
+				var notifyImpl = new FileSystemNotifyImpl();
+				bclient.addRemote(notifyImpl);
+			
+				bclient.dispatcherService.registerNotifyService(jsfsToken, notifyImpl, function(ignored, ex) {
+					if (ex) {
+						asyncResult(false, ex);
+					}
+					else {
+						
+						// Quer the JSFS Dispatcher for the JSFS Agent service interface
+						
+						bclient.dispatcherService.getService(jsfsToken, false, function(jsfsService, ex) {
+							
+							if (ex) {
+								asyncResult(false, ex);
+							}
+							else {
+								
+								// Received the JSFS Agent 
+								jsfsAgent = jsfsService;
+								asyncResult(false, null);
+							}
+						});
+					}
+				});
+			}
+		});
+		
+	};
+	
+	
+	/**
+	 * Check, if given exception should trigger an authenication process.
+	 * This function is called from the BYPS framework.
+	 */
+	this.isReloginException = function(bclient, ex, typeId) { 
+		return bclient.transport.isReloginException(ex, typeId); 
+	};
+	
+	/**
+	 * Return the session object.
+	 * BYPS allows to send an implicit session object with each function call.
+	 * But this functionality is not needed here.
+	 */
+	this.getSession = function(bclient, typeId, asyncResult) { 
+		if (asyncResult) {
+			asyncResult(null, null);
+		}
+	};
+};
+
+/**
+ * Initialize access to the JSFS Agent.
+ * This function connects to the JSFS Dispatcher and queries for the JSFS Agent interface.
+ * It sets the global variable bclient. The JSFS Agent interface is asynchronously received by
+ * callback functions and stored in the global variable jsfsAgent.
+ */
+function initJsfs() {
+	
+	// Mabe the page was re-loaded: terminate previous connections 
+	doneJsfs();
+	
+	// Start background timer that keeps the application server session alive.
+	keepAlive();
+	
+	// Initialize BYPS: 
+	// - provide a BWire object
+	// - provide a BTransportFactory
+	// - create a BClient object
+	// - supply a BAuthentication object
+	// - start the BClient object
+	
+	var wire = new byps.BWireClient(jsfsDispatcherUrl, 0, 60);
+	var transportFactory = new byps.BTransportFactory(
+			com.wilutions.jsfs.BApiDescriptor_JSFS.instance(), 
+			wire, 
+			1); // = number of reverse connections (long-polls)
+	bclient = com.wilutions.jsfs.createClient_JSFS(transportFactory);
+	
+	bclient.setAuthentication(new JsfsAuthentication());
+	
+	// Start BClient object and execute asynchronously.
+	// The object could also be started synchronously.
+	// This would require a synchronous implementation of the BAuthentication object. 
+	
+	bclient.start(function(ignored, ex) {
+		if (ex) {
+			alert("Error " + ex);
+		}
+		else {
+			alert("OK ");
+			
+		}
+	});
+}
+
+/**
+ * Cleanup resources (connections).
+ */
+function doneJsfs() {
+	if (bclient) {
+		bclient.done();
+	}
+}
+
+/**
+ * List files in a directory.
+ * This function processes asynchonously.
+ */
+function fslist() {
+	
+	const  dir = "%HOMEDRIVE%%HOMEPATH%\\Documents";
+	
+	// The C++ JSFS Agent accepts Known Folder GUIDs too:
+	// const dir = "{FDD39AD0-238F-46AF-ADB4-6C85480369C7}"; // == FOLDERID_Documents
+
+	jsfsAgent.findFiles(dir + "\\*.*", null, function(fileInfos, ex) {
+		
+		if (ex) {
+			alert("Error: " + ex);
+		}
+		else {
+			var msg = "";
+			for (var i = 0; i < fileInfos.length; i++) {
+				msg += fileInfos[i].name + "\n";
+			}
+			alert(msg);
+		}
+	});
+	
+};
+
+/**
+ * Read and write a text file.
+ * This function processes synchonously.
+ */
+function fsreadwrite() {
+	
+	const file = "%HOMEDRIVE%%HOMEPATH%\\Documents\\jsfstext.txt";
+	
+ 	try {
+		var text = "Text written at " + (new Date());
+		jsfsAgent.writeAllText(file, text);
+			
+		var stream = jsfsAgent.readFile(file);
+		var fileView = document.getElementById("fileView");
+		fileView.src = stream.url;
+			
+ 	} catch (ex) {
+ 		// JSFS Agent sets ex.code as Windows error code + 10000
+ 		alert(ex);
+ 	}
+ 
+};
+
+/**
+ * Start a program on the client computer.
+ * This example starts the command line program "sort.exe" in order to sort a list of strings.
+ * The result is received in the FileSystemNotifyImpl.notify() function.
+ */
+function fsexecute() {
+	try {
+		var opts = new com.wilutions.jsfs.ExecuteOptions();
+		opts.extraInfo = "DOS sort"; // This string is checked in FileSystemNotifyImpl.notify() 
+		opts.standardInput = "BBB\nAAA\nCCC\n"; 
+		opts.captureOutput = true;
+		opts.captureError = true;
+		jsfsAgent.executeNotifyExit(["sort.exe"], opts);
+	}
+	catch (ex) {
+		alert(""+ex);
+	}
+}
+
+/**
+ * Start to watch the desktop folder.
+ * If the contents of the desktop folder change, a notifiation is sent to the 
+ * FileSystemNotifyImpl.notify() function.
+ * This function sets the global variable watchFolderId which contains
+ * a handle to the watcher. In order to stop watching the folder, 
+ * call function endWatch().
+ */
+var watchFolderId = 0;
+function beginWatch() {
+	
+	var dir = "%HOMEDRIVE%%HOMEPATH%\\Desktop";
+	
+	watchFolderId = jsfsAgent.beginWatchFolder(dir, 
+			false,				// Do not watch sub folders 
+			"Watch Desktop" 	// This helps FileSystemNotifyImpl.notify() to distinguish watcher notifications from other messages.
+	);
+	
+	alert("The browser displays a message box, when you create, delete or modify a file on the desktop.");
+}
+
+/**
+ * Stop watching the desktop folder.
+ * 
+ */
+function endWatch() {
+	jsfsAgent.endWatchFolder(watchFolderId);
+}
+
+
+
+/**
+ * The BYPS connection should be closed, when the page is unloaded.
+ * Otherwise a long-poll request might not be terminated.
+ */
+window.onbeforeunload = function() {
+	doneJsfs();
+}
+
+
+/**
+ * Keep the application server session alive.
+ * This keeps the jsfsAgent object valid.
+ */
+function keepAlive() {
+	if (bclient) {
+		var auth = bclient.getAuthentication();
+		if (auth) {
+			var token = auth.getToken();
+			bclient.dispatcherService.keepAlive(token);
+		}
+	}
+	window.setTimeout("keepAlive()", 300 * 1000);
+}
+
+
+</script>
+</head>
+<body>
+<h3>Your Web Application</h3><br>
+
+
+<input type="button" value="init" onclick="initJsfs()" />
+<input type="button" value="list" onclick="fslist()" />
+<input type="button" value="read" onclick="fsreadwrite()" />
+<input type="button" value="execute" onclick="fsexecute()" />
+
+<input type="button" value="beginWatch" onclick="beginWatch()" />
+<input type="button" value="endWatch" onclick="endWatch()" />
+
+<br>
+
+<iframe id="fileView">
+</iframe>
+
+
+</body>
+</html>

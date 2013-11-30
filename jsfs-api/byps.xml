@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="build" name="Create communication layer">
+	
+	<property name="byps.home" value="d:/java/lib/byps" />
+	
+    <target name="build">
+  	  <java jar="${byps.home}/bypsgen.jar" fork="true">
+  	  	
+  	  	<arg value="--sourcepath"/> <arg value="../jsfs-api/src" />
+  	  	
+		<arg value="-genj.dir-ser"/> <arg value="../jsfs-ser/src" />
+		
+		<arg value="-genjs.dest"/> <arg value="../yourapp/WebContent/jsfs.js" />
+		
+		<arg value="-gencs.dir-ser"/> <arg value="../jsfs-ser/cs/src-ser" />
+		<arg value="-gencs.upfirst"/> <arg value="true" />
+  	  	<arg value="-gencs.dot-net-version"/> <arg value="4.5" />
+		
+		<arg value="-gencpp.dir-api"/> <arg value="../jsfs-ser/cpp/src-api" />
+		<arg value="-gencpp.dir-impl"/> <arg value="../jsfs-ser/cpp/src-impl" />
+		<arg value="-gencpp.max-fsize" /> <arg value="50000" />
+  	  
+  	  </java>
+    </target>
+</project>
