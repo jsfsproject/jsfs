@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jsfs-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jsfs-ser"/>
+	<classpathentry kind="lib" path="D:/java/lib/byps/bypshttp.jar"/>
+	<classpathentry kind="lib" path="D:/java/lib/apache-log4j-1.2.15/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="D:/java/lib/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

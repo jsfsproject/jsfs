@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="jsfs-dispatcher">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="jsfs-ser.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jsfs-ser/jsfs-ser">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jsfs-api.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jsfs-api/jsfs-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/jsfs-dispatcher/build/classes"/>
+        <property name="context-root" value="jsfs-dispatcher"/>
+    </wb-module>
+</project-modules>
