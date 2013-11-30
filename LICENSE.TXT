@@ -1,0 +1,2 @@
+This software is licensed under the GNU Public License, 
+see gpl.txt or http://www.gnu.org/licenses/gpl.txt
