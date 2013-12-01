@@ -25,10 +25,6 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/jsfs-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jsfs-ser"/>
-	<classpathentry kind="lib" path="D:/java/lib/byps/bypshttp.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/BYPS"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

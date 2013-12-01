@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="build" name="Create communication layer">
 	
-	<property name="byps.home" value="d:/java/lib/byps" />
+	<property name="byps.home" value="d:\git\jsfs\lib" />
 	
     <target name="build">
   	  <java jar="${byps.home}/bypsgen.jar" fork="true">
