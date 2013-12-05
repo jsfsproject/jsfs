@@ -1,3 +1,4 @@
+/* USE THIS FILE ACCORDING TO THE COPYRIGHT RULES IN LICENSE.TXT WHICH IS PART OF THE SOURCE CODE PACKAGE */ 
 
 // jsfs-agent-cpp.cpp : Defines the class behaviors for the application.
 //
