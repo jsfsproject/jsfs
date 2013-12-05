@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <eclipse-userlibraries version="2">
     <library name="BYPS" systemlibrary="false">
-        <archive path="./lib/bypshttp.jar"/>
-        <archive path="./lib/commons-logging-1.1.1.jar"/>
-        <archive path="./lib/log4j-1.2.15.jar"/>
+        <archive path="d:/git/jsfs/lib/bypshttp.jar"/>
+        <archive path="d:/git/jsfs/lib/commons-logging-1.1.1.jar"/>
+        <archive path="d:/git/jsfs/lib/log4j-1.2.15.jar"/>
+        <archive path="d:/git/jsfs/lib/commons-fileupload-1.2.2.jar"/>
+        <archive path="d:/git/jsfs/lib/commons-io-2.3.jar"/>
     </library>
 </eclipse-userlibraries>

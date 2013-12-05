@@ -4,6 +4,7 @@
 	<property name="byps.home" value="d:\git\jsfs\lib" />
 	
     <target name="build">
+    	
   	  <java jar="${byps.home}/bypsgen.jar" fork="true">
   	  	
   	  	<arg value="--sourcepath"/> <arg value="../jsfs-api/src" />
