@@ -14,9 +14,9 @@ import byps.RemoteException;
 
 /**
  * Implementation of the JSFS Dispatcher.
- * Each JSFS Agent and each browser has its own JsfsDispacher object as they have their own BYPS session.
- * This concept allows to store the token inside the JsfsDispatcher object 
- * which in turn allows to remove the mappings to the token if the session is invalidated.
+ * This class stores for all subscribers the mapping between access tokens and service interfaces
+ * in static hash maps. Each browser and each JSFS Agent has its own JSFS Dispatcher object which is  
+ * linked to the application server session, respectively the BYPS session object.
  */
 public class JsfsDispatcher extends BSkeleton_DispatcherService {
   
@@ -34,12 +34,14 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
   
   /**
    * The token that has been passed to {@link #registerService(String, FileSystemService)} 
-   * or {@link #registerNotifyService(String, FileSystemNotify)}
+   * or {@link #registerNotifyService(String, FileSystemNotify)}.
+   * This token is stored here in order to remove the mapping when the application
+   * server session is invalidated.
    */
   private String myToken;
   
   /**
-   * Back-reference to the session object.
+   * Back-reference to the BYPS session object.
    */
   private MySession mySession;
   
@@ -50,7 +52,6 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
   @Override
   public void registerService(String token, FileSystemService service) throws RemoteException {
     myToken = token;
-    mySession.setSessionAuthenticated();
     map.put(token, service);
   }
 
@@ -73,6 +74,12 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
         throw exIfNotFound;
       }
       else {
+        
+        // This block is reached, if the token cannot be found in the map and the 
+        // request should be forwarded to other web applications that implement a
+        // JSFS Dispatcher service.
+        // The context.xml file in the Servers/Tomcatv7.0... folder describes
+        // how to use multiple JSFS Dispatcher services.
         
         final Collection<BClient> clients = mySession.getForwardClientsToOtherServers();
         
@@ -112,7 +119,6 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
   @Override
   public void registerNotifyService(String token, FileSystemNotify service) throws RemoteException {
     myToken = token;
-    mySession.setSessionAuthenticated();
     mapNotify.put(token, service);
   }
 
@@ -169,20 +175,18 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
     }
   }
   
-  
-  public void removeMyTokenOfInvalidatedSession() {
+  /**
+   * Removes the mapping to the sessions token.
+   * This function is called from class MySession if the 
+   * application server session is invalidated.
+   */
+  public void removeMyTokenBecauseSessionWasInvalidated() {
     if (myToken != null) {
       mapNotify.remove(myToken);
       map.remove(myToken);
     }
   }
 
-  /**
-   * Keep session alive.
-   * The application server session has already been touched so that the 
-   * idle interval starts again. 
-   * That is all what has to be done to keep the token-to-services associations valid.
-   */
   @Override
   public void keepAlive(String token) throws RemoteException {
     

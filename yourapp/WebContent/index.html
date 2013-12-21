@@ -295,12 +295,13 @@ function fslist() {
  */
 function fsreadwrite() {
 	
-	const file = "%HOMEDRIVE%%HOMEPATH%\\Documents\\jsfstext.txt";
+	var file = "%HOMEDRIVE%%HOMEPATH%\\Documents\\jsfstext.txt";
 	
  	try {
 		var text = "Text written at " + (new Date());
 		jsfsAgent.writeAllText(file, text);
 			
+		file = "%HOMEDRIVE%%HOMEPATH%\\Documents\\Passfoto.jpg";
 		var stream = jsfsAgent.readFile(file);
 		var fileView = document.getElementById("fileView");
 		fileView.src = stream.url;

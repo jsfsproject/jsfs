@@ -57,7 +57,7 @@ public class MySession extends HSession {
 	
 	@Override
 	public void done() {
-	  jsfsDispatcher.removeMyTokenOfInvalidatedSession();
+	  jsfsDispatcher.removeMyTokenBecauseSessionWasInvalidated();
 	  super.done();
 	}
 
