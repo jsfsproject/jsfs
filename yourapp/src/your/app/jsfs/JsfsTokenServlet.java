@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import your.app.YourWebApplication;
 
 /**
- * Servlet implementation class LoginServlet
+ * This servlet generates the tokens used to connect the browser with JSFS Agent.
+ * The web.xml constrains access to the servlet by an authentication mechanism.
  */
-
 public class JsfsTokenServlet extends HttpServlet {
   
   private static final long serialVersionUID = 1L;
@@ -41,13 +41,14 @@ public class JsfsTokenServlet extends HttpServlet {
     if (userName != null && userName.length() != 0) {
       String remoteAddr = request.getRemoteAddr();
       JsfsTokens jsfs = YourWebApplication.getJsfsSessions();
-      JsfsToken token = jsfs.getOrCreateToken(userName, remoteAddr, true);
+      JsfsToken token = jsfs.getOrCreateToken(userName, remoteAddr);
       
-      String removeToken = request.getParameter("removeToken");
-      if (removeToken != null) {
-        jsfs.removeToken(userName, remoteAddr);
-      }
-      else {
+//      String removeToken = request.getParameter("removeToken");
+//      if (removeToken != null) {
+//        jsfs.removeToken(userName, remoteAddr);
+//      }
+//      else 
+      {
         response.setContentType("text/plain");
         response.getWriter().print(token.getValue());
       }

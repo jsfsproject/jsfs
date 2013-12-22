@@ -22,6 +22,6 @@
   </security-constraint>
   <login-config>
     <auth-method>BASIC</auth-method>
-    <realm-name>My Application Realm</realm-name>
+    <realm-name>Your Application Realm</realm-name>
   </login-config>
 </web-app>

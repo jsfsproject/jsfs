@@ -15,6 +15,5 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jsfs-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jsfs-ser"/>
-	<classpathentry kind="lib" path="D:/java/lib/byps/bypshttp.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

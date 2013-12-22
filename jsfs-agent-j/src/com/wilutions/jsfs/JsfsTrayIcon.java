@@ -26,7 +26,7 @@ public class JsfsTrayIcon {
   private Image inUseImage;
   private long inUseImageVisibleUntilSystemMillis;
   private Timer imageTimer;
-  private String appName = "JavaScript File System Adapter";
+  private String appName = "JSFS Adapter";
   
   public void showError(Throwable ex) {
     trayIcon.displayMessage(appName, ex.toString(), TrayIcon.MessageType.ERROR);
@@ -92,7 +92,7 @@ public class JsfsTrayIcon {
 
     trayIcon.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "This dialog box is run from System Tray");
+        //JOptionPane.showMessageDialog(null, "This dialog box is run from System Tray");
       }
     });
 

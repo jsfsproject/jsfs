@@ -1,12 +1,18 @@
 package com.wilutions.jsfs;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.activation.DataHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import byps.BAsyncResult;
 import byps.BAuthentication;
@@ -19,7 +25,9 @@ import byps.BClient;
 public class JsfsAuthentication implements BAuthentication {
   
   private String appUrl, userName, userPwd;
-  private String token;
+  private volatile String token;
+  
+  private Log log = LogFactory.getLog(JsfsAuthentication.class);
 
   /**
    * Constructor
@@ -44,88 +52,171 @@ public class JsfsAuthentication implements BAuthentication {
 
   /**
    * Send a GET request to the URL of the token service.
-   * @param client Unused
    * @param asyncResult Callback object
    */
-  private void internalAuthenticate(BClient client, BAsyncResult<Boolean> asyncResult) {
+  private void internalAuthenticateRetry(BAsyncResult<String> asyncResult) {
+    if (log.isDebugEnabled()) log.debug("internalAuthenticate(");
     
-    try {
+    Throwable ex = null;
+    String token = null;
+    int retryCount = 0;
+    
+    while (true) {
       
-      // Create an Authenticator object that is used to send the credentials
-      // during BASIC authentication.
-      Authenticator.setDefault( new Authenticator() {
-        @Override 
-        protected PasswordAuthentication getPasswordAuthentication() {
-          return new PasswordAuthentication( userName, userPwd.toCharArray() );
-        }
-      });
-
-      // The easiest way to send a GET is by using the DataHandler class.
-      DataHandler dh = new DataHandler(new URL(appUrl));
-      LineNumberReader rd = null;
       try {
-        rd = new LineNumberReader(new InputStreamReader(dh.getInputStream()));
-        token = rd.readLine();
-        if (token == null) {
-          asyncResult.setAsyncResult(Boolean.FALSE, new IllegalStateException("No token returned from " + appUrl));
+        
+        token = internalAuthenticate2();
+        ex = null;
+        break;
+        
+      } catch (Exception e) {
+        
+        if (log.isDebugEnabled()) log.debug("internalAuthenticate failed", e);
+        ex = e;
+
+        if (++retryCount == 3) break;
+        if (e.toString().indexOf("403") < 0) break; 
+        
+        // Assume name/password wrong
+        String[] args = new String[2];
+        if (DlgCredentials.showDialog(args)) {
+          userName = args[0];
+          userPwd = args[1];
         }
         else {
-          asyncResult.setAsyncResult(Boolean.TRUE, null);
+          System.exit(-1);
         }
       }
-      finally {
-        if (rd != null) {
-          try { rd.close(); } catch (Throwable e) {}
-        }
-      }
-    } catch (Throwable e) {
-      asyncResult.setAsyncResult(Boolean.FALSE, e);
     }
     
+    asyncResult.setAsyncResult(token, ex);
+    
+    if (log.isDebugEnabled()) log.debug(")internalAuthenticate");
+  }
+
+  private String internalAuthenticate2() throws IOException, MalformedURLException {
+    
+    final AtomicInteger retryLogin = new AtomicInteger();
+    
+    // Create an Authenticator object that is used to send the credentials
+    // during BASIC authentication.
+    Authenticator.setDefault( new Authenticator() {
+      @Override 
+      protected PasswordAuthentication getPasswordAuthentication() {
+        if (log.isDebugEnabled()) log.debug("getPasswordAuthentication(), userName=" + userName);
+        
+        // If authentication fails, Tomcat returns 401 with BASIC authentication
+        // and the JVM retries to login.
+        // This causes an endless loop that is broken by the exception
+        // "java.net.ProtocolException: Server redirected too many times". 
+        // Tomcat should return 403 if authentication was unsuccessful.
+        
+        // Try to authenticate only once 
+        if (retryLogin.incrementAndGet() > 1) {
+          throw new IllegalStateException("HTTP 403");
+        }
+        
+        return new PasswordAuthentication( userName, userPwd.toCharArray() );
+      }
+    });
+
+    if (log.isDebugEnabled()) log.debug("GET appUrl=" + appUrl);
+    HttpURLConnection conn = null;
+    LineNumberReader rd = null;
+    try {
+      conn = (HttpURLConnection) new URL(appUrl).openConnection();
+      rd = new LineNumberReader(new InputStreamReader(conn.getInputStream()));
+      String token = rd.readLine();
+      if (log.isDebugEnabled()) log.debug("token=" + token);
+      if (token == null) {
+        throw new IOException("No token returned from " + appUrl);
+      }
+      return token;
+    }
+    catch (Exception e) {
+      InputStream es = conn.getErrorStream();
+      if (es != null) {
+        while (es.read() != -1) {}
+      }
+      throw e;
+    }
+    finally {
+      if (rd != null) {
+        try { rd.close(); } catch (Throwable e) {}
+      }
+      if (conn != null) {
+        conn.disconnect();
+      }
+    }
   }
   
   @Override
   public void authenticate(BClient bclient1, final BAsyncResult<Boolean> asyncResult) {
+    if (log.isDebugEnabled()) log.debug("authenticate(bclient1=" + bclient1);
     
     final BClient_JSFS bclient = (BClient_JSFS)bclient1;
     
-    BAsyncResult<Boolean> outerResult = new BAsyncResult<Boolean>() {
-      public void setAsyncResult(Boolean ignored, Throwable ex) {
+    BAsyncResult<String> outerResult = new BAsyncResult<String>() {
+      
+      public void setAsyncResult(String token, Throwable ex) {
+        if (log.isDebugEnabled()) log.debug("setAsyncResult(token=" + token + ", ex=" + ex);
         
-        try {
-          // Required by BYPS: add the implementation of a service that is
-          // called via reverse HTTP to the client object.
-          final FileSystemImpl fssrv = new FileSystemImpl(bclient);
-          bclient.addRemote(fssrv);
-
-          // Publish the service to the JSFS Dispatcher.
-          String token = ((JsfsAuthentication) bclient.getAuthentication()).getToken();
-          bclient.dispatcherService.registerService(token, fssrv, new BAsyncResult<Object>() {
-            public void setAsyncResult(Object ignored, Throwable ex) {
-              asyncResult.setAsyncResult(Boolean.TRUE, ex);
-            }
-          });
-
-        } catch (Throwable ex2) {
-          asyncResult.setAsyncResult(null, ex2);
+        if (ex != null) {
+          asyncResult.setAsyncResult(Boolean.FALSE, ex);
+        }
+        else {
+          JsfsAuthentication.this.token = token;
+       
+          try {
+            // Required by BYPS: add the implementation of a service that is
+            // called via reverse HTTP to the client object.
+            final FileSystemImpl fssrv = new FileSystemImpl(bclient);
+            bclient.addRemote(fssrv);
+            if (log.isDebugEnabled()) log.debug("fssrv=" + fssrv);
+ 
+            // Publish the service to the JSFS Dispatcher.
+            bclient.dispatcherService.registerService(token, fssrv, new BAsyncResult<Object>() {
+              public void setAsyncResult(Object ignored, Throwable ex) {
+                if (log.isDebugEnabled()) log.debug("registerService asyncResult: ex=" + ex);
+                asyncResult.setAsyncResult(Boolean.TRUE, ex);
+              }
+            });
+  
+          } catch (Throwable ex2) {
+            if (log.isDebugEnabled()) log.debug("authentication failed", ex2);
+            asyncResult.setAsyncResult(Boolean.FALSE, ex2);
+          }
         }
 
+        if (log.isDebugEnabled()) log.debug(")setAsyncResult");
       }
     };
     
-    internalAuthenticate(bclient1, outerResult);
+    internalAuthenticateRetry(outerResult);
+    
+    if (log.isDebugEnabled()) log.debug(")authenticate");
   }
 
   @Override
   public boolean isReloginException(BClient client, Throwable ex, int typeId) {
-    return client.transport.isReloginException(ex, typeId);
+    boolean ret = client.transport.isReloginException(ex, typeId);
+    if (log.isDebugEnabled()) log.debug("isReloginException(client="+ client +", ex=" + ex + ", typeId=" + typeId + ")=" + ret);
+    return ret;
   }
 
   @Override
   public void getSession(BClient client, int typeId, BAsyncResult<Object> asyncResult) {
+    if (log.isDebugEnabled()) log.debug("getSession(client=" + client + ", typeId=" + typeId + ")");
     asyncResult.setAsyncResult(null, null);
   }
 
-
+  /**
+   * Requests the token from Your Web Application
+   * @param asyncResult The token is supplied in the result parameter.
+   */
+  public void keepAlive(BAsyncResult<String> asyncResult) {
+    if (log.isDebugEnabled()) log.debug("keepAlive()");
+    internalAuthenticateRetry(asyncResult);
+  }
   
 }

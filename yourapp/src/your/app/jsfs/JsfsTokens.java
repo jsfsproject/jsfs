@@ -28,7 +28,6 @@ public class JsfsTokens {
     StringBuilder sbuf = new StringBuilder();
     sbuf.append(rand.nextLong()).append(".").append(rand.nextLong());
     JsfsToken token = new JsfsToken(sbuf.toString());
-    mapKey2Session.put(sessKey, token);
     return token;
   }
   
@@ -36,15 +35,15 @@ public class JsfsTokens {
    * Gets or creates a token.
    * @param userName user name from HttpServletRequest.getRemoteUser
    * @param remoteAddr  remote address from HttpServletRequest.getRemoteAddr
-   * @param createIfNotEx true in order to create a token, if no token is assigned to userName/remoteAddr
    * @return token or null.
    */
-  public JsfsToken getOrCreateToken(String userName, String remoteAddr, boolean createIfNotEx) {
+  public JsfsToken getOrCreateToken(String userName, String remoteAddr) {
     String sessKey = makeKey(userName, remoteAddr);
     synchronized (mapKey2Session) {
       JsfsToken token = mapKey2Session.get(sessKey);
       if (token == null) {
         token = createToken(sessKey);
+        mapKey2Session.put(sessKey, token);
       }
       return token;
     }

@@ -1,8 +1,12 @@
 package com.wilutions.jsfs;
 
+import java.util.Arrays;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import byps.BAsyncResult;
 import byps.BLostConnectionHandler;
@@ -54,23 +58,23 @@ public class Main {
    * and the connection to the browser. A thread calls each 
    * CHECK_CONNECTION_AFTER_MILLIS the keepAlive() function of the JSFS Dispatcher
    * to signal that the token is still in use.
+   * This value must be shorter than the session lifetime in the JSFS Dispatcher and
+   * shorter than the token lifetime in Your Web Application (see JsfsToken.TOKEN_LIFETIME_MILLIS).
    */
   private final static long CHECK_CONNECTION_AFTER_MILLIS = (300 * 1000);
   
+  private static Log log = LogFactory.getLog(Main.class);
+  
   public static void main(String[] args) {
+    
+    log.info("main args=" + Arrays.toString(args));
 
     // Initialize Swing
     try {
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
       // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-    } catch (UnsupportedLookAndFeelException ex) {
-      ex.printStackTrace();
-    } catch (IllegalAccessException ex) {
-      ex.printStackTrace();
-    } catch (InstantiationException ex) {
-      ex.printStackTrace();
-    } catch (ClassNotFoundException ex) {
-      ex.printStackTrace();
+    } catch (Exception ex) {
+      log.error(ex);
     }
     UIManager.put("swing.boldMetal", Boolean.FALSE);
     
@@ -91,6 +95,9 @@ public class Main {
   private static void connectToJsfsDispatcherShowStatus() {
     connectToJSFS(new BAsyncResult<BClient_JSFS>() {
       public void setAsyncResult(BClient_JSFS client, final Throwable e) {
+        
+        if (log.isDebugEnabled()) log.debug("connectToJSFS returns client=" + client + ", e=" + e);
+        
         SwingUtilities.invokeLater(new Runnable() {
           public void run() {
             if (e != null) {
@@ -110,7 +117,8 @@ public class Main {
    * @param asyncResult Callback interface that receives the result.
    */
   private static void connectToJSFS(final BAsyncResult<BClient_JSFS> asyncResult) {
-
+    if (log.isDebugEnabled()) log.debug("connectToJSFS(");
+    
     // Initialize BYPS: 
     // - provide a BWire object
     // - provide a BTransportFactory
@@ -135,10 +143,13 @@ public class Main {
         super.sendR(msg, outerResult);
       }
     };
+    if (log.isDebugEnabled()) log.debug("wire=" + wire);
     
     HTransportFactoryClient transportFactory = new HTransportFactoryClient(BApiDescriptor_JSFS.instance(), wire, 1);
+    if (log.isDebugEnabled()) log.debug("transportFactory=" + transportFactory);
 
     final BClient_JSFS bclient = BClient_JSFS.createClient(transportFactory);
+    if (log.isDebugEnabled()) log.debug("client=" + bclient);
 
     bclient.setAuthentication(new JsfsAuthentication(tokenServiceUrl, userName, userPwd));
     
@@ -149,32 +160,35 @@ public class Main {
       
       @Override
       public void onLostConnection(Throwable ex) {
-         
-        SwingUtilities.invokeLater(new Runnable() {
-          public void run() {
-            trayIcon.showInfo("Lost connection, retry after ms=" + RECONNECT_AFTER_MILLIS);
-          }
-        });
-        
-        bclient.done();
-        reconnectToJSFS();
+        if (log.isDebugEnabled()) log.debug("lost connection", ex);
+        reconnectToJSFS(bclient);
       }
     });
+    
+    if (log.isDebugEnabled()) log.debug("bclient.start...");
 
     bclient.start(new BAsyncResult<Boolean>() {
 
       public void setAsyncResult(Boolean succ, Throwable ex) {
+        
+        if (log.isDebugEnabled()) log.debug("bclient.start ex=" + ex);
 
-        if (ex!= null) {
-          reconnectToJSFS();
+        if (ex != null) {
+          log.info("JSFS Agent failed to start", ex);
+          reconnectToJSFS(bclient);
         }
+        else {
+          log.info("JSFS Agent started");
+          // Start a thread to keep the token alive
+          keepAlive(bclient);
+        }
+        
         asyncResult.setAsyncResult(bclient, ex);
       }
       
     });
     
-    // Start a thread to keep the token alive
-    keepAlive(bclient);
+    if (log.isDebugEnabled()) log.debug(")connectToJSFS");
   }
   
   
@@ -182,17 +196,36 @@ public class Main {
    * Connect to the JSFS Dispatcher after RECONNECT_AFTER_MILLIS.
    * This function is called if the connection to the JSFS Dispatcher is lost.
    */
-  private static void reconnectToJSFS() {
+  private static void reconnectToJSFS(final BClient_JSFS bclient) {
+    if (log.isDebugEnabled()) log.debug("reconnectToJSFS(bclient=" + bclient);
+    
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        trayIcon.showInfo("Lost connection, retry after " + (RECONNECT_AFTER_MILLIS/1000) + "s");
+      }
+    });
+    
+    if (log.isDebugEnabled()) log.debug("bclient.done");
+    bclient.done();
+
+    if (log.isDebugEnabled()) log.debug("start reconnect thread");
     Thread thread = new Thread() {
       public void run() {
         try {
+          if (log.isDebugEnabled()) log.debug("sleep before reconnect, ms=" + RECONNECT_AFTER_MILLIS);
           Thread.sleep(RECONNECT_AFTER_MILLIS);
           connectToJsfsDispatcherShowStatus();
         }
-        catch (InterruptedException ignored) {}
+        catch (InterruptedException e) {
+          if (log.isDebugEnabled()) log.debug("reconnect interrupted");
+        }
       }
     };
+    thread.setName("reconnect");
+    thread.setDaemon(true);
     thread.start();
+    
+    if (log.isDebugEnabled()) log.debug(")reconnectToJSFS");
   }
   
   
@@ -201,19 +234,73 @@ public class Main {
    * @param bclient Client object
    */
   private static void keepAlive(final BClient_JSFS bclient) {
+    if (log.isDebugEnabled()) log.debug("keepAlive(" + bclient);
+    
     Thread thread = new Thread() {
+      
       public void run() {
         try {
-          Thread.sleep(CHECK_CONNECTION_AFTER_MILLIS);
-          JsfsAuthentication auth = (JsfsAuthentication)bclient.getAuthentication();
-          bclient.dispatcherService.keepAlive(auth.getToken());
+          while(!isInterrupted()) {
+            
+            if (log.isDebugEnabled()) log.debug("wait before keep alive, ms=" + CHECK_CONNECTION_AFTER_MILLIS);
+            Thread.sleep(CHECK_CONNECTION_AFTER_MILLIS);
+            if (log.isDebugEnabled()) log.debug("send keep alive requests");
+            
+            JsfsAuthentication auth = (JsfsAuthentication)bclient.getAuthentication();
+            final String oldToken = auth.getToken();
+            if (log.isDebugEnabled()) log.debug("auth=" + auth + ", oldToken=" + oldToken);
+            
+            // Send a request to Your Web Application in order to keep the 
+            // application server session alive.
+            // As long as JSFS Agent is running, the token should not change. 
+            // Otherwise the browser looses the connection to the agent.
+            
+            final Thread keepAliveThread = Thread.currentThread();
+            if (log.isDebugEnabled()) log.debug("keepAliveThread=" + keepAliveThread);
+
+            auth.keepAlive(new BAsyncResult<String>() {
+              
+              public void setAsyncResult(String newToken, Throwable e) {
+                if (log.isDebugEnabled()) log.debug("KeepAlive.setAsyncResult(newToken=" + newToken + ", e=" + e);
+                
+                try {
+                  if (e != null) throw e;
+                    
+                  // Token has changed?
+                  if (!oldToken.equals(newToken)) throw new IllegalStateException("Need to reconnect, oldToken=" + oldToken + ", newToken=" + newToken);
+                  
+                  // Keep session in JSFS Dispatcher alive
+                  if (log.isDebugEnabled()) log.debug("dispatcherService.keepAlive()");
+                  bclient.dispatcherService.keepAlive(newToken);
+                }
+                catch (Throwable ex) {
+                  if (log.isDebugEnabled()) log.debug("interrupt keepAliveThread" + keepAliveThread, ex);
+                  keepAliveThread.interrupt();
+                  
+                  if (log.isDebugEnabled()) log.debug("reconnectToJSFS");
+                  reconnectToJSFS(bclient);
+                }
+                
+                if (log.isDebugEnabled()) log.debug(")KeepAlive.setAsyncResult");
+              }
+              
+            });
+            
+          } // while
+          
+          if (log.isDebugEnabled()) log.debug("keepAliveThread=" + Thread.currentThread() + " interrupted - 1");
+         
         }
-        catch (Throwable e) {
-          e.printStackTrace();
+        catch (InterruptedException ignored) {
+          if (log.isDebugEnabled()) log.debug("keepAliveThread=" + Thread.currentThread() + " interrupted - 2");
         }
       }
     };
+    
+    thread.setName("keep-alive");
     thread.setDaemon(true);
     thread.start();
+    
+    if (log.isDebugEnabled()) log.debug(")keepAlive");
   }
 }

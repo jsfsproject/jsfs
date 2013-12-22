@@ -33,12 +33,18 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
   private static ConcurrentHashMap<String, FileSystemNotify> mapNotify = new ConcurrentHashMap<String, FileSystemNotify>();
   
   /**
-   * The token that has been passed to {@link #registerService(String, FileSystemService)} 
-   * or {@link #registerNotifyService(String, FileSystemNotify)}.
-   * This token is stored here in order to remove the mapping when the application
+   * The token that has been passed to {@link #registerService(String, FileSystemService)}.
+   * This token is stored here in order to remove the mapping when the JSFS Agent
    * server session is invalidated.
    */
-  private String myToken;
+  private String myTokenReceivedFromAgent;
+  
+  /**
+   * The token that has been passed to {@link #registerNotifyService(String, FileSystemNotify)}.
+   * This token is stored here in order to remove the mapping when the browser
+   * server session is invalidated.
+   */
+  private String myTokenReceivedFromBrowser;
   
   /**
    * Back-reference to the BYPS session object.
@@ -51,7 +57,7 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
 
   @Override
   public void registerService(String token, FileSystemService service) throws RemoteException {
-    myToken = token;
+    myTokenReceivedFromAgent = token;
     map.put(token, service);
   }
 
@@ -118,7 +124,7 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
 
   @Override
   public void registerNotifyService(String token, FileSystemNotify service) throws RemoteException {
-    myToken = token;
+    myTokenReceivedFromBrowser = token;
     mapNotify.put(token, service);
   }
 
@@ -176,14 +182,20 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
   }
   
   /**
-   * Removes the mapping to the sessions token.
+   * Removes the service mapping.
    * This function is called from class MySession if the 
    * application server session is invalidated.
+   * JSFS Agent and the browser try to hold the sessions valid. 
+   * If this mechanism is disturbed for some reason and the sessions get invalidated,
+   * the service references are removed here. Otherwise a half-life service reference
+   * could be retunred by a getService or getNotifyService call.
    */
   public void removeMyTokenBecauseSessionWasInvalidated() {
-    if (myToken != null) {
-      mapNotify.remove(myToken);
-      map.remove(myToken);
+    if (myTokenReceivedFromAgent != null) {
+      map.remove(myTokenReceivedFromAgent);
+    }
+    else if (myTokenReceivedFromBrowser != null) {
+      mapNotify.remove(myTokenReceivedFromAgent);
     }
   }
 
