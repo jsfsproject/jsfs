@@ -45,9 +45,12 @@ public class MySession extends HSession {
     jsfsDispatcher = new JsfsDispatcher(this);
     server.addRemote(jsfsDispatcher);
 
-    // This session does not need authentication.
-    // Authentication is managed by "Your Web Application" which creates the access tokens.
-    setSessionAuthenticated();
+    // The session is now valid for 10s. 
+    // If the session is created for JSFS Agent, the lifetime will be extended
+    // in the subsequent JsfsDispatcher.registerService call.
+    // If the session is created for the browser, the lifetime will be extended
+    // if JsfsDispatcher.getService returns not null.
+    
 	}
 	
 	@Override
