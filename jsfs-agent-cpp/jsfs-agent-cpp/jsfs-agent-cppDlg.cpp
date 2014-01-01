@@ -67,7 +67,7 @@ CjsfsagentcppDlg::CjsfsagentcppDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
 	jsfsDispatcherUrl = L"http://localhost:5080/jsfs-dispatcher/jsfs";
-	yourApplicationUrl = L"http://localhost:5080/yourapp/fstokens";
+	tokenServiceUrl = L"http://localhost:5080/yourapp/fstokens";
 	userName = L"user";
 	userPwd = L"pwd";
 
@@ -194,7 +194,7 @@ void CjsfsagentcppDlg::connectToJSFS() {
 
 	jsfsClient = BClient_JSFS::createClient(transportFactory);
 
-	jsfsClient->setAuthentication(PAuthentication(new JsfsAuthentication(yourApplicationUrl, userName, userPwd)));
+	jsfsClient->setAuthentication(PAuthentication(new JsfsAuthentication(tokenServiceUrl, userName, userPwd)));
 
 	jsfsClient->setLostReverseConnectionHandler([this](BException ex) {
 		showTrayInfo(ex.getMsg(), true);
@@ -221,6 +221,8 @@ void CjsfsagentcppDlg::keepAlive() {
 	
 	PJsfsAuthentication auth = byps_ptr_cast<JsfsAuthentication>(jsfsClient->getAuthentication());
 	if (!auth) return;
+
+	wstring oldToken = auth->getToken();
 
 	jsfsClient->dispatcherService->keepAlive(auth->getToken(), [this](bool, BException ex) {
 		if (ex) {

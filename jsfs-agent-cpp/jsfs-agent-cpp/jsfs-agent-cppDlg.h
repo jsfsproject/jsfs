@@ -22,7 +22,7 @@ class CjsfsagentcppDlg : public CDialogEx
 
 	// URL to application that uses the JSFS.
 	// This application requests a session ID at this URL.
-	std::wstring yourApplicationUrl;
+	std::wstring tokenServiceUrl;
 	std::wstring userName;
 	std::wstring userPwd;
 

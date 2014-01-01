@@ -33,6 +33,9 @@ public class JsfsTokens {
   
   /**
    * Gets or creates a token.
+   * The returned token MUST NOT be JavaScript code that might be used as
+   * a response to a JSONP request, e.g. my_callbak('1231414'). 
+   * Otherwise it could be used from other domains via JSONP requests.
    * @param userName user name from HttpServletRequest.getRemoteUser
    * @param remoteAddr  remote address from HttpServletRequest.getRemoteAddr
    * @return token or null.

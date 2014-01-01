@@ -581,6 +581,7 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 		destUrl += new Date().getTime();
 
 		xhr.open(isNegotiate ? 'GET' : 'POST', destUrl, processAsync);
+		xhr.withCredentials = true;
 
 		// XHR supports timeout only for async requests
 		if (processAsync && timeoutMillis > 0) {

@@ -24,20 +24,20 @@ import byps.BClient;
  */
 public class JsfsAuthentication implements BAuthentication {
   
-  private String appUrl, userName, userPwd;
+  private String tokenServiceUrl, userName, userPwd;
   private volatile String token;
   
   private Log log = LogFactory.getLog(JsfsAuthentication.class);
 
   /**
    * Constructor
-   * @param appUrl URL to the token service of "Your Web Application"
+   * @param tokenServiceUrl URL to the token service of "Your Web Application"
    * @param userName User name
    * @param userPwd Password
    */
-  public JsfsAuthentication(String appUrl, String userName, String userPwd) {
+  public JsfsAuthentication(String tokenServiceUrl, String userName, String userPwd) {
     super();
-    this.appUrl = appUrl;
+    this.tokenServiceUrl = tokenServiceUrl;
     this.userName = userName;
     this.userPwd = userPwd;
   }
@@ -120,16 +120,16 @@ public class JsfsAuthentication implements BAuthentication {
       }
     });
 
-    if (log.isDebugEnabled()) log.debug("GET appUrl=" + appUrl);
+    if (log.isDebugEnabled()) log.debug("GET appUrl=" + tokenServiceUrl);
     HttpURLConnection conn = null;
     LineNumberReader rd = null;
     try {
-      conn = (HttpURLConnection) new URL(appUrl).openConnection();
+      conn = (HttpURLConnection) new URL(tokenServiceUrl).openConnection();
       rd = new LineNumberReader(new InputStreamReader(conn.getInputStream()));
       String token = rd.readLine();
       if (log.isDebugEnabled()) log.debug("token=" + token);
       if (token == null) {
-        throw new IOException("No token returned from " + appUrl);
+        throw new IOException("No token returned from " + tokenServiceUrl);
       }
       return token;
     }

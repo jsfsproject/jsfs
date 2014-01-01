@@ -12,14 +12,14 @@ typedef byps_ptr<JsfsAuthentication> PJsfsAuthentication;
 
 class JsfsAuthentication : public BAuthentication, public byps_enable_shared_from_this<JsfsAuthentication>
 {
-	wstring appUrl;
+	wstring tokenServiceUrl;
 	wstring userName;
 	wstring userPwd;
 	wstring token;
 	PHttpClient httpClient;
 
 public:
-	JsfsAuthentication(wstring appUrl, wstring userName, wstring userPwd);
+	JsfsAuthentication(wstring tokenServiceUrl, wstring userName, wstring userPwd);
 	virtual ~JsfsAuthentication(void);
 
 	wstring getToken() {
@@ -32,8 +32,10 @@ public:
 
 	virtual void getSession(PClient bclient, BTYPEID typeId, function<void (PSerializable, BException)> asyncResult);
 
+	void keepAlive(function<void (wstring, BException)> asyncResult);
+
 private:
-	void internalAuthenticate(PClient bclient, function<void (bool, BException)> asyncResult);
+	void internalAuthenticate(PClient bclient, function<void (wstring, BException)> asyncResult);
 
 	friend class JsfsAuthentication_HttpGet;
 };

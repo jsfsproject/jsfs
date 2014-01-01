@@ -6,8 +6,8 @@
 
 using namespace byps::http;
 
-JsfsAuthentication::JsfsAuthentication(wstring appUrl, wstring userName, wstring userPwd)
-	: appUrl(appUrl), userName(userName), userPwd(userPwd)
+JsfsAuthentication::JsfsAuthentication(wstring tokenServiceUrl, wstring userName, wstring userPwd)
+	: tokenServiceUrl(tokenServiceUrl), userName(userName), userPwd(userPwd)
 {
 	httpClient = HttpClient_create(NULL);
 }
@@ -23,41 +23,52 @@ bool JsfsAuthentication::isReloginException(PClient client, BException ex, BTYPE
 	return client->transport->isReloginException(ex, typeId);
 }
 
+void JsfsAuthentication::keepAlive(function<void (wstring, BException)> asyncResult) {
+
+}
+
 class JsfsAuthentication_HttpGet : public BAsyncResult {
 	PJsfsAuthentication auth;
-	function<void (bool, BException)> innerResult;
+	function<void (wstring, BException)> innerResult;
 public:
-	JsfsAuthentication_HttpGet(PJsfsAuthentication auth, function<void (bool, BException)> innerResult) 
+	JsfsAuthentication_HttpGet(PJsfsAuthentication auth, function<void (wstring, BException)> innerResult) 
 		: auth(auth), innerResult(innerResult) {
 	}
 
 	virtual ~JsfsAuthentication_HttpGet() {}
 
 	virtual void setAsyncResult(const BVariant& var) {
+		wstring token;
+		BException ex;
 		if (var.isException()) {
-			innerResult(false, var.getException());
+			ex = var.getException();
 		}
 		else {
 			PBytes bytes = NULL;
 			var.get(bytes);
 			if (bytes) {
 				std::string body((char*)bytes->data, bytes->length);
-				auth->token = BToStdWString(body);
+				token = BToStdWString(body);
 			}
-			innerResult(true, BException());
+			else {
+				ex = BException(EX_UNAUTHORIZED);
+			}
 		}
+
+		innerResult(token, ex);
+		
 		delete this; 
 	}
 };
 
-void JsfsAuthentication::internalAuthenticate(PClient bclient, function<void (bool, BException)> asyncResult) {
+void JsfsAuthentication::internalAuthenticate(PClient bclient, function<void (wstring, BException)> asyncResult) {
 		
 	PHttpCredentials creds(new HHttpCredentials());
 	creds->name = userName;
 	creds->pwd = userPwd;
-	httpClient->init(appUrl, creds);
+	httpClient->init(tokenServiceUrl, creds);
 
-	PHttpGet get = httpClient->get(appUrl);
+	PHttpGet get = httpClient->get(tokenServiceUrl);
 
 	PAsyncResult outerResult(new JsfsAuthentication_HttpGet(shared_from_this(), asyncResult));
 	get->send(outerResult);
@@ -68,12 +79,12 @@ void JsfsAuthentication::authenticate(PClient bclient, function<void (bool, BExc
 	PClient_JSFS jsfsClient = byps_ptr_cast<BClient_JSFS>(bclient);
 	PJsfsAuthentication auth = shared_from_this();
 
-	internalAuthenticate(bclient, [jsfsClient, auth, asyncResult](bool, BException ex) {
+	internalAuthenticate(bclient, [jsfsClient, auth, asyncResult](wstring token, BException ex) {
 
 		PSkeleton_FileSystemService jsfsService = PSkeleton_FileSystemService(new CFileSystemServiceImpl(jsfsClient));
 		jsfsClient->addRemote(jsfsService);
 
-		std::wstring token = auth->getToken();
+		auth->token = token;
 
 		jsfsClient->dispatcherService->registerService(token, jsfsService, [asyncResult](bool ignored, BException ex) {
 			asyncResult(ignored, ex);

@@ -89,6 +89,7 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
         
       }
       else if (onlyHere) {
+        
         throw exIfNotFound;
       }
       else {
@@ -108,10 +109,15 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
             if (finished) return;
             finished = fso != null;
             if (finished) {
+              
               mySession.setSessionAuthenticated();
+              
               asyncResult.setAsyncResult(fso, e);
             }
             else if (--countDown == 0) {
+              
+              mySession.done();
+              
               asyncResult.setAsyncResult(null, exIfNotFound);
             }
          }
@@ -124,11 +130,17 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
           }
         }
         else {
+          
           throw exIfNotFound;
         }
       }       
     }
     catch (Throwable e) {
+      
+      // Drop session if JSFS Agent is not running.
+      // A Denial of Service attack should not be able to create many sessions.
+      mySession.done();
+      
       asyncResult.setAsyncResult(null, e);
     }
 
