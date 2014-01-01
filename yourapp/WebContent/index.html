@@ -380,7 +380,9 @@ function keepAlive() {
 		var auth = bclient.getAuthentication();
 		if (auth) {
 			var token = auth.getToken();
-			bclient.dispatcherService.keepAlive(token);
+			bclient.dispatcherService.keepAlive(
+					token, 
+					function(ignored, ex) {});
 		}
 	}
 	window.setTimeout("keepAlive()", 300 * 1000);
