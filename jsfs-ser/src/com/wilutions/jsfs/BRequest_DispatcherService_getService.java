@@ -18,7 +18,7 @@ public final class BRequest_DispatcherService_getService extends BMethodRequest 
 	
 	public final static long serialVersionUID = 575037953L;
 	
-	public int getRemoteId() { return 963182355; }
+	public int getRemoteId() { return 1153231042; }
 	
 	public void execute(BRemote __byps__remote, BAsyncResult<Object> __byps__asyncResult) throws Throwable {
 		try {
@@ -30,5 +30,14 @@ public final class BRequest_DispatcherService_getService extends BMethodRequest 
 			throw e;
 		}
 	}	
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("[DispatcherService.getService(");
+		s.append(token);
+		s.append(",").append(onlyHere);
+		s.append(")]");
+		return s.toString();
+	}
 	
 }

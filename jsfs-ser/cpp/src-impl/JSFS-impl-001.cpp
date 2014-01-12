@@ -20,12 +20,12 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_DispatcherService_getNotifyService::BRequest_DispatcherService_getNotifyService() : BMethodRequest(963182355) {
+BRequest_DispatcherService_getNotifyService::BRequest_DispatcherService_getNotifyService() : BMethodRequest(1153231042) {
 	onlyHere = false;
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_DispatcherService_getNotifyService::BRequest_DispatcherService_getNotifyService(const ::std::wstring& token, bool onlyHere)
-	: BMethodRequest(963182355) 
+	: BMethodRequest(1153231042) 
 	, token(token)
 	, onlyHere(onlyHere)
 	{}
@@ -67,12 +67,12 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_DispatcherService_getService::BRequest_DispatcherService_getService() : BMethodRequest(963182355) {
+BRequest_DispatcherService_getService::BRequest_DispatcherService_getService() : BMethodRequest(1153231042) {
 	onlyHere = false;
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_DispatcherService_getService::BRequest_DispatcherService_getService(const ::std::wstring& token, bool onlyHere)
-	: BMethodRequest(963182355) 
+	: BMethodRequest(1153231042) 
 	, token(token)
 	, onlyHere(onlyHere)
 	{}
@@ -114,11 +114,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_DispatcherService_keepAlive::BRequest_DispatcherService_keepAlive() : BMethodRequest(963182355) {
+BRequest_DispatcherService_keepAlive::BRequest_DispatcherService_keepAlive() : BMethodRequest(1153231042) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_DispatcherService_keepAlive::BRequest_DispatcherService_keepAlive(const ::std::wstring& token)
-	: BMethodRequest(963182355) 
+	: BMethodRequest(1153231042) 
 	, token(token)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
@@ -158,11 +158,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_DispatcherService_registerNotifyService::BRequest_DispatcherService_registerNotifyService() : BMethodRequest(963182355) {
+BRequest_DispatcherService_registerNotifyService::BRequest_DispatcherService_registerNotifyService() : BMethodRequest(1153231042) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_DispatcherService_registerNotifyService::BRequest_DispatcherService_registerNotifyService(const ::std::wstring& token, const PFileSystemNotify& service)
-	: BMethodRequest(963182355) 
+	: BMethodRequest(1153231042) 
 	, token(token)
 	, service(service)
 	{}
@@ -204,11 +204,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_DispatcherService_registerService::BRequest_DispatcherService_registerService() : BMethodRequest(963182355) {
+BRequest_DispatcherService_registerService::BRequest_DispatcherService_registerService() : BMethodRequest(1153231042) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_DispatcherService_registerService::BRequest_DispatcherService_registerService(const ::std::wstring& token, const PFileSystemService& service)
-	: BMethodRequest(963182355) 
+	: BMethodRequest(1153231042) 
 	, token(token)
 	, service(service)
 	{}
@@ -250,11 +250,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_DispatcherService_unregisterNotifyService::BRequest_DispatcherService_unregisterNotifyService() : BMethodRequest(963182355) {
+BRequest_DispatcherService_unregisterNotifyService::BRequest_DispatcherService_unregisterNotifyService() : BMethodRequest(1153231042) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_DispatcherService_unregisterNotifyService::BRequest_DispatcherService_unregisterNotifyService(const ::std::wstring& token)
-	: BMethodRequest(963182355) 
+	: BMethodRequest(1153231042) 
 	, token(token)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
@@ -294,11 +294,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_DispatcherService_unregisterService::BRequest_DispatcherService_unregisterService() : BMethodRequest(963182355) {
+BRequest_DispatcherService_unregisterService::BRequest_DispatcherService_unregisterService() : BMethodRequest(1153231042) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_DispatcherService_unregisterService::BRequest_DispatcherService_unregisterService(const ::std::wstring& token)
-	: BMethodRequest(963182355) 
+	: BMethodRequest(1153231042) 
 	, token(token)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
@@ -338,11 +338,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemNotify_notify::BRequest_FileSystemNotify_notify() : BMethodRequest(1816639285) {
+BRequest_FileSystemNotify_notify::BRequest_FileSystemNotify_notify() : BMethodRequest(544795964) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemNotify_notify::BRequest_FileSystemNotify_notify(const PNotifyInfo& notifyInfo)
-	: BMethodRequest(1816639285) 
+	: BMethodRequest(544795964) 
 	, notifyInfo(notifyInfo)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
@@ -382,12 +382,12 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_beginWatchFolder::BRequest_FileSystemService_beginWatchFolder() : BMethodRequest(336045129) {
+BRequest_FileSystemService_beginWatchFolder::BRequest_FileSystemService_beginWatchFolder() : BMethodRequest(145996442) {
 	recursive = false;
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemService_beginWatchFolder::BRequest_FileSystemService_beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo)
-	: BMethodRequest(336045129) 
+	: BMethodRequest(145996442) 
 	, dir(dir)
 	, recursive(recursive)
 	, extraInfo(extraInfo)
@@ -431,12 +431,12 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_endWatchFolder::BRequest_FileSystemService_endWatchFolder() : BMethodRequest(336045129) {
+BRequest_FileSystemService_endWatchFolder::BRequest_FileSystemService_endWatchFolder() : BMethodRequest(145996442) {
 	handle = 0;
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemService_endWatchFolder::BRequest_FileSystemService_endWatchFolder(int32_t handle)
-	: BMethodRequest(336045129) 
+	: BMethodRequest(145996442) 
 	, handle(handle)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
@@ -476,11 +476,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_executeNotifyExit::BRequest_FileSystemService_executeNotifyExit() : BMethodRequest(336045129) {
+BRequest_FileSystemService_executeNotifyExit::BRequest_FileSystemService_executeNotifyExit() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemService_executeNotifyExit::BRequest_FileSystemService_executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts)
-	: BMethodRequest(336045129) 
+	: BMethodRequest(145996442) 
 	, args(args)
 	, opts(opts)
 	{}
@@ -522,11 +522,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_findFiles::BRequest_FileSystemService_findFiles() : BMethodRequest(336045129) {
+BRequest_FileSystemService_findFiles::BRequest_FileSystemService_findFiles() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemService_findFiles::BRequest_FileSystemService_findFiles(const ::std::wstring& path, const PFindOptions& findOptions)
-	: BMethodRequest(336045129) 
+	: BMethodRequest(145996442) 
 	, path(path)
 	, findOptions(findOptions)
 	{}
@@ -568,11 +568,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_readAllText::BRequest_FileSystemService_readAllText() : BMethodRequest(336045129) {
+BRequest_FileSystemService_readAllText::BRequest_FileSystemService_readAllText() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemService_readAllText::BRequest_FileSystemService_readAllText(const ::std::wstring& path)
-	: BMethodRequest(336045129) 
+	: BMethodRequest(145996442) 
 	, path(path)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
@@ -612,11 +612,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_readFile::BRequest_FileSystemService_readFile() : BMethodRequest(336045129) {
+BRequest_FileSystemService_readFile::BRequest_FileSystemService_readFile() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemService_readFile::BRequest_FileSystemService_readFile(const ::std::wstring& path)
-	: BMethodRequest(336045129) 
+	: BMethodRequest(145996442) 
 	, path(path)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
@@ -656,11 +656,11 @@ namespace com { namespace wilutions { namespace jsfs {
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_writeAllText::BRequest_FileSystemService_writeAllText() : BMethodRequest(336045129) {
+BRequest_FileSystemService_writeAllText::BRequest_FileSystemService_writeAllText() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
 com::wilutions::jsfs::BRequest_FileSystemService_writeAllText::BRequest_FileSystemService_writeAllText(const ::std::wstring& path, const ::std::wstring& text)
-	: BMethodRequest(336045129) 
+	: BMethodRequest(145996442) 
 	, path(path)
 	, text(text)
 	{}
@@ -1260,7 +1260,7 @@ void BStub_DispatcherService::keepAlive(const ::std::wstring& token, ::std::func
 
 // checkpoint byps.gen.cpp.GenRemoteStub:225
 namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_963182355(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
+void BSerializer_1153231042(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 	BSerializable* p = pObjS.get();
 	if (bio.is_loading) {
 		if (p) return;

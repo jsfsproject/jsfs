@@ -8,7 +8,7 @@ namespace com.wilutions.jsfs
 	
 	public class BStub_DispatcherService : BStub, DispatcherService, BSerializable {	
 		
-		public readonly static long serialVersionUID = 963182355L;
+		public readonly static long serialVersionUID = 1153231042L;
 		
 		public BStub_DispatcherService(BTransport transport)
 			: base(transport) {}			

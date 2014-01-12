@@ -17,6 +17,42 @@ public class BClient_JSFS extends BClient {
 		return new BClient_JSFS(transport);
 	}
 	
+	public BClient_JSFS addRemote(BSkeleton_DispatcherService remoteSkeleton) throws BException {
+		if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
+		serverR.server.addRemote(1153231042, remoteSkeleton);
+		return this;
+	}
+	
+	public BClient_JSFS addRemote(BSkeleton_FileSystemNotify remoteSkeleton) throws BException {
+		if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
+		serverR.server.addRemote(544795964, remoteSkeleton);
+		return this;
+	}
+	
+	public BClient_JSFS addRemote(BSkeleton_FileSystemService remoteSkeleton) throws BException {
+		if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
+		serverR.server.addRemote(145996442, remoteSkeleton);
+		return this;
+	}
+	
+	public DispatcherServiceAsync getDispatcherService() {
+		return dispatcherService;
+	}
+	public FileSystemNotifyAsync getFileSystemNotify() {
+		return fileSystemNotify;
+	}
+	public FileSystemServiceAsync getFileSystemService() {
+		return fileSystemService;
+	}
+	
+	@Override
+	public BRemote getStub(int remoteId) {
+		if (remoteId == 1153231042) return dispatcherService;
+		if (remoteId == 544795964) return fileSystemNotify;
+		if (remoteId == 145996442) return fileSystemService;
+		return null;
+	}
+	
 	protected BClient_JSFS(BTransportFactory transportFactory) {
 		super(
 			transportFactory.createClientTransport(), 
@@ -24,46 +60,22 @@ public class BClient_JSFS extends BClient {
 				BServer_JSFS.createServerR(transportFactory.createServerTransport())
 			)
 		);
-		dispatcherService = new BStub_DispatcherService(transport);
-		fileSystemNotify = new BStub_FileSystemNotify(transport);
-		fileSystemService = new BStub_FileSystemService(transport);
-	}
-	
-	public BClient_JSFS addRemote(BSkeleton_DispatcherService remoteSkeleton) throws BException {
-		if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
-		serverR.server.addRemote(963182355, remoteSkeleton);
-		return this;
-	}
-	
-	public BClient_JSFS addRemote(BSkeleton_FileSystemNotify remoteSkeleton) throws BException {
-		if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
-		serverR.server.addRemote(1816639285, remoteSkeleton);
-		return this;
-	}
-	
-	public BClient_JSFS addRemote(BSkeleton_FileSystemService remoteSkeleton) throws BException {
-		if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
-		serverR.server.addRemote(336045129, remoteSkeleton);
-		return this;
+		initStubs(transport);
 	}
 	
 	protected BClient_JSFS(BTransport transport) {
 		super(transport, null);
+		initStubs(transport);
+	}
+	
+	protected DispatcherServiceAsync dispatcherService;
+	protected FileSystemNotifyAsync fileSystemNotify;
+	protected FileSystemServiceAsync fileSystemService;
+	
+	private void initStubs(BTransport transport) {
 		dispatcherService = new BStub_DispatcherService(transport);
 		fileSystemNotify = new BStub_FileSystemNotify(transport);
 		fileSystemService = new BStub_FileSystemService(transport);
 	}
-	
-	@Override
-	public BRemote getStub(int remoteId) {
-		if (remoteId == 963182355) return dispatcherService;
-		if (remoteId == 1816639285) return fileSystemNotify;
-		if (remoteId == 336045129) return fileSystemService;
-		return null;
-	}
-	
-	public final DispatcherServiceAsync dispatcherService;
-	public final FileSystemNotifyAsync fileSystemNotify;
-	public final FileSystemServiceAsync fileSystemService;
 	
 }

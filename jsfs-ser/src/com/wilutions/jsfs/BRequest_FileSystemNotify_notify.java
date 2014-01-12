@@ -17,7 +17,7 @@ public final class BRequest_FileSystemNotify_notify extends BMethodRequest imple
 	
 	public final static long serialVersionUID = 481066845L;
 	
-	public int getRemoteId() { return 1816639285; }
+	public int getRemoteId() { return 544795964; }
 	
 	public void execute(BRemote __byps__remote, BAsyncResult<Object> __byps__asyncResult) throws Throwable {
 		try {
@@ -29,5 +29,13 @@ public final class BRequest_FileSystemNotify_notify extends BMethodRequest imple
 			throw e;
 		}
 	}	
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("[FileSystemNotify.notify(");
+		s.append(notifyInfo);
+		s.append(")]");
+		return s.toString();
+	}
 	
 }

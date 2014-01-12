@@ -16,7 +16,7 @@ namespace com.wilutions.jsfs
 	/// </remark>
 	public class BSkeleton_FileSystemService : BSkeleton, FileSystemService {	
 		
-		public readonly static long serialVersionUID = 336045129L;
+		public readonly static long serialVersionUID = 145996442L;
 		
 		public virtual IList<FileInfo> FindFiles(String path, FindOptions findOptions) {
 			throw new NotImplementedException();
@@ -30,7 +30,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				__byps__ret = await FindFilesAsync(path, findOptions);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
@@ -56,7 +56,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				__byps__ret = await ReadAllTextAsync(path);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
@@ -85,7 +85,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				await WriteAllTextAsync(path, text);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
@@ -114,7 +114,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				await ExecuteNotifyExitAsync(args, opts);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
@@ -148,7 +148,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				__byps__ret = await BeginWatchFolderAsync(dir, recursive, extraInfo);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
@@ -179,7 +179,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				await EndWatchFolderAsync(handle);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
@@ -208,7 +208,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				__byps__ret = await ReadFileAsync(path);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }

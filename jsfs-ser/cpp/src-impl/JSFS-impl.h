@@ -696,11 +696,11 @@ void BSerializer_1815527676(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void*
 // Serializer for com.wilutions.jsfs.BResult_5
 void BSerializer_169662220(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BStub_DispatcherService
-void BSerializer_963182355(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
+void BSerializer_1153231042(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BStub_FileSystemNotify
-void BSerializer_1816639285(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
+void BSerializer_544795964(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BStub_FileSystemService
-void BSerializer_336045129(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
+void BSerializer_145996442(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.ExecuteNotifyInfo
 void BSerializer_665368294(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.ExecuteOptions

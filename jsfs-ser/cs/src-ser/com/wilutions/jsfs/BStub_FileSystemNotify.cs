@@ -8,7 +8,7 @@ namespace com.wilutions.jsfs
 	
 	public class BStub_FileSystemNotify : BStub, FileSystemNotify, BSerializable {	
 		
-		public readonly static long serialVersionUID = 1816639285L;
+		public readonly static long serialVersionUID = 544795964L;
 		
 		public BStub_FileSystemNotify(BTransport transport)
 			: base(transport) {}			

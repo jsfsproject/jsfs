@@ -11,7 +11,7 @@ import byps.*;
 public class BStub_FileSystemNotify extends BStub implements FileSystemNotifyAsync, java.io.Serializable {
 	
 	// checkpoint byps.gen.j.GenRemoteStub:145
-	public final static long serialVersionUID = 1816639285L;
+	public final static long serialVersionUID = 544795964L;
 	
 	public BStub_FileSystemNotify(final BTransport transport) {
 		super(transport);		

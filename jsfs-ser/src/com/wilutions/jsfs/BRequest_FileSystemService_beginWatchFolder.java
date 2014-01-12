@@ -19,7 +19,7 @@ public final class BRequest_FileSystemService_beginWatchFolder extends BMethodRe
 	
 	public final static long serialVersionUID = 1762179110L;
 	
-	public int getRemoteId() { return 336045129; }
+	public int getRemoteId() { return 145996442; }
 	
 	public void execute(BRemote __byps__remote, BAsyncResult<Object> __byps__asyncResult) throws Throwable {
 		try {
@@ -31,5 +31,15 @@ public final class BRequest_FileSystemService_beginWatchFolder extends BMethodRe
 			throw e;
 		}
 	}	
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("[FileSystemService.beginWatchFolder(");
+		s.append(dir);
+		s.append(",").append(recursive);
+		s.append(",").append(extraInfo);
+		s.append(")]");
+		return s.toString();
+	}
 	
 }

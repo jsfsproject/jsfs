@@ -16,7 +16,7 @@ import byps.*;
 @SuppressWarnings("all")
 public class BSkeleton_DispatcherService extends BSkeleton implements DispatcherServiceAsync {
 	
-	public final static long serialVersionUID = 963182355L;
+	public final static long serialVersionUID = 1153231042L;
 	
 	// checkpoint byps.gen.j.PrintContext:365
 	public void registerService(java.lang.String token, FileSystemService service) throws RemoteException {

@@ -16,7 +16,7 @@ import byps.*;
 @SuppressWarnings("all")
 public class BSkeleton_FileSystemNotify extends BSkeleton implements FileSystemNotifyAsync {
 	
-	public final static long serialVersionUID = 1816639285L;
+	public final static long serialVersionUID = 544795964L;
 	
 	// checkpoint byps.gen.j.PrintContext:365
 	public void notify(NotifyInfo notifyInfo) throws RemoteException {

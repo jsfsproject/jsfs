@@ -8,7 +8,7 @@ namespace com.wilutions.jsfs
 	
 	public class BStub_FileSystemService : BStub, FileSystemService, BSerializable {	
 		
-		public readonly static long serialVersionUID = 336045129L;
+		public readonly static long serialVersionUID = 145996442L;
 		
 		public BStub_FileSystemService(BTransport transport)
 			: base(transport) {}			

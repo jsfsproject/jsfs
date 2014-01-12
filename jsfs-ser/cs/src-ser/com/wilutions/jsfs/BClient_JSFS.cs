@@ -30,13 +30,13 @@ namespace com.wilutions.jsfs
 		
 		public BClient_JSFS addRemote(BSkeleton_FileSystemNotify remoteSkeleton) {
 			if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
-			serverR.server.addRemote(1816639285, remoteSkeleton);
+			serverR.server.addRemote(544795964, remoteSkeleton);
 			return this;
 		}
 		
 		public BClient_JSFS addRemote(BSkeleton_FileSystemService remoteSkeleton) {
 			if (serverR == null) throw new BException(BExceptionC.NO_REVERSE_CONNECTIONS, "No reverse connections.");
-			serverR.server.addRemote(336045129, remoteSkeleton);
+			serverR.server.addRemote(145996442, remoteSkeleton);
 			return this;
 		}
 		
@@ -49,9 +49,9 @@ namespace com.wilutions.jsfs
 		}
 		
 		public override BRemote getStub(int remoteId) {
-			if (remoteId == 963182355) return DispatcherService;
-			if (remoteId == 1816639285) return FileSystemNotify;
-			if (remoteId == 336045129) return FileSystemService;
+			if (remoteId == 1153231042) return DispatcherService;
+			if (remoteId == 544795964) return FileSystemNotify;
+			if (remoteId == 145996442) return FileSystemService;
 			return null;
 		}
 		

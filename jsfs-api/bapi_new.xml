@@ -1010,7 +1010,7 @@
     <remotes>
         <remote>
             <typeName>com.wilutions.jsfs.DispatcherService</typeName>
-            <typeId>963182355</typeId>
+            <typeId>1153231042</typeId>
             <isClientRemote>false</isClientRemote>
             <methods>
                 <method>
@@ -1232,7 +1232,7 @@
         </remote>
         <remote>
             <typeName>com.wilutions.jsfs.FileSystemNotify</typeName>
-            <typeId>1816639285</typeId>
+            <typeId>544795964</typeId>
             <isClientRemote>true</isClientRemote>
             <methods>
                 <method>
@@ -1280,7 +1280,7 @@
         </remote>
         <remote>
             <typeName>com.wilutions.jsfs.FileSystemService</typeName>
-            <typeId>336045129</typeId>
+            <typeId>145996442</typeId>
             <isClientRemote>true</isClientRemote>
             <methods>
                 <method>

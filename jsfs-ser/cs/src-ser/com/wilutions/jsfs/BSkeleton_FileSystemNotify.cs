@@ -16,7 +16,7 @@ namespace com.wilutions.jsfs
 	/// </remark>
 	public class BSkeleton_FileSystemNotify : BSkeleton, FileSystemNotify {	
 		
-		public readonly static long serialVersionUID = 1816639285L;
+		public readonly static long serialVersionUID = 544795964L;
 		
 		public virtual void Notify(NotifyInfo notifyInfo) {
 			throw new NotImplementedException();
@@ -30,7 +30,7 @@ namespace com.wilutions.jsfs
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
-			if (callAsync) try {
+			if (__byps__callAsync) try {
 				await NotifyAsync(notifyInfo);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }

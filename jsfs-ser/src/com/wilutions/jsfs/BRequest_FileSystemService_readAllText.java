@@ -17,7 +17,7 @@ public final class BRequest_FileSystemService_readAllText extends BMethodRequest
 	
 	public final static long serialVersionUID = 1078989294L;
 	
-	public int getRemoteId() { return 336045129; }
+	public int getRemoteId() { return 145996442; }
 	
 	public void execute(BRemote __byps__remote, BAsyncResult<Object> __byps__asyncResult) throws Throwable {
 		try {
@@ -29,5 +29,13 @@ public final class BRequest_FileSystemService_readAllText extends BMethodRequest
 			throw e;
 		}
 	}	
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("[FileSystemService.readAllText(");
+		s.append(path);
+		s.append(")]");
+		return s.toString();
+	}
 	
 }

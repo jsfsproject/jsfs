@@ -529,7 +529,7 @@ class BStub_DispatcherService : public BStub, public virtual DispatcherService {
 	
 	public: BStub_DispatcherService(PTransport transport);	
 	
-	public: virtual BTYPEID BSerializable_getTypeId() { return 963182355; }
+	public: virtual BTYPEID BSerializable_getTypeId() { return 1153231042; }
 	
 	public: virtual void registerService(const ::std::wstring& token, const PFileSystemService& service) ;
 	public: virtual void registerService(const ::std::wstring& token, const PFileSystemService& service, ::std::function< void (bool, BException ex) > asyncResult) ;
@@ -596,7 +596,7 @@ typedef byps_ptr<BSkeleton_FileSystemNotify> PSkeleton_FileSystemNotify;
 
 class BSkeleton_FileSystemNotify : public BSkeleton, public virtual FileSystemNotify {
 	
-	public: virtual BTYPEID BSerializable_getTypeId() { return 1816639285; }
+	public: virtual BTYPEID BSerializable_getTypeId() { return 544795964; }
 	
 	public: virtual void notify(const PNotifyInfo& notifyInfo) ;
 	public: virtual void notify(const PNotifyInfo& notifyInfo, ::std::function< void (bool, BException ex) > asyncResult) ;
@@ -619,7 +619,7 @@ class BStub_FileSystemNotify : public BStub, public virtual FileSystemNotify {
 	
 	public: BStub_FileSystemNotify(PTransport transport);	
 	
-	public: virtual BTYPEID BSerializable_getTypeId() { return 1816639285; }
+	public: virtual BTYPEID BSerializable_getTypeId() { return 544795964; }
 	
 	public: virtual void notify(const PNotifyInfo& notifyInfo) ;
 	public: virtual void notify(const PNotifyInfo& notifyInfo, ::std::function< void (bool, BException ex) > asyncResult) ;
@@ -726,7 +726,7 @@ typedef byps_ptr<BSkeleton_FileSystemService> PSkeleton_FileSystemService;
 
 class BSkeleton_FileSystemService : public BSkeleton, public virtual FileSystemService {
 	
-	public: virtual BTYPEID BSerializable_getTypeId() { return 336045129; }
+	public: virtual BTYPEID BSerializable_getTypeId() { return 145996442; }
 	
 	public: virtual byps_ptr< ::std::vector< PFileInfo > > findFiles(const ::std::wstring& path, const PFindOptions& findOptions) ;
 	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (byps_ptr< ::std::vector< PFileInfo > >, BException ex) > asyncResult) ;
@@ -767,7 +767,7 @@ class BStub_FileSystemService : public BStub, public virtual FileSystemService {
 	
 	public: BStub_FileSystemService(PTransport transport);	
 	
-	public: virtual BTYPEID BSerializable_getTypeId() { return 336045129; }
+	public: virtual BTYPEID BSerializable_getTypeId() { return 145996442; }
 	
 	public: virtual byps_ptr< ::std::vector< PFileInfo > > findFiles(const ::std::wstring& path, const PFindOptions& findOptions) ;
 	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (byps_ptr< ::std::vector< PFileInfo > >, BException ex) > asyncResult) ;

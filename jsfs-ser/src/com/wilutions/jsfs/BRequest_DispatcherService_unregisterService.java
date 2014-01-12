@@ -17,7 +17,7 @@ public final class BRequest_DispatcherService_unregisterService extends BMethodR
 	
 	public final static long serialVersionUID = 1542825705L;
 	
-	public int getRemoteId() { return 963182355; }
+	public int getRemoteId() { return 1153231042; }
 	
 	public void execute(BRemote __byps__remote, BAsyncResult<Object> __byps__asyncResult) throws Throwable {
 		try {
@@ -29,5 +29,13 @@ public final class BRequest_DispatcherService_unregisterService extends BMethodR
 			throw e;
 		}
 	}	
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("[DispatcherService.unregisterService(");
+		s.append(token);
+		s.append(")]");
+		return s.toString();
+	}
 	
 }

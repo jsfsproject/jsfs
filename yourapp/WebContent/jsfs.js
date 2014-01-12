@@ -187,12 +187,12 @@ com.wilutions.jsfs.EWatchFolderNotifyKind = {
  */
 com.wilutions.jsfs.BSkeleton_FileSystemNotify = function() {
 	
-	this._typeId = 1816639285;
+	this._typeId = 544795964;
 	
 	this.transport = null; // is set in BServer.addRemote
 	
 	this.toJSON = function (key) {
-		return { _typeId : 1816639285, targetId : this.transport.targetId };
+		return { _typeId : 544795964, targetId : this.transport.targetId };
 	};
 	
 	
@@ -230,12 +230,12 @@ com.wilutions.jsfs.BSkeleton_FileSystemNotify.prototype.async_notify = function(
  */
 com.wilutions.jsfs.BSkeleton_FileSystemService = function() {
 	
-	this._typeId = 336045129;
+	this._typeId = 145996442;
 	
 	this.transport = null; // is set in BServer.addRemote
 	
 	this.toJSON = function (key) {
-		return { _typeId : 336045129, targetId : this.transport.targetId };
+		return { _typeId : 145996442, targetId : this.transport.targetId };
 	};
 	
 	
@@ -467,7 +467,7 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_readFile = functi
 */
 com.wilutions.jsfs.BStub_DispatcherService = function(transport) {
 	
-	this._typeId = 963182355;
+	this._typeId = 1153231042;
 	
 	this.transport = transport;
 	
@@ -588,7 +588,7 @@ com.wilutions.jsfs.BStub_DispatcherService.prototype.keepAlive = function(token,
 */
 com.wilutions.jsfs.BStub_FileSystemNotify = function(transport) {
 	
-	this._typeId = 1816639285;
+	this._typeId = 544795964;
 	
 	this.transport = transport;
 	
@@ -614,7 +614,7 @@ com.wilutions.jsfs.BStub_FileSystemNotify.prototype.notify = function(notifyInfo
 */
 com.wilutions.jsfs.BStub_FileSystemService = function(transport) {
 	
-	this._typeId = 336045129;
+	this._typeId = 145996442;
 	
 	this.transport = transport;
 	
@@ -750,7 +750,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 		// Remote Interface DispatcherService			
 			// Method registerService
 			1833696176 : [ // _typeId of request class
-				963182355, // _typeId of remote interface
+				1153231042, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_registerService(methodObj.token, methodObj.service, methodResult);
@@ -759,7 +759,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method unregisterService
 			1542825705 : [ // _typeId of request class
-				963182355, // _typeId of remote interface
+				1153231042, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_unregisterService(methodObj.token, methodResult);
@@ -768,7 +768,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method getService
 			575037953 : [ // _typeId of request class
-				963182355, // _typeId of remote interface
+				1153231042, // _typeId of remote interface
 				1815527676, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_getService(methodObj.token, methodObj.onlyHere, methodResult);
@@ -777,7 +777,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method registerNotifyService
 			1849102471 : [ // _typeId of request class
-				963182355, // _typeId of remote interface
+				1153231042, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_registerNotifyService(methodObj.token, methodObj.service, methodResult);
@@ -786,7 +786,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method unregisterNotifyService
 			1366717454 : [ // _typeId of request class
-				963182355, // _typeId of remote interface
+				1153231042, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_unregisterNotifyService(methodObj.token, methodResult);
@@ -795,7 +795,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method getNotifyService
 			1090607752 : [ // _typeId of request class
-				963182355, // _typeId of remote interface
+				1153231042, // _typeId of remote interface
 				1354059712, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_getNotifyService(methodObj.token, methodObj.onlyHere, methodResult);
@@ -804,7 +804,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method keepAlive
 			1609273478 : [ // _typeId of request class
-				963182355, // _typeId of remote interface
+				1153231042, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_keepAlive(methodObj.token, methodResult);
@@ -815,7 +815,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 		// Remote Interface FileSystemNotify			
 			// Method notify
 			481066845 : [ // _typeId of request class
-				1816639285, // _typeId of remote interface
+				544795964, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_notify(methodObj.notifyInfo, methodResult);
@@ -826,7 +826,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 		// Remote Interface FileSystemService			
 			// Method findFiles
 			1131301080 : [ // _typeId of request class
-				336045129, // _typeId of remote interface
+				145996442, // _typeId of remote interface
 				1733426638, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_findFiles(methodObj.path, methodObj.findOptions, methodResult);
@@ -835,7 +835,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method readAllText
 			1078989294 : [ // _typeId of request class
-				336045129, // _typeId of remote interface
+				145996442, // _typeId of remote interface
 				964561600, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_readAllText(methodObj.path, methodResult);
@@ -844,7 +844,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method writeAllText
 			1925305675 : [ // _typeId of request class
-				336045129, // _typeId of remote interface
+				145996442, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_writeAllText(methodObj.path, methodObj.text, methodResult);
@@ -853,7 +853,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method executeNotifyExit
 			1824869366 : [ // _typeId of request class
-				336045129, // _typeId of remote interface
+				145996442, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_executeNotifyExit(methodObj.args, methodObj.opts, methodResult);
@@ -862,7 +862,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method beginWatchFolder
 			1762179110 : [ // _typeId of request class
-				336045129, // _typeId of remote interface
+				145996442, // _typeId of remote interface
 				169662220, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_beginWatchFolder(methodObj.dir, methodObj.recursive, methodObj.extraInfo, methodResult);
@@ -871,7 +871,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method endWatchFolder
 			1124739608 : [ // _typeId of request class
-				336045129, // _typeId of remote interface
+				145996442, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_endWatchFolder(methodObj.handle, methodResult);
@@ -880,7 +880,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 			
 			// Method readFile
 			706034600 : [ // _typeId of request class
-				336045129, // _typeId of remote interface
+				145996442, // _typeId of remote interface
 				964561595, // _typeId of result class
 				function(remote, methodObj, methodResult) {
 					remote.async_readFile(methodObj.path, methodResult);
@@ -952,7 +952,7 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 			{
 				"token":10, // java.lang.String
 				// names of persistent elements
-				"service":1816639285 // com.wilutions.jsfs.FileSystemNotify
+				"service":544795964 // com.wilutions.jsfs.FileSystemNotify
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
 			null,
@@ -967,7 +967,7 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 			{
 				"token":10, // java.lang.String
 				// names of persistent elements
-				"service":336045129 // com.wilutions.jsfs.FileSystemService
+				"service":145996442 // com.wilutions.jsfs.FileSystemService
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
 			null,
@@ -1165,7 +1165,7 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 			// checkpoint byps.gen.js.GenRegistry:138
 			// names of persistent elements
 			{
-				"result":1816639285 // com.wilutions.jsfs.FileSystemNotify
+				"result":544795964 // com.wilutions.jsfs.FileSystemNotify
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
 			null,
@@ -1191,7 +1191,7 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 			// checkpoint byps.gen.js.GenRegistry:138
 			// names of persistent elements
 			{
-				"result":336045129 // com.wilutions.jsfs.FileSystemService
+				"result":145996442 // com.wilutions.jsfs.FileSystemService
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
 			null,
@@ -1213,13 +1213,13 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 		),
 		
 		// com.wilutions.jsfs.BStub_DispatcherService
-		963182355 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_DispatcherService),
+		1153231042 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_DispatcherService),
 		
 		// com.wilutions.jsfs.BStub_FileSystemNotify
-		1816639285 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_FileSystemNotify),
+		544795964 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_FileSystemNotify),
 		
 		// com.wilutions.jsfs.BStub_FileSystemService
-		336045129 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_FileSystemService),
+		145996442 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_FileSystemService),
 		
 		// com.wilutions.jsfs.ExecuteNotifyInfo
 		665368294 : new byps.BSerializer(

@@ -8,12 +8,12 @@ package com.wilutions.jsfs;
 
 import byps.*;
 @SuppressWarnings("all")
-public class JSerializer_963182355 extends JSerializer_16 {
+public class JSerializer_1153231042 extends JSerializer_16 {
 	
-	public final static BSerializer instance = new JSerializer_963182355();
+	public final static BSerializer instance = new JSerializer_1153231042();
 	
-	public JSerializer_963182355() {
-		super(963182355);
+	public JSerializer_1153231042() {
+		super(1153231042);
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ import byps.*;
 public class BStub_DispatcherService extends BStub implements DispatcherServiceAsync, java.io.Serializable {
 	
 	// checkpoint byps.gen.j.GenRemoteStub:145
-	public final static long serialVersionUID = 963182355L;
+	public final static long serialVersionUID = 1153231042L;
 	
 	public BStub_DispatcherService(final BTransport transport) {
 		super(transport);		

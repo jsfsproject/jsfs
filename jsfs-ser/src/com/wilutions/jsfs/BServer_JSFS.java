@@ -34,17 +34,17 @@ public class BServer_JSFS extends BServer {
 	}
 	
 	public BServer_JSFS addRemote(BSkeleton_DispatcherService remoteSkeleton) {
-		addRemote(963182355, remoteSkeleton);
+		addRemote(1153231042, remoteSkeleton);
 		return this;
 	}
 	
 	public BServer_JSFS addRemote(BSkeleton_FileSystemNotify remoteSkeleton) {
-		addRemote(1816639285, remoteSkeleton);
+		addRemote(544795964, remoteSkeleton);
 		return this;
 	}
 	
 	public BServer_JSFS addRemote(BSkeleton_FileSystemService remoteSkeleton) {
-		addRemote(336045129, remoteSkeleton);
+		addRemote(145996442, remoteSkeleton);
 		return this;
 	}
 	

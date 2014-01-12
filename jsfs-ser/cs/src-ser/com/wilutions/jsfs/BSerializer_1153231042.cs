@@ -11,12 +11,12 @@ using byps;
 namespace com.wilutions.jsfs
 {
 	
-	public class BSerializer_963182355 : BSerializer_16 {
+	public class BSerializer_1153231042 : BSerializer_16 {
 		
-		public readonly static BSerializer instance = new BSerializer_963182355();
+		public readonly static BSerializer instance = new BSerializer_1153231042();
 		
-		public BSerializer_963182355()
-			: base(963182355) {}
+		public BSerializer_1153231042()
+			: base(1153231042) {}
 		
 		protected override BRemote internalCreate(BTransport transport) {
 			return new BStub_DispatcherService(transport);

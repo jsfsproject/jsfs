@@ -18,7 +18,7 @@ public final class BRequest_FileSystemService_executeNotifyExit extends BMethodR
 	
 	public final static long serialVersionUID = 1824869366L;
 	
-	public int getRemoteId() { return 336045129; }
+	public int getRemoteId() { return 145996442; }
 	
 	public void execute(BRemote __byps__remote, BAsyncResult<Object> __byps__asyncResult) throws Throwable {
 		try {
@@ -30,5 +30,14 @@ public final class BRequest_FileSystemService_executeNotifyExit extends BMethodR
 			throw e;
 		}
 	}	
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("[FileSystemService.executeNotifyExit(");
+		s.append(args);
+		s.append(",").append(opts);
+		s.append(")]");
+		return s.toString();
+	}
 	
 }

@@ -41,7 +41,7 @@ void BStub_FileSystemNotify::notify(const PNotifyInfo& notifyInfo, ::std::functi
 
 // checkpoint byps.gen.cpp.GenRemoteStub:225
 namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_1816639285(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
+void BSerializer_544795964(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 	BSerializable* p = pObjS.get();
 	if (bio.is_loading) {
 		if (p) return;
@@ -240,7 +240,7 @@ void BStub_FileSystemService::readFile(const ::std::wstring& path, ::std::functi
 
 // checkpoint byps.gen.cpp.GenRemoteStub:225
 namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_336045129(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
+void BSerializer_145996442(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 	BSerializable* p = pObjS.get();
 	if (bio.is_loading) {
 		if (p) return;
@@ -283,9 +283,9 @@ com::wilutions::jsfs::BRegistry_JSFS::BRegistry_JSFS()
 	registerClass(typeid(com::wilutions::jsfs::BResult_19), com::wilutions::jsfs::BSerializer_964561591, 964561591);
 	registerClass(typeid(com::wilutions::jsfs::BResult_336045129), com::wilutions::jsfs::BSerializer_1815527676, 1815527676);
 	registerClass(typeid(com::wilutions::jsfs::BResult_5), com::wilutions::jsfs::BSerializer_169662220, 169662220);
-	registerClass(typeid(com::wilutions::jsfs::BStub_DispatcherService), com::wilutions::jsfs::BSerializer_963182355, 963182355);
-	registerClass(typeid(com::wilutions::jsfs::BStub_FileSystemNotify), com::wilutions::jsfs::BSerializer_1816639285, 1816639285);
-	registerClass(typeid(com::wilutions::jsfs::BStub_FileSystemService), com::wilutions::jsfs::BSerializer_336045129, 336045129);
+	registerClass(typeid(com::wilutions::jsfs::BStub_DispatcherService), com::wilutions::jsfs::BSerializer_1153231042, 1153231042);
+	registerClass(typeid(com::wilutions::jsfs::BStub_FileSystemNotify), com::wilutions::jsfs::BSerializer_544795964, 544795964);
+	registerClass(typeid(com::wilutions::jsfs::BStub_FileSystemService), com::wilutions::jsfs::BSerializer_145996442, 145996442);
 	registerClass(typeid(com::wilutions::jsfs::ExecuteNotifyInfo), com::wilutions::jsfs::BSerializer_665368294, 665368294);
 	registerClass(typeid(com::wilutions::jsfs::ExecuteOptions), com::wilutions::jsfs::BSerializer_1032737639, 1032737639);
 	registerClass(typeid(com::wilutions::jsfs::FileInfo), com::wilutions::jsfs::BSerializer_1100528120, 1100528120);
@@ -319,12 +319,12 @@ PClient_JSFS BClient_JSFS::createClientR(PTransport transport) {
 }
 void BClient_JSFS::addRemote(PSkeleton_FileSystemNotify remoteSkeleton) {
 	if (!serverR) throw BException(EX_NO_REVERSE_CONNECTIONS, L"No reverse connections.");
-	serverR->server->addRemote(1816639285, remoteSkeleton);
+	serverR->server->addRemote(544795964, remoteSkeleton);
 }
 
 void BClient_JSFS::addRemote(PSkeleton_FileSystemService remoteSkeleton) {
 	if (!serverR) throw BException(EX_NO_REVERSE_CONNECTIONS, L"No reverse connections.");
-	serverR->server->addRemote(336045129, remoteSkeleton);
+	serverR->server->addRemote(145996442, remoteSkeleton);
 }
 
 BClient_JSFS::BClient_JSFS(PTransportFactory transportFactory) 
@@ -347,9 +347,9 @@ BClient_JSFS::BClient_JSFS(PTransport transport)
 	{
 }
 PRemote BClient_JSFS::getStub(int remoteId) {
-	if (remoteId == 963182355) return dispatcherService;
-	if (remoteId == 1816639285) return fileSystemNotify;
-	if (remoteId == 336045129) return fileSystemService;
+	if (remoteId == 1153231042) return dispatcherService;
+	if (remoteId == 544795964) return fileSystemNotify;
+	if (remoteId == 145996442) return fileSystemService;
 	return PRemote();
 }
 }}}
@@ -363,11 +363,11 @@ PServer_JSFS BServer_JSFS::createServerR(PTransport transport) {
 	return PServer_JSFS(new BServer_JSFS(transport));
 }
 void BServer_JSFS::addRemote(PSkeleton_FileSystemNotify remoteSkeleton) {
-	BServer::addRemote(1816639285, remoteSkeleton);
+	BServer::addRemote(544795964, remoteSkeleton);
 }
 
 void BServer_JSFS::addRemote(PSkeleton_FileSystemService remoteSkeleton) {
-	BServer::addRemote(336045129, remoteSkeleton);
+	BServer::addRemote(145996442, remoteSkeleton);
 }
 
 BServer_JSFS::BServer_JSFS(PTransportFactory transportFactory) 

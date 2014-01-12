@@ -16,7 +16,7 @@ import byps.*;
 @SuppressWarnings("all")
 public class BSkeleton_FileSystemService extends BSkeleton implements FileSystemServiceAsync {
 	
-	public final static long serialVersionUID = 336045129L;
+	public final static long serialVersionUID = 145996442L;
 	
 	// checkpoint byps.gen.j.PrintContext:365
 	public java.util.List<FileInfo> findFiles(java.lang.String path, FindOptions findOptions) throws RemoteException {

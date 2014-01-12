@@ -199,7 +199,7 @@ public class JsfsAuthentication implements BAuthentication {
 
   @Override
   public boolean isReloginException(BClient client, Throwable ex, int typeId) {
-    boolean ret = client.transport.isReloginException(ex, typeId);
+    boolean ret = client.getTransport().isReloginException(ex, typeId);
     if (log.isDebugEnabled()) log.debug("isReloginException(client="+ client +", ex=" + ex + ", typeId=" + typeId + ")=" + ret);
     return ret;
   }
