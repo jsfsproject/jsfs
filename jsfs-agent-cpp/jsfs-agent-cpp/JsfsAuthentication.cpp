@@ -20,7 +20,7 @@ JsfsAuthentication::~JsfsAuthentication(void)
 
 
 bool JsfsAuthentication::isReloginException(PClient client, BException ex, BTYPEID typeId) {
-	return client->transport->isReloginException(ex, typeId);
+	return client->getTransport()->isReloginException(ex, typeId);
 }
 
 void JsfsAuthentication::keepAlive(function<void (wstring, BException)> asyncResult) {
@@ -86,7 +86,7 @@ void JsfsAuthentication::authenticate(PClient bclient, function<void (bool, BExc
 
 		auth->token = token;
 
-		jsfsClient->dispatcherService->registerService(token, jsfsService, [asyncResult](bool ignored, BException ex) {
+		jsfsClient->getDispatcherService()->registerService(token, jsfsService, [asyncResult](bool ignored, BException ex) {
 			asyncResult(ignored, ex);
 		});
 	});

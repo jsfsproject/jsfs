@@ -334,23 +334,33 @@ BClient_JSFS::BClient_JSFS(PTransportFactory transportFactory)
 			BServer_JSFS::createServerR(transportFactory->createServerTransport())
 		)
 	)
-	, dispatcherService(new BStub_DispatcherService(transport))
-	, fileSystemNotify(new BStub_FileSystemNotify(transport))
-	, fileSystemService(new BStub_FileSystemService(transport))
 	{
+	initStubs(transport);
 }
 BClient_JSFS::BClient_JSFS(PTransport transport) 
 	: BClient(transport, NULL)
-	, dispatcherService(new BStub_DispatcherService(transport))
-	, fileSystemNotify(new BStub_FileSystemNotify(transport))
-	, fileSystemService(new BStub_FileSystemService(transport))
 	{
+	initStubs(transport);
+}
+BINLINE com::wilutions::jsfs::PDispatcherService BClient_JSFS::getDispatcherService() {
+	return dispatcherService;
+}
+BINLINE com::wilutions::jsfs::PFileSystemNotify BClient_JSFS::getFileSystemNotify() {
+	return fileSystemNotify;
+}
+BINLINE com::wilutions::jsfs::PFileSystemService BClient_JSFS::getFileSystemService() {
+	return fileSystemService;
 }
 PRemote BClient_JSFS::getStub(int remoteId) {
 	if (remoteId == 1153231042) return dispatcherService;
 	if (remoteId == 544795964) return fileSystemNotify;
 	if (remoteId == 145996442) return fileSystemService;
 	return PRemote();
+}
+BINLINE void BClient_JSFS::initStubs(PTransport transport) {
+	dispatcherService = com::wilutions::jsfs::PDispatcherService(new BStub_DispatcherService(transport));
+	fileSystemNotify = com::wilutions::jsfs::PFileSystemNotify(new BStub_FileSystemNotify(transport));
+	fileSystemService = com::wilutions::jsfs::PFileSystemService(new BStub_FileSystemService(transport));
 }
 }}}
 

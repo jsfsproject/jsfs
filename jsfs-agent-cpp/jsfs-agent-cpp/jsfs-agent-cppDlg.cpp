@@ -224,7 +224,7 @@ void CjsfsagentcppDlg::keepAlive() {
 
 	wstring oldToken = auth->getToken();
 
-	jsfsClient->dispatcherService->keepAlive(auth->getToken(), [this](bool, BException ex) {
+	jsfsClient->getDispatcherService()->keepAlive(auth->getToken(), [this](bool, BException ex) {
 		if (ex) {
 			showTrayInfo(ex.getMsg(), true);
 		}

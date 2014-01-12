@@ -842,11 +842,17 @@ class BClient_JSFS : public BClient {
 	
 	public: virtual ~BClient_JSFS() {}
 	
+	virtual com::wilutions::jsfs::PDispatcherService getDispatcherService();	
+	virtual com::wilutions::jsfs::PFileSystemNotify getFileSystemNotify();	
+	virtual com::wilutions::jsfs::PFileSystemService getFileSystemService();	
+	
 	public: virtual PRemote getStub(int remoteId);
 	
-	public: const com::wilutions::jsfs::PDispatcherService dispatcherService;
-	public: const com::wilutions::jsfs::PFileSystemNotify fileSystemNotify;
-	public: const com::wilutions::jsfs::PFileSystemService fileSystemService;
+	protected: com::wilutions::jsfs::PDispatcherService dispatcherService;
+	protected: com::wilutions::jsfs::PFileSystemNotify fileSystemNotify;
+	protected: com::wilutions::jsfs::PFileSystemService fileSystemService;
+	
+	private: void initStubs(PTransport transport);
 	
 };
 

@@ -541,7 +541,7 @@ PFileSystemNotify CFileSystemServiceImpl::getNotifyService(PClient_JSFS bclient)
 	if (!bclient) return PFileSystemNotify();
 	JsfsAuthentication* auth = static_cast<JsfsAuthentication*>(bclient->getAuthentication().get());
 	std::wstring token = auth->getToken();
-	PFileSystemNotify ns = bclient->dispatcherService->getNotifyService(token, false);
+	PFileSystemNotify ns = bclient->getDispatcherService()->getNotifyService(token, false);
 	return ns;
 }
 
