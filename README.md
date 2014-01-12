@@ -7,3 +7,7 @@ JSFS provides a secure solution to access computer resources by JavaScript on we
 
 More information can be found in doc/Documentation.pdf.
 
+JSFS is available under the MIT license.
+
+Regards
+Wolfgang Imig
