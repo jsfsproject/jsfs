@@ -132,6 +132,16 @@ namespace com.wilutions.jsfs
 		/// </remarks>
 		Task<System.IO.Stream> ReadFileAsync(String path);
 		
+		/// <summary>
+		/// Upload files to server(s).
+		/// </summary>
+		void UploadFiles(FormItem[] items, String url, String method, String encoding);
+		void UploadFiles(FormItem[] items, String url, String method, String encoding, BAsyncResult<Object> asyncResult) ;
+		/// <summary>
+		/// Upload files to server(s).
+		/// </summary>
+		Task UploadFilesAsync(FormItem[] items, String url, String method, String encoding);
+		
 		
 	}
 }  // end namespace

@@ -374,6 +374,54 @@
             <since>0.0.0.0</since>
         </serial>
         <serial>
+            <typeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFiles</typeName>
+            <typeId>1614176016</typeId>
+            <members>
+                <member>
+                    <name>items</name>
+                    <typeName>com.wilutions.jsfs.FormItem[]</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>url</name>
+                    <typeName>java.lang.String</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>method</name>
+                    <typeName>java.lang.String</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>encoding</name>
+                    <typeName>java.lang.String</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+            </members>
+            <comments/>
+            <baseFullName></baseFullName>
+            <isInline>false</isInline>
+            <isEnum>false</isEnum>
+            <isFinal>true</isFinal>
+            <since>0.0.0.0</since>
+        </serial>
+        <serial>
             <typeName>com.wilutions.jsfs.BRequest_FileSystemService_writeAllText</typeName>
             <typeId>1925305675</typeId>
             <members>
@@ -879,6 +927,92 @@
                     <text>Unused.</text>
                 </comment>
             </comments>
+            <baseFullName></baseFullName>
+            <isInline>false</isInline>
+            <isEnum>false</isEnum>
+            <isFinal>false</isFinal>
+            <since>0.0.0.0</since>
+        </serial>
+        <serial>
+            <typeName>com.wilutions.jsfs.FormItem</typeName>
+            <typeId>979378962</typeId>
+            <members>
+                <member>
+                    <name>name</name>
+                    <comments>
+                        <kind>@summary</kind>
+                        <text>Item name.</text>
+                    </comments>
+                    <comments>
+                        <kind>@remarks</kind>
+                        <text>This value corresponds to HTML input field name.</text>
+                    </comments>
+                    <typeName>java.lang.String</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>type</name>
+                    <comments>
+                        <kind>@summary</kind>
+                        <text>Item type.</text>
+                    </comments>
+                    <comments>
+                        <kind>@remarks</kind>
+                        <text>Optional. Either &quot;text&quot; or &quot;file&quot;.</text>
+                    </comments>
+                    <typeName>java.lang.String</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>values</name>
+                    <comments>
+                        <kind>@summary</kind>
+                        <text>Item value.</text>
+                    </comments>
+                    <comments>
+                        <kind>@remarks</kind>
+                        <text>If type is empty or equals to &quot;text&quot;, this array contains one item.
+ If type equals to &quot;file&quot;, this array contains the file paths to be uploaded.</text>
+                    </comments>
+                    <typeName>java.lang.String[]</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+            </members>
+            <comments>
+                <comment>
+                    <kind>@summary</kind>
+                    <text>This class defines an item of a file upload request in {@link FileSystemService#uploadFiles}.</text>
+                </comment>
+                <comment>
+                    <kind>@remarks</kind>
+                    <text>A FormData object corresponds to an input field in a HTML file upload form. 
+ It can specify files to be uploaded as with HTML input field type &quot;file&quot;.
+ Or it can hold a simple value as with HTML input field type &quot;text&quot;.</text>
+                </comment>
+            </comments>
+            <baseFullName></baseFullName>
+            <isInline>false</isInline>
+            <isEnum>false</isEnum>
+            <isFinal>false</isFinal>
+            <since>0.0.0.0</since>
+        </serial>
+        <serial>
+            <typeName>com.wilutions.jsfs.FormItem[]</typeName>
+            <typeId>566696346</typeId>
+            <members/>
+            <comments/>
             <baseFullName></baseFullName>
             <isInline>false</isInline>
             <isEnum>false</isEnum>
@@ -1497,6 +1631,41 @@
                         <comment>
                             <kind>@return</kind>
                             <text>InputStream object</text>
+                        </comment>
+                        <comment>
+                            <kind>@throws</kind>
+                            <text>RemoteException</text>
+                        </comment>
+                    </comments>
+                </method>
+                <method>
+                    <name>uploadFiles</name>
+                    <remoteName>com.wilutions.jsfs.FileSystemService</remoteName>
+                    <since>0.0.0.0</since>
+                    <requestTypeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFiles</requestTypeName>
+                    <resultTypeName>com.wilutions.jsfs.BResult_19</resultTypeName>
+                    <exceptionTypeNames/>
+                    <comments>
+                        <comment>
+                            <kind>@summary</kind>
+                            <text>Upload files to server(s).</text>
+                        </comment>
+                        <comment>
+                            <kind>@param</kind>
+                            <text>items Form data items, file paths or name/value pairs.</text>
+                        </comment>
+                        <comment>
+                            <kind>@param</kind>
+                            <text>url Target URL. Authentication information should be included, e.g. the JSFS authentication token.</text>
+                        </comment>
+                        <comment>
+                            <kind>@param</kind>
+                            <text>method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.</text>
+                        </comment>
+                        <comment>
+                            <kind>@param</kind>
+                            <text>encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the 
+ request body does merely contain the file bytes.</text>
                         </comment>
                         <comment>
                             <kind>@throws</kind>

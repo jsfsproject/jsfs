@@ -225,6 +225,32 @@ namespace com.wilutions.jsfs
 			return BTaskConstants<System.IO.Stream>.NotImplemented;
 		}
 		
+		public virtual void UploadFiles(FormItem[] items, String url, String method, String encoding) {
+			throw new NotImplementedException();
+		}
+		public virtual async void UploadFiles(FormItem[] items, String url, String method, String encoding, BAsyncResult<Object> asyncResult) {
+			Object __byps__ret = default(Object);
+			Exception __byps__ex = null;
+			bool __byps__callAsync = false;
+			try {
+				UploadFiles(items, url, method, encoding);
+			}
+			catch (NotImplementedException) { __byps__callAsync = true; }
+			catch (Exception e) { __byps__ex = e; }
+			if (__byps__callAsync) try {
+				await UploadFilesAsync(items, url, method, encoding);
+			}
+			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
+			catch (Exception e) { __byps__ex = e; }
+			asyncResult(__byps__ret, __byps__ex);
+		}
+		/// <summary>
+		/// Upload files to server(s).
+		/// </summary>
+		public virtual Task UploadFilesAsync(FormItem[] items, String url, String method, String encoding){
+			return BTaskConstants<Object>.NotImplemented;
+		}
+		
 		
 	}
 }

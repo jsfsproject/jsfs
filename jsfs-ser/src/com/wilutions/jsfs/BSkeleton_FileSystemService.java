@@ -116,5 +116,19 @@ public class BSkeleton_FileSystemService extends BSkeleton implements FileSystem
 		}
 	}
 	
+	// checkpoint byps.gen.j.PrintContext:365
+	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding) throws RemoteException {
+		throw new BException(BExceptionC.UNSUPPORTED_METHOD, "");
+	}
+	// checkpoint byps.gen.j.PrintContext:409
+	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding, final BAsyncResult<Object> asyncResult) {
+		try {
+			uploadFiles(items, url, method, encoding);
+			asyncResult.setAsyncResult(null, null);
+		} catch (Throwable e) {
+			asyncResult.setAsyncResult(null, e);
+		}
+	}
+	
 	
 }

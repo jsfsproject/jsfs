@@ -29,12 +29,14 @@ public class Main {
   /**
    * JSFS Dispatcher URL
    */
-  private static String jsfsDispatcherUrl = "http://localhost:5080/jsfs-dispatcher/jsfs";
+  private static String jsfsDispatcherUrl = "http://localhost:5950/jsfs-dispatcher/jsfs";
+  
+  private static String yourWebappUrl = "http://localhost:5950/yourapp/";
 
   /**
    * URL to the token service of your web application.
    */
-  private static String tokenServiceUrl = "http://localhost:5080/yourapp/fstokens";
+  private static String tokenServiceUrl = yourWebappUrl + "auth?jsfstoken=true";
 
   /**
    * User name to login to the token service.
@@ -134,7 +136,7 @@ public class Main {
     // - supply a BAuthentication object
     // - start the BClient object
 
-    HWireClient wire = new HWireClient(jsfsDispatcherUrl, 0, 60, null, null) {
+    HWireClient wire = new HWireClient(jsfsDispatcherUrl, 0, 60, null) {
       @Override
       public synchronized void send(BMessage msg, BAsyncResult<BMessage> asyncResult) {
         trayIcon.touch();
@@ -160,7 +162,7 @@ public class Main {
     final BClient_JSFS bclient = BClient_JSFS.createClient(transportFactory);
     if (log.isDebugEnabled()) log.debug("client=" + bclient);
 
-    bclient.setAuthentication(new JsfsAuthentication(tokenServiceUrl, userName, userPwd));
+    bclient.setAuthentication(new JsfsAuthentication(yourWebappUrl, tokenServiceUrl, userName, userPwd));
 
     bclient.setLostReverseConnectionHandler(new BLostConnectionHandler() {
 

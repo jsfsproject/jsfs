@@ -24,7 +24,7 @@ import byps.BClient;
  */
 public class JsfsAuthentication implements BAuthentication {
   
-  private String tokenServiceUrl, userName, userPwd;
+  private String yourWebappUrl, tokenServiceUrl, userName, userPwd;
   private volatile String token;
   
   private Log log = LogFactory.getLog(JsfsAuthentication.class);
@@ -35,8 +35,9 @@ public class JsfsAuthentication implements BAuthentication {
    * @param userName User name
    * @param userPwd Password
    */
-  public JsfsAuthentication(String tokenServiceUrl, String userName, String userPwd) {
+  public JsfsAuthentication(String yourWebappUrl, String tokenServiceUrl, String userName, String userPwd) {
     super();
+    this.yourWebappUrl = yourWebappUrl;
     this.tokenServiceUrl = tokenServiceUrl;
     this.userName = userName;
     this.userPwd = userPwd;
@@ -170,7 +171,7 @@ public class JsfsAuthentication implements BAuthentication {
           try {
             // Required by BYPS: add the implementation of a service that is
             // called via reverse HTTP to the client object.
-            final FileSystemImpl fssrv = new FileSystemImpl(bclient);
+            final FileSystemImpl fssrv = new FileSystemImpl(bclient, yourWebappUrl);
             bclient.addRemote(fssrv);
             if (log.isDebugEnabled()) log.debug("fssrv=" + fssrv);
  

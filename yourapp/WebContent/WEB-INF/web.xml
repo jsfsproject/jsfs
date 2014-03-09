@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:javaee="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-  <javaee:display-name>My Application</javaee:display-name>
+<web-app>
+  <display-name>My Application</display-name>
   <servlet>
-    <servlet-name>JsfsTokenServlet</servlet-name>
-    <servlet-class>your.app.jsfs.JsfsTokenServlet</servlet-class>
+    <servlet-name>AuthenticationServlet</servlet-name>
+    <servlet-class>your.app.AuthenticationServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-    <servlet-name>JsfsTokenServlet</servlet-name>
-    <url-pattern>/fstokens</url-pattern>
+    <servlet-name>AuthenticationServlet</servlet-name>
+    <url-pattern>/auth</url-pattern>
   </servlet-mapping>
   <security-constraint>
     <display-name>JSFS Session Security</display-name>
     <web-resource-collection>
       <web-resource-name>JSFS Session Resource</web-resource-name>
-      <url-pattern>/fstokens</url-pattern>
+      <url-pattern>/auth</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>yourapp-role</role-name>

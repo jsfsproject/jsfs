@@ -102,5 +102,19 @@ public interface FileSystemServiceAsync extends BRemote,
 	// checkpoint byps.gen.j.PrintContext:409
 	public void readFile(java.lang.String path, final BAsyncResult<java.io.InputStream> asyncResult) ;
 	
+	/**
+	 * Upload files to server(s).
+	 * @param items Form data items, file paths or name/value pairs.
+	 * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+	 * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
+	 * @param encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the
+	 * @param request body does merely contain the file bytes.
+	 * @throws RemoteException
+	*/
+	// checkpoint byps.gen.j.PrintContext:365
+	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding) throws RemoteException;
+	// checkpoint byps.gen.j.PrintContext:409
+	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding, final BAsyncResult<Object> asyncResult) ;
+	
 	
 }

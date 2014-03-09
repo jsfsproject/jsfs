@@ -2,6 +2,128 @@
 using namespace ::std;
 using namespace ::byps;
 
+// checkpoint byps.gen.cpp.GenApiClass:934
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_1439246415(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
+	void* p = pObj.get();
+	if (p) { 
+		::std::vector< com::wilutions::jsfs::PFileInfo >& r = * reinterpret_cast< ::std::vector< com::wilutions::jsfs::PFileInfo >*>(p);
+		bio & r;
+	} else {
+		pObj = POBJECT(new ::std::vector< com::wilutions::jsfs::PFileInfo >());
+	}
+}
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
+
+BStub_DispatcherService::BStub_DispatcherService(PTransport transport) 
+	: BStub(transport) {}
+
+void BStub_DispatcherService::registerService(const ::std::wstring& token, const PFileSystemService& service)  {
+	BSyncResultT< bool > syncResult;	
+	registerService(token, service, [&syncResult](bool v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	syncResult.getResult();
+}
+void BStub_DispatcherService::registerService(const ::std::wstring& token, const PFileSystemService& service, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_DispatcherService_registerService(token, service));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+void BStub_DispatcherService::unregisterService(const ::std::wstring& token)  {
+	BSyncResultT< bool > syncResult;	
+	unregisterService(token, [&syncResult](bool v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	syncResult.getResult();
+}
+void BStub_DispatcherService::unregisterService(const ::std::wstring& token, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_DispatcherService_unregisterService(token));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+PFileSystemService BStub_DispatcherService::getService(const ::std::wstring& token, bool onlyHere)  {
+	BSyncResultT< PFileSystemService > syncResult;	
+	getService(token, onlyHere, [&syncResult](PFileSystemService v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	return syncResult.getResult();
+}
+void BStub_DispatcherService::getService(const ::std::wstring& token, bool onlyHere, ::std::function< void (PFileSystemService, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_DispatcherService_getService(token, onlyHere));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PFileSystemService, BResult_336045129 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+void BStub_DispatcherService::registerNotifyService(const ::std::wstring& token, const PFileSystemNotify& service)  {
+	BSyncResultT< bool > syncResult;	
+	registerNotifyService(token, service, [&syncResult](bool v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	syncResult.getResult();
+}
+void BStub_DispatcherService::registerNotifyService(const ::std::wstring& token, const PFileSystemNotify& service, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_DispatcherService_registerNotifyService(token, service));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+void BStub_DispatcherService::unregisterNotifyService(const ::std::wstring& token)  {
+	BSyncResultT< bool > syncResult;	
+	unregisterNotifyService(token, [&syncResult](bool v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	syncResult.getResult();
+}
+void BStub_DispatcherService::unregisterNotifyService(const ::std::wstring& token, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_DispatcherService_unregisterNotifyService(token));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+PFileSystemNotify BStub_DispatcherService::getNotifyService(const ::std::wstring& token, bool onlyHere)  {
+	BSyncResultT< PFileSystemNotify > syncResult;	
+	getNotifyService(token, onlyHere, [&syncResult](PFileSystemNotify v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	return syncResult.getResult();
+}
+void BStub_DispatcherService::getNotifyService(const ::std::wstring& token, bool onlyHere, ::std::function< void (PFileSystemNotify, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_DispatcherService_getNotifyService(token, onlyHere));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PFileSystemNotify, BResult_1816639285 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+void BStub_DispatcherService::keepAlive(const ::std::wstring& token)  {
+	BSyncResultT< bool > syncResult;	
+	keepAlive(token, [&syncResult](bool v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	syncResult.getResult();
+}
+void BStub_DispatcherService::keepAlive(const ::std::wstring& token, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_DispatcherService_keepAlive(token));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+}}}
+
+// checkpoint byps.gen.cpp.GenRemoteStub:225
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_1153231042(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
+	BSerializable* p = pObjS.get();
+	if (bio.is_loading) {
+		if (p) return;
+		BTargetId targetId;
+		bio & targetId;
+		PTransport transport(new BTransport(*bio.transport, targetId));
+		pObjS = PSerializable(new com::wilutions::jsfs::BStub_DispatcherService(transport));
+	}
+	else {
+		BRemote* r = dynamic_cast<BRemote*>(p);
+		BTargetId targetId = r->BRemote_getTargetId();
+		bio & targetId;
+	}
+}
+}}}
 
 namespace com { namespace wilutions { namespace jsfs { 
 
@@ -144,6 +266,18 @@ void BSkeleton_FileSystemService::readFile(const ::std::wstring& path, ::std::fu
 		asyncResult(__byps__ret, __byps__ex);
 	}
 }
+void BSkeleton_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding)  {
+	throw BException(EX_UNSUPPORTED_METHOD, L"");
+}
+void BSkeleton_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding, ::std::function< void (bool, BException ex) > asyncResult)  {
+	bool __byps__ret = false;
+	try {
+		uploadFiles(items, url, method, encoding);
+		asyncResult(__byps__ret, BException());
+	} catch (const std::exception& __byps__ex) {
+		asyncResult(__byps__ret, __byps__ex);
+	}
+}
 }}}
 
 
@@ -236,6 +370,18 @@ void BStub_FileSystemService::readFile(const ::std::wstring& path, ::std::functi
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PContentStream, BResult_15 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+void BStub_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding)  {
+	BSyncResultT< bool > syncResult;	
+	uploadFiles(items, url, method, encoding, [&syncResult](bool v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	syncResult.getResult();
+}
+void BStub_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_FileSystemService_uploadFiles(items, url, method, encoding));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
 }}}
 
 // checkpoint byps.gen.cpp.GenRemoteStub:225
@@ -275,6 +421,7 @@ com::wilutions::jsfs::BRegistry_JSFS::BRegistry_JSFS()
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_findFiles), com::wilutions::jsfs::BSerializer_1131301080, 1131301080);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_readAllText), com::wilutions::jsfs::BSerializer_1078989294, 1078989294);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_readFile), com::wilutions::jsfs::BSerializer_706034600, 706034600);
+	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles), com::wilutions::jsfs::BSerializer_1614176016, 1614176016);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_writeAllText), com::wilutions::jsfs::BSerializer_1925305675, 1925305675);
 	registerClass(typeid(com::wilutions::jsfs::BResult_10), com::wilutions::jsfs::BSerializer_964561600, 964561600);
 	registerClass(typeid(com::wilutions::jsfs::BResult_1439246415), com::wilutions::jsfs::BSerializer_1733426638, 1733426638);
@@ -290,6 +437,8 @@ com::wilutions::jsfs::BRegistry_JSFS::BRegistry_JSFS()
 	registerClass(typeid(com::wilutions::jsfs::ExecuteOptions), com::wilutions::jsfs::BSerializer_1032737639, 1032737639);
 	registerClass(typeid(com::wilutions::jsfs::FileInfo), com::wilutions::jsfs::BSerializer_1100528120, 1100528120);
 	registerClass(typeid(com::wilutions::jsfs::FindOptions), com::wilutions::jsfs::BSerializer_1092766252, 1092766252);
+	registerClass(typeid(com::wilutions::jsfs::FormItem), com::wilutions::jsfs::BSerializer_979378962, 979378962);
+	registerClass(typeid(BArray1< com::wilutions::jsfs::PFormItem > ), com::wilutions::jsfs::BSerializer_566696346, 566696346);
 	registerClass(typeid(com::wilutions::jsfs::NotifyInfo), com::wilutions::jsfs::BSerializer_1274131736, 1274131736);
 	registerClass(typeid(com::wilutions::jsfs::WatchFolderNotifyInfo), com::wilutions::jsfs::BSerializer_9906860, 9906860);
 	registerClass(typeid(BArray1< ::std::wstring > ), com::wilutions::jsfs::BSerializer_1888107655, 1888107655);

@@ -84,6 +84,16 @@ typedef byps_ptr< FindOptions > PFindOptions;
 }}}
 
 //-------------------------------------------------
+// Forward Declaration of class FormItem
+
+namespace com { namespace wilutions { namespace jsfs { 
+
+class FormItem; 
+typedef byps_ptr< FormItem > PFormItem; 
+
+}}}
+
+//-------------------------------------------------
 // Forward Declaration of class WatchFolderNotifyInfo
 
 namespace com { namespace wilutions { namespace jsfs { 
@@ -360,6 +370,58 @@ class FindOptions : public BSerializable {
 	
 	public: ::std::wstring getReserved() { return reserved; }
 	public: void setReserved(::std::wstring v);
+	// checkpoint byps.gen.cpp.GenApiClass:871
+	public: void serialize(BIO& ar, const BVERSION version);
+};
+
+}}}
+
+//-------------------------------------------------
+// FormItem
+// typeId=979378962
+
+namespace com { namespace wilutions { namespace jsfs { 
+
+using namespace ::byps;
+
+/// <summary>
+/// This class defines an item of a file upload request in {@link FileSystemService#uploadFiles}.
+/// </summary>
+/// <remarks>
+/// A FormData object corresponds to an input field in a HTML file upload form.
+/// It can specify files to be uploaded as with HTML input field type "file".
+/// Or it can hold a simple value as with HTML input field type "text".
+/// </remarks>
+class FormItem : public BSerializable {
+	/// <summary>
+	/// Item name.
+	/// </summary>
+	/// <remarks>
+	/// This value corresponds to HTML input field name.
+	/// </remarks>
+	public: ::std::wstring name;
+	/// <summary>
+	/// Item type.
+	/// </summary>
+	/// <remarks>
+	/// Optional. Either "text" or "file".
+	/// </remarks>
+	public: ::std::wstring type;
+	/// <summary>
+	/// Item value.
+	/// </summary>
+	/// <remarks>
+	/// If type is empty or equals to "text", this array contains one item.
+	/// If type equals to "file", this array contains the file paths to be uploaded.
+	/// </remarks>
+	public: byps_ptr< BArray1< ::std::wstring > > values;
+	
+	// checkpoint byps.gen.cpp.GenApiClass:488
+	public: FormItem();
+	// checkpoint byps.gen.cpp.GenApiClass:535
+	public: FormItem(const ::std::wstring& name, const ::std::wstring& type, const byps_ptr< BArray1< ::std::wstring > >& values);	
+	public: virtual BTYPEID BSerializable_getTypeId() { return 979378962; }
+	
 	// checkpoint byps.gen.cpp.GenApiClass:871
 	public: void serialize(BIO& ar, const BVERSION version);
 };
@@ -708,6 +770,12 @@ class FileSystemService : public virtual BRemote {
 	public: virtual PContentStream readFile(const ::std::wstring& path)  = 0;
 	public: virtual void readFile(const ::std::wstring& path, ::std::function< void (PContentStream, BException ex) > asyncResult)  = 0;
 	
+	/// <summary>
+	/// Upload files to server(s).
+	/// </summary>
+	public: virtual void uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding)  = 0;
+	public: virtual void uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding, ::std::function< void (bool, BException ex) > asyncResult)  = 0;
+	
 	
 };
 
@@ -749,6 +817,9 @@ class BSkeleton_FileSystemService : public BSkeleton, public virtual FileSystemS
 	public: virtual PContentStream readFile(const ::std::wstring& path) ;
 	public: virtual void readFile(const ::std::wstring& path, ::std::function< void (PContentStream, BException ex) > asyncResult) ;
 	
+	public: virtual void uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding) ;
+	public: virtual void uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding, ::std::function< void (bool, BException ex) > asyncResult) ;
+	
 	
 };
 }}}
@@ -789,6 +860,9 @@ class BStub_FileSystemService : public BStub, public virtual FileSystemService {
 	
 	public: virtual PContentStream readFile(const ::std::wstring& path) ;
 	public: virtual void readFile(const ::std::wstring& path, ::std::function< void (PContentStream, BException ex) > asyncResult) ;
+	
+	public: virtual void uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding) ;
+	public: virtual void uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
 	
 };

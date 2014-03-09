@@ -8,10 +8,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +32,9 @@ import byps.RemoteException;
  */
 public class FileSystemImpl extends BSkeleton_FileSystemService {
 
-  public FileSystemImpl(BClient_JSFS client) {
+  public FileSystemImpl(BClient_JSFS client, String yourWebapp) {
     this.bclient = client;
+    this.yourWebapp = yourWebapp;
   }
 
   @Override
@@ -139,7 +144,6 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
     }
   }
 
-
   @Override
   public void executeNotifyExit(final String[] args, ExecuteOptions opts) throws RemoteException {
     internalExecuteNotifyExit(args, opts, opts != null);
@@ -150,7 +154,6 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
 
     final File file = getExistingFile(args[0]);
     final BException[] rex = new BException[1];
-    final long sleepMillisToOpenInForeground = 300;
 
     Thread thread = new Thread() {
       public void run() {
@@ -369,20 +372,242 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
     FileSystemNotify ns = bclient.dispatcherService.getNotifyService(token, false);
     return ns;
   }
-  
+
   @Override
   public InputStream readFile(String path) throws RemoteException {
     File file = internalGetExistingFile(path, true);
     try {
       BContentStreamWrapper cstream = new BContentStreamWrapper(file);
       return cstream;
-    }
-    catch (FileNotFoundException e) {
+    } catch (FileNotFoundException e) {
       throw createBException(WindowsErrorCode.ERROR_FILE_NOT_FOUND, e.toString());
     }
   }
 
+  private static boolean isStringEmpty(String s) {
+    return s == null || s.isEmpty();
+  }
+  
+  @Override
+  public void uploadFiles(FormItem[] items, String url, String method, String encoding) throws RemoteException {
+    if (items == null) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items must not be null.");
+    if (items.length == 0) return;
+    if (url == null) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: url must not be null.");
+    if (items[0] == null) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items[0] must not be null.");
+
+    // Relative URL?
+    if (!url.startsWith("http:")) {
+      url = yourWebapp + url;
+    }
+    
+    if (isStringEmpty(method)) method = "POST";
+    
+    try {
+      if ((encoding != null && encoding.startsWith("multipart/form-data"))) {
+        uploadMultipartFormdata(items, url, method);
+      }
+      else {
+        if (items.length != 1) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items.length must not be 1.");
+        uploadFile(items[0], url, method);
+      }
+    }
+    catch (IOException e) {
+      throw new BException(BExceptionC.IOERROR, "Upload failed.", e);
+    }
+  }
+  
+  private void uploadFile(FormItem item, String url, String method) throws IOException {
+    if (item.values == null) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items[0].values must not be null.");
+    if (item.values.length != 1) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items[0].values.length must be 1.");
+    if (isStringEmpty(item.values[0])) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items[0].values[0] must not be empty.");
+    
+    HttpURLConnection connection = null;
+    String filePath = item.values[0];
+    File binaryFile = new File(filePath);
+    OutputStream output = null;
+    InputStream input = null;
+  
+    try {
+      connection = (HttpURLConnection)new URL(url).openConnection();
+      connection.setDoOutput(true);
+      connection.setRequestMethod(method);
+      connection.setRequestProperty("Content-Type: ", URLConnection.guessContentTypeFromName(binaryFile.getName()));
+      connection.setFixedLengthStreamingMode(binaryFile.length());
+      output = connection.getOutputStream();
+      
+      input = new FileInputStream(binaryFile);
+      try {
+        byte[] buffer = new byte[1024];
+        int length = 0;
+        while ((length = input.read(buffer)) != -1) {
+          output.write(buffer, 0, length);
+        }
+        output.flush(); 
+        output.close();
+        output = null;
+      } finally {
+        try {
+          input.close();
+        } catch (IOException ignored) {
+        }
+        input = null;
+      }
+      
+      try {
+        input = connection.getInputStream();
+      }
+      catch (Exception e) {
+        input = connection.getErrorStream();
+      }
+      while (input.read() != -1);
+      
+    }
+    finally {
+      if (output != null) try { output.close(); } catch (IOException ignored) {}
+      if (connection != null) connection.disconnect();
+    }
+  }
+
+  private void uploadMultipartFormdata(FormItem[] items, String url, String method) throws IOException {
+    
+    // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
+    // http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
+
+    final long boundaryId = System.nanoTime();
+    final String boundary = Long.toHexString(boundaryId);
+    final String charset = "UTF-8";
+    HttpURLConnection connection = null;
+    PrintWriter writer = null;
+    InputStream input = null;
+    
+    try {
+      connection = (HttpURLConnection)new URL(url).openConnection();
+      connection.setDoOutput(true);
+      connection.setRequestMethod(method);
+      connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+      OutputStream output = connection.getOutputStream();
+      writer = new PrintWriter(new OutputStreamWriter(output, charset), true); 
+      
+      for (int itemIdx = 0; itemIdx < items.length; itemIdx++) {
+        
+        final FormItem item = items[itemIdx];
+        if (item == null) continue;
+        if (isStringEmpty(item.type)) item.type = "text";
+        
+        writer.append("--").append(boundary).append(CRLF);
+        
+        if (item.type.equals("file")) {
+          
+          boolean multipleFiles = item.values.length > 1;
+          if (multipleFiles) {
+          
+            // This does not work with my Servlet.
+            // Don't know why.
+            
+            if (multipleFiles) throw new BException(BExceptionC.IOERROR, "Upload of more than one file is currently not supported.");
+            
+            final String fileBoundary = Long.toHexString(boundaryId + itemIdx + 1);
+          
+            writeMultipartContentDisposition(writer, "form-data", item.name, null);
+            writer.append("Content-Type: multipart/mixed; boundary=").append(fileBoundary).append(CRLF);
+            writer.append(CRLF);
+  
+            for (int fileIdx = 0; fileIdx < item.values.length; fileIdx++) {
+            
+              String filePath = item.values[fileIdx];
+              File binaryFile = new File(filePath);
+              
+              writer.append("--").append(fileBoundary).append(CRLF);
+              
+              writeMultipartContentDisposition(writer, "file", null, binaryFile.getName());
+              
+              writeMultipartFileContent(writer, output, binaryFile);
+            }
+            
+            writer.append("--").append(fileBoundary).append("--").append(CRLF);
+          }
+          else {
+            
+            String filePath = item.values[0];
+            File binaryFile = new File(filePath);
+            writeMultipartContentDisposition(writer, "form-data", item.name, binaryFile.getName());
+            writeMultipartFileContent(writer, output, binaryFile);
+          }
+        }
+        else {
+          writeMultipartContentDisposition(writer, "form-data", item.name, null);
+          writer.append(CRLF);
+          final String value = item.values != null && item.values.length != 0 ? item.values[0] : "null"; 
+          writer.append(value).append(CRLF).flush();
+        }
+
+        
+      } // for
+      
+      //End of multipart/form-data.
+      writer.append("--" + boundary + "--").append(CRLF);
+      writer.flush();
+      writer.close();
+      writer = null;
+
+      try {
+        input = connection.getInputStream();
+      }
+      catch (Exception e) {
+        input = connection.getErrorStream();
+      }
+      while (input.read() != -1);
+      
+    } catch (IOException e) {
+      throw e;
+    } finally {
+      if (writer != null) writer.close();
+      if (connection != null) connection.disconnect();
+    }
+
+  }
+  
+  private void writeMultipartContentDisposition(PrintWriter writer, String type, String name, String fileName) {
+    writer.append("Content-Disposition: ").append(type);
+    if (name != null) {
+      writer.append("; name=\"").append(name).append("\"");
+    }
+    if (fileName != null) {
+      writer.append("; filename=\"").append(fileName).append("\"");
+    }
+    writer.append(CRLF);
+  }
+
+  private void writeMultipartFileContent(PrintWriter writer, OutputStream output, File binaryFile) throws FileNotFoundException, IOException {
+    InputStream input;
+    String contentType = URLConnection.guessContentTypeFromName(binaryFile.getName());
+    if (contentType == null) contentType = "application/octet-stream";
+    writer.append("Content-Type: ").append(contentType).append(CRLF);
+    writer.append("Content-Transfer-Encoding: binary").append(CRLF);
+    writer.append(CRLF).flush();
+    
+    input = new FileInputStream(binaryFile);
+    try {
+      byte[] buffer = new byte[1024];
+      int length = 0;
+      while ((length = input.read(buffer)) != -1) {
+        output.write(buffer, 0, length);
+      }
+      output.flush(); 
+    } finally {
+      try {
+        input.close();
+      } catch (IOException ignored) {
+      }
+      input = null;
+    }
+    
+    writer.append(CRLF).flush();
+  }
+
   private final BClient_JSFS bclient;
+  private final String yourWebapp;
   private final ConcurrentHashMap<Integer, WatchDir> watchers = new ConcurrentHashMap<Integer, WatchDir>();
   private final AtomicInteger nextNotifyId = new AtomicInteger();
+  private final static String CRLF = "\r\n"; 
 }

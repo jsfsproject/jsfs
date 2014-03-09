@@ -34,7 +34,7 @@ var jsfsDispatcherUrl = "/jsfs-dispatcher/jsfs";
 /**
  * URL to the token service of your web application.
  */
-var tokenServiceUrl = "/yourapp/fstokens"
+var tokenServiceUrl = "/yourapp/auth?jsfstoken=true"
 
 /**
  * BYPS client object.
@@ -388,6 +388,43 @@ function keepAlive() {
 	window.setTimeout("keepAlive()", 300 * 1000);
 }
 
+function fsupload() {
+
+	try {
+		const url = "upload";
+		const dir = "%HOMEDRIVE%%HOMEPATH%\\Documents";
+		
+		var fileInfos = jsfsAgent.findFiles(dir + "\\*.*", null);
+		
+/* 		var formItems = [];
+		formItems[0] = new com.wilutions.jsfs.FormItem();
+		formItems[0].name = "token";
+		formItems[0].type = "text";
+		formItems[0].values = [fileInfos[0].name];
+		jsfsAgent.uploadFiles(formItems, url);
+ */		
+ 		var formItems = [];
+		formItems[0] = new com.wilutions.jsfs.FormItem();
+		formItems[0].name = "token";
+		formItems[0].type = "text";
+		formItems[0].values = [bclient.getAuthentication().getToken()];
+		
+		formItems[1] = new com.wilutions.jsfs.FormItem();
+		formItems[1].name = "mydocs";
+		formItems[1].type = "file";
+		formItems[1].values = [fileInfos[0].name];
+/*
+		formItems[1].values = [];
+		for (var i = 0; i < fileInfos.length && i < 2; i++) {
+			formItems[1].values[i] = fileInfos[i].name;
+		}
+ */	
+		jsfsAgent.uploadFiles(formItems, url, "POST", "multipart/form-data");
+    }
+	catch (ex) {
+		alert(ex);
+	}
+}
 
 </script>
 </head>
@@ -399,11 +436,18 @@ function keepAlive() {
 <input type="button" value="list" onclick="fslist()" />
 <input type="button" value="read" onclick="fsreadwrite()" />
 <input type="button" value="execute" onclick="fsexecute()" />
+<input type="button" value="upload" onclick="fsupload()" />
 
 <input type="button" value="beginWatch" onclick="beginWatch()" />
 <input type="button" value="endWatch" onclick="endWatch()" />
 
 <br>
+
+<form action="Servlet" enctype="multipart/form-data">
+<input type="file" name="file" multiple>
+<input type="text" name="text1">
+<input type="text" name="text2">
+</form>
 
 <iframe id="fileView">
 </iframe>

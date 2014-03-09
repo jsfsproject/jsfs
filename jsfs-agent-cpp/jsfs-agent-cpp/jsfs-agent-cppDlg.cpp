@@ -67,7 +67,7 @@ CjsfsagentcppDlg::CjsfsagentcppDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
 	jsfsDispatcherUrl = L"http://localhost:5080/jsfs-dispatcher/jsfs";
-	tokenServiceUrl = L"http://localhost:5080/yourapp/fstokens";
+	tokenServiceUrl = L"http://localhost:5080/yourapp/auth?jsfstoken=true";
 	userName = L"user";
 	userPwd = L"pwd";
 
