@@ -85,13 +85,21 @@ public interface FileSystemService extends BRemote {
   public InputStream readFile(String path) throws RemoteException;
   
   /**
-   * Upload files to server(s).
+   * Upload files to the given URL using multipart/form-data encoding.
    * @param items Form data items, file paths or name/value pairs.
-   * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+   * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
    * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
-   * @param encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the 
-   * request body does merely contain the file bytes. 
    * @throws RemoteException
    */
-  public void uploadFiles(FormItem[] items, String url, String method, String encoding) throws RemoteException;
+  public void uploadFilesMultipartFormdata(FormItem[] items, String url, String method) throws RemoteException;
+  
+  /**
+   * Upload a file to the given URL.
+   * @param path Local file path from the view of JSFS agent.
+   * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
+   * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
+   * @throws RemoteException
+   */
+  public void uploadFile(String path, String url, String method) throws RemoteException;
+  
 }

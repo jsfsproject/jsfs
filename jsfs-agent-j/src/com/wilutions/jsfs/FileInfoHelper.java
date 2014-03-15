@@ -32,6 +32,8 @@ public class FileInfoHelper {
    * @return File system path with replaced variables.
    */
   public static String makeValidPath(String path) {
+    
+    path = replaceKnownFolderIds(path);
 
     int p = path.indexOf('%');
     while (p >= 0) {
@@ -48,5 +50,15 @@ public class FileInfoHelper {
     return path;
   }
 
-
+  public static String replaceKnownFolderIds(String path) {
+    if (path.indexOf(FileSystemServiceC.FOLDERID_Documents) >= 0) path = path.replace(FileSystemServiceC.FOLDERID_Documents, getFolderDocuments());
+    return path;
+  }
+  
+  private static String getFolderDocuments() {
+    String r = System.getProperty("user.home");
+    File f = new File(r, "Documents");
+    r = f.getAbsolutePath();
+    return r;
+  }
 }

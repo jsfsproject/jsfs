@@ -34,7 +34,7 @@ public class JSerializer_979378962 extends JSerializer_Object {
 		final FormItem obj = (FormItem)obj1;		
 		bbuf.putString("name", obj.name);
 		bbuf.putString("type", obj.type);
-		bout.writeObj("values",obj.values, true, com.wilutions.jsfs.JSerializer_1888107655.instance);
+		bbuf.putString("value", obj.value);
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public class JSerializer_979378962 extends JSerializer_Object {
 		final BJsonObject js = bin.currentObject;
 		obj.name = js.getString("name");
 		obj.type = js.getString("type");
-		obj.values = (java.lang.String[])bin.readObj("values", true, com.wilutions.jsfs.JSerializer_1888107655.instance);
+		obj.value = js.getString("value");
 		
 		return obj;
 	}

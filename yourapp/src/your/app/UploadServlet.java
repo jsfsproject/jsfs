@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 /**
  * Servlet implementation class UploadServlet
  * 
@@ -39,21 +41,23 @@ public class UploadServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String token = request.getParameter("token"); 
-    System.out.println("token=" + token);
     File tempFile = null;
     InputStream input = null;
-    try {
-      Part filePart = request.getPart("mydocs");
+    
+    if (ServletFileUpload.isMultipartContent(request)) {
+      Part filePart = request.getPart("mydoc");
       String filename = getFilename(filePart);
       System.out.println("filename=" + filename);
       input = filePart.getInputStream();
       tempFile = File.createTempFile("upload", filename.substring(filename.indexOf('.')+1));
     }
-    catch(Exception e) {
+    else {
+      String fname = request.getParameter("fname"); 
+      System.out.println("fname=" + fname);
       tempFile = File.createTempFile("upload", ".tmp");
       input = request.getInputStream();
     }
+
     OutputStream output = new FileOutputStream(tempFile);
     try {
       byte[] buffer = new byte[1024];

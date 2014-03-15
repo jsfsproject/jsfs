@@ -32,7 +32,7 @@ namespace com.wilutions.jsfs
 			// checkpoint byps.gen.cs.PrintContext:494
 			bbuf.putString(obj.Type);
 			// checkpoint byps.gen.cs.PrintContext:494
-			bout.writeObj(obj.Values, true, com.wilutions.jsfs.BSerializer_1888107655.instance);
+			bbuf.putString(obj.Value);
 		}
 		
 		public override Object read(Object obj1, BInput bin1, long version)
@@ -46,7 +46,7 @@ namespace com.wilutions.jsfs
 			// checkpoint byps.gen.cs.PrintContext:449
 			obj.Type = bbuf.getString();
 			// checkpoint byps.gen.cs.PrintContext:449
-			obj.Values = (String[])bin.readObj(false, com.wilutions.jsfs.BSerializer_1888107655.instance);
+			obj.Value = bbuf.getString();
 			
 			return obj;
 		}

@@ -133,14 +133,24 @@ namespace com.wilutions.jsfs
 		Task<System.IO.Stream> ReadFileAsync(String path);
 		
 		/// <summary>
-		/// Upload files to server(s).
+		/// Upload files to the given URL using multipart/form-data encoding.
 		/// </summary>
-		void UploadFiles(FormItem[] items, String url, String method, String encoding);
-		void UploadFiles(FormItem[] items, String url, String method, String encoding, BAsyncResult<Object> asyncResult) ;
+		void UploadFilesMultipartFormdata(FormItem[] items, String url, String method);
+		void UploadFilesMultipartFormdata(FormItem[] items, String url, String method, BAsyncResult<Object> asyncResult) ;
 		/// <summary>
-		/// Upload files to server(s).
+		/// Upload files to the given URL using multipart/form-data encoding.
 		/// </summary>
-		Task UploadFilesAsync(FormItem[] items, String url, String method, String encoding);
+		Task UploadFilesMultipartFormdataAsync(FormItem[] items, String url, String method);
+		
+		/// <summary>
+		/// Upload a file to the given URL.
+		/// </summary>
+		void UploadFile(String path, String url, String method);
+		void UploadFile(String path, String url, String method, BAsyncResult<Object> asyncResult) ;
+		/// <summary>
+		/// Upload a file to the given URL.
+		/// </summary>
+		Task UploadFileAsync(String path, String url, String method);
 		
 		
 	}

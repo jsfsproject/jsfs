@@ -2,6 +2,106 @@
 using namespace ::std;
 using namespace ::byps;
 
+namespace com { namespace wilutions { namespace jsfs { 
+
+//-------------------------------------------------
+// Implementation of class FormItem
+// Generated from class byps.gen.cpp.GenApiClass
+
+// checkpoint byps.gen.cpp.GenApiClass:489
+FormItem::FormItem() {
+}
+// checkpoint byps.gen.cpp.GenApiClass:536
+com::wilutions::jsfs::FormItem::FormItem(const ::std::wstring& name, const ::std::wstring& type, const ::std::wstring& value)
+	: name(name)
+	, type(type)
+	, value(value)
+	{}
+// checkpoint byps.gen.cpp.GenApiClass:877
+void com::wilutions::jsfs::FormItem::serialize(BIO& ar, const BVERSION version) {
+	ar & this->name;
+	ar & this->type;
+	ar & this->value;
+}
+}}}
+
+// checkpoint byps.gen.cpp.GenApiClass:934
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_979378962(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
+	BSerializable* p = pBase ? reinterpret_cast<BSerializable*>(pBase) : pObjS.get();
+	if (p) { 
+		com::wilutions::jsfs::FormItem& r = * dynamic_cast< com::wilutions::jsfs::FormItem*>(p);
+		bio & r;
+	} else {
+		pObjS = PSerializable(new com::wilutions::jsfs::FormItem());
+	}
+}
+}}}
+// checkpoint byps.gen.cpp.GenApiClass:934
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_566696346(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
+	void* p = pObj.get();
+	if (p) { 
+		BArray1< com::wilutions::jsfs::PFormItem > & r = * reinterpret_cast< BArray1< com::wilutions::jsfs::PFormItem > *>(p);
+		bio & r;
+	} else {
+		pObj = POBJECT(new BArray1< com::wilutions::jsfs::PFormItem > ());
+	}
+}
+}}}
+namespace com { namespace wilutions { namespace jsfs { 
+
+//-------------------------------------------------
+// Implementation of class WatchFolderNotifyInfo
+// Generated from class byps.gen.cpp.GenApiClass
+
+// checkpoint byps.gen.cpp.GenApiClass:489
+WatchFolderNotifyInfo::WatchFolderNotifyInfo() {
+	kind = com::wilutions::jsfs::EWatchFolderNotifyKind::Nothing;
+}
+// checkpoint byps.gen.cpp.GenApiClass:536
+com::wilutions::jsfs::WatchFolderNotifyInfo::WatchFolderNotifyInfo(const PFileInfo& fileInfo, EWatchFolderNotifyKind kind)
+	: fileInfo(fileInfo)
+	, kind(kind)
+	{}
+void WatchFolderNotifyInfo::setFileInfo(PFileInfo v) {
+	fileInfo = v;
+}
+void WatchFolderNotifyInfo::setKind(EWatchFolderNotifyKind v) {
+	kind = v;
+}
+// checkpoint byps.gen.cpp.GenApiClass:877
+void com::wilutions::jsfs::WatchFolderNotifyInfo::serialize(BIO& ar, const BVERSION version) {
+	NotifyInfo::serialize(ar, version);
+	ar & this->kind;
+	ar & this->fileInfo;
+}
+}}}
+
+// checkpoint byps.gen.cpp.GenApiClass:934
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_9906860(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
+	BSerializable* p = pBase ? reinterpret_cast<BSerializable*>(pBase) : pObjS.get();
+	if (p) { 
+		com::wilutions::jsfs::WatchFolderNotifyInfo& r = * dynamic_cast< com::wilutions::jsfs::WatchFolderNotifyInfo*>(p);
+		bio & r;
+	} else {
+		pObjS = PSerializable(new com::wilutions::jsfs::WatchFolderNotifyInfo());
+	}
+}
+}}}
+// checkpoint byps.gen.cpp.GenApiClass:934
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_1888107655(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
+	void* p = pObj.get();
+	if (p) { 
+		BArray1< ::std::wstring > & r = * reinterpret_cast< BArray1< ::std::wstring > *>(p);
+		bio & r;
+	} else {
+		pObj = POBJECT(new BArray1< ::std::wstring > ());
+	}
+}
+}}}
 // checkpoint byps.gen.cpp.GenApiClass:934
 namespace com { namespace wilutions { namespace jsfs { 
 void BSerializer_1439246415(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
@@ -266,13 +366,25 @@ void BSkeleton_FileSystemService::readFile(const ::std::wstring& path, ::std::fu
 		asyncResult(__byps__ret, __byps__ex);
 	}
 }
-void BSkeleton_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding)  {
+void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method)  {
 	throw BException(EX_UNSUPPORTED_METHOD, L"");
 }
-void BSkeleton_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding, ::std::function< void (bool, BException ex) > asyncResult)  {
+void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
 	try {
-		uploadFiles(items, url, method, encoding);
+		uploadFilesMultipartFormdata(items, url, method);
+		asyncResult(__byps__ret, BException());
+	} catch (const std::exception& __byps__ex) {
+		asyncResult(__byps__ret, __byps__ex);
+	}
+}
+void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)  {
+	throw BException(EX_UNSUPPORTED_METHOD, L"");
+}
+void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
+	bool __byps__ret = false;
+	try {
+		uploadFile(path, url, method);
 		asyncResult(__byps__ret, BException());
 	} catch (const std::exception& __byps__ex) {
 		asyncResult(__byps__ret, __byps__ex);
@@ -370,15 +482,27 @@ void BStub_FileSystemService::readFile(const ::std::wstring& path, ::std::functi
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PContentStream, BResult_15 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
-void BStub_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding)  {
+void BStub_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method)  {
 	BSyncResultT< bool > syncResult;	
-	uploadFiles(items, url, method, encoding, [&syncResult](bool v, BException ex) {
+	uploadFilesMultipartFormdata(items, url, method, [&syncResult](bool v, BException ex) {
 		syncResult.setAsyncResult(v, ex);
 	});
 	syncResult.getResult();
 }
-void BStub_FileSystemService::uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding, ::std::function< void (bool, BException ex) > asyncResult)  {
-	PMethodRequest req(new BRequest_FileSystemService_uploadFiles(items, url, method, encoding));
+void BStub_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_FileSystemService_uploadFilesMultipartFormdata(items, url, method));
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
+	transport->sendMethod(req, outerResult);
+}
+void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)  {
+	BSyncResultT< bool > syncResult;	
+	uploadFile(path, url, method, [&syncResult](bool v, BException ex) {
+		syncResult.setAsyncResult(v, ex);
+	});
+	syncResult.getResult();
+}
+void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_FileSystemService_uploadFile(path, url, method));
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
@@ -421,7 +545,8 @@ com::wilutions::jsfs::BRegistry_JSFS::BRegistry_JSFS()
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_findFiles), com::wilutions::jsfs::BSerializer_1131301080, 1131301080);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_readAllText), com::wilutions::jsfs::BSerializer_1078989294, 1078989294);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_readFile), com::wilutions::jsfs::BSerializer_706034600, 706034600);
-	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles), com::wilutions::jsfs::BSerializer_1614176016, 1614176016);
+	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_uploadFile), com::wilutions::jsfs::BSerializer_744806851, 744806851);
+	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata), com::wilutions::jsfs::BSerializer_240503306, 240503306);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_FileSystemService_writeAllText), com::wilutions::jsfs::BSerializer_1925305675, 1925305675);
 	registerClass(typeid(com::wilutions::jsfs::BResult_10), com::wilutions::jsfs::BSerializer_964561600, 964561600);
 	registerClass(typeid(com::wilutions::jsfs::BResult_1439246415), com::wilutions::jsfs::BSerializer_1733426638, 1733426638);
@@ -436,6 +561,7 @@ com::wilutions::jsfs::BRegistry_JSFS::BRegistry_JSFS()
 	registerClass(typeid(com::wilutions::jsfs::ExecuteNotifyInfo), com::wilutions::jsfs::BSerializer_665368294, 665368294);
 	registerClass(typeid(com::wilutions::jsfs::ExecuteOptions), com::wilutions::jsfs::BSerializer_1032737639, 1032737639);
 	registerClass(typeid(com::wilutions::jsfs::FileInfo), com::wilutions::jsfs::BSerializer_1100528120, 1100528120);
+	registerClass(typeid(com::wilutions::jsfs::FileSystemServiceC), com::wilutions::jsfs::BSerializer_1381128722, 1381128722);
 	registerClass(typeid(com::wilutions::jsfs::FindOptions), com::wilutions::jsfs::BSerializer_1092766252, 1092766252);
 	registerClass(typeid(com::wilutions::jsfs::FormItem), com::wilutions::jsfs::BSerializer_979378962, 979378962);
 	registerClass(typeid(BArray1< com::wilutions::jsfs::PFormItem > ), com::wilutions::jsfs::BSerializer_566696346, 566696346);

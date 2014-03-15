@@ -29,13 +29,12 @@ public class Main {
   /**
    * JSFS Dispatcher URL
    */
-  private static String jsfsDispatcherUrl = "http://localhost:5950/jsfs-dispatcher/jsfs";
-  
-  private static String yourWebappUrl = "http://localhost:5950/yourapp/";
+  private static String jsfsDispatcherUrl = "http://169.254.152.171:5080/jsfs-dispatcher/jsfs";
 
   /**
    * URL to the token service of your web application.
    */
+  private static String yourWebappUrl = "http://169.254.152.171:5080/yourapp/";
   private static String tokenServiceUrl = yourWebappUrl + "auth?jsfstoken=true";
 
   /**
@@ -69,7 +68,7 @@ public class Main {
    */
   private final static long CHECK_CONNECTION_AFTER_MILLIS = (300 * 1000);
 
-  private static Log log = LogFactory.getLog(Main.class);
+  private final static Log log = LogFactory.getLog(Main.class);
 
   public static void main(String[] args) {
 
@@ -94,7 +93,10 @@ public class Main {
     // adding TrayIcon and connecting to JSFS Dispatcher
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
+        if (log.isInfoEnabled()) log.info("show tray icon");
         trayIcon = JsfsTrayIconImpl.createAndShowGUI();
+        
+        if (log.isInfoEnabled()) log.info("connect to JSFS Dispatcher");
         connectToJsfsDispatcherShowStatus();
       }
     });
@@ -105,6 +107,8 @@ public class Main {
    * information or an error depending on a successful connection.
    */
   private static void connectToJsfsDispatcherShowStatus() {
+    if (log.isDebugEnabled()) log.debug("connectToJsfsDispatcherShowStatus(");
+    
     connectToJSFS(new BAsyncResult<BClient_JSFS>() {
       public void setAsyncResult(BClient_JSFS client, final Throwable e) {
 
@@ -118,6 +122,7 @@ public class Main {
         }
       }
     });
+    if (log.isDebugEnabled()) log.debug(")connectToJsfsDispatcherShowStatus");
   }
 
   /**

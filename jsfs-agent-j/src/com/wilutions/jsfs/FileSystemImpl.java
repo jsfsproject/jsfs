@@ -389,7 +389,8 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
   }
   
   @Override
-  public void uploadFiles(FormItem[] items, String url, String method, String encoding) throws RemoteException {
+  public void uploadFilesMultipartFormdata(FormItem[] items, String url, String method) throws RemoteException {
+
     if (items == null) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items must not be null.");
     if (items.length == 0) return;
     if (url == null) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: url must not be null.");
@@ -403,27 +404,27 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
     if (isStringEmpty(method)) method = "POST";
     
     try {
-      if ((encoding != null && encoding.startsWith("multipart/form-data"))) {
-        uploadMultipartFormdata(items, url, method);
-      }
-      else {
-        if (items.length != 1) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items.length must not be 1.");
-        uploadFile(items[0], url, method);
-      }
+      uploadMultipartFormdata(items, url, method);
     }
     catch (IOException e) {
       throw new BException(BExceptionC.IOERROR, "Upload failed.", e);
     }
   }
   
-  private void uploadFile(FormItem item, String url, String method) throws IOException {
-    if (item.values == null) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items[0].values must not be null.");
-    if (item.values.length != 1) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items[0].values.length must be 1.");
-    if (isStringEmpty(item.values[0])) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: items[0].values[0] must not be empty.");
+  @Override
+  public void uploadFile(String path, String url, String method) throws RemoteException {
+    
+    if (isStringEmpty(path)) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: path must not be empty.");
+    if (isStringEmpty(url)) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: url must not be empty.");
+    if (isStringEmpty(method)) method = "POST";
+    
+    // Relative URL?
+    if (!url.startsWith("http:")) {
+      url = yourWebapp + url;
+    }
     
     HttpURLConnection connection = null;
-    String filePath = item.values[0];
-    File binaryFile = new File(filePath);
+    File binaryFile = new File(path);
     OutputStream output = null;
     InputStream input = null;
   
@@ -453,14 +454,22 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
         input = null;
       }
       
+      int status = connection.getResponseCode();
+      if (status != HttpURLConnection.HTTP_OK){
+        throw new IOException("HTTP Status " + status);
+      }
+      
       try {
         input = connection.getInputStream();
       }
-      catch (Exception e) {
+      catch (IOException e) {
         input = connection.getErrorStream();
       }
       while (input.read() != -1);
       
+    }
+    catch (IOException e) {
+      throw new BException(BExceptionC.IOERROR, "Failed to upload file.", e);
     }
     finally {
       if (output != null) try { output.close(); } catch (IOException ignored) {}
@@ -493,55 +502,23 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
         final FormItem item = items[itemIdx];
         if (item == null) continue;
         if (isStringEmpty(item.type)) item.type = "text";
+        if (isStringEmpty(item.value)) item.value = "";
         
         writer.append("--").append(boundary).append(CRLF);
         
         if (item.type.equals("file")) {
-          
-          boolean multipleFiles = item.values.length > 1;
-          if (multipleFiles) {
-          
-            // This does not work with my Servlet.
-            // Don't know why.
-            
-            if (multipleFiles) throw new BException(BExceptionC.IOERROR, "Upload of more than one file is currently not supported.");
-            
-            final String fileBoundary = Long.toHexString(boundaryId + itemIdx + 1);
-          
-            writeMultipartContentDisposition(writer, "form-data", item.name, null);
-            writer.append("Content-Type: multipart/mixed; boundary=").append(fileBoundary).append(CRLF);
-            writer.append(CRLF);
-  
-            for (int fileIdx = 0; fileIdx < item.values.length; fileIdx++) {
-            
-              String filePath = item.values[fileIdx];
-              File binaryFile = new File(filePath);
-              
-              writer.append("--").append(fileBoundary).append(CRLF);
-              
-              writeMultipartContentDisposition(writer, "file", null, binaryFile.getName());
-              
-              writeMultipartFileContent(writer, output, binaryFile);
-            }
-            
-            writer.append("--").append(fileBoundary).append("--").append(CRLF);
-          }
-          else {
-            
-            String filePath = item.values[0];
-            File binaryFile = new File(filePath);
-            writeMultipartContentDisposition(writer, "form-data", item.name, binaryFile.getName());
-            writeMultipartFileContent(writer, output, binaryFile);
-          }
+          String filePath = item.value;
+          File binaryFile = new File(filePath);
+          writeMultipartContentDisposition(writer, "form-data", item.name, binaryFile.getName());
+          writeMultipartFileContent(writer, output, binaryFile);
         }
         else {
           writeMultipartContentDisposition(writer, "form-data", item.name, null);
           writer.append(CRLF);
-          final String value = item.values != null && item.values.length != 0 ? item.values[0] : "null"; 
+          final String value = item.value;
           writer.append(value).append(CRLF).flush();
         }
 
-        
       } // for
       
       //End of multipart/form-data.

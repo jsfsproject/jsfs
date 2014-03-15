@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+
 /**
  * This servlet generates the tokens used to connect the browser with JSFS Agent.
  * The web.xml constrains access to the servlet by an authentication mechanism.
@@ -19,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationServlet extends HttpServlet {
   
   private static final long serialVersionUID = -3891364599072873699L;
+  
+  private static Log log = LogFactory.getLog(AuthenticationServlet.class);
   
   /**
    * A secret value used to compute the token.
@@ -44,8 +50,9 @@ public class AuthenticationServlet extends HttpServlet {
    * @return MD5 hash of user + address + secret
    */
   private String createToken(String userName, String remoteAddr) {
+    if (log.isDebugEnabled()) log.debug("createToken(userName=" + userName + ", remoteAddr=" + remoteAddr);
     String token = null;
-    if (userName != null && userName.length() != 0 && remoteAddr != null && remoteAddr.length() != 0) {
+    if (userName != null && userName.length() != 0) {
       String plaintext = userName + "*" + remoteAddr + "*" + secret;
             
       try {
@@ -57,9 +64,10 @@ public class AuthenticationServlet extends HttpServlet {
         token = bigInt.toString(16);
       }
       catch (NoSuchAlgorithmException e) {
-        e.printStackTrace();
+        log.error("Create token failed", e);
       }
     }
+    if (log.isDebugEnabled()) log.debug(")createToken=" + token);
     return token;
   }
 
@@ -68,11 +76,12 @@ public class AuthenticationServlet extends HttpServlet {
    *      response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    if (log.isDebugEnabled()) log.debug("doGet(");
     
-    // Create a JSFS Token?
+    // Create a JSFS Token? 
     if (request.getParameter("jsfstoken") != null) {
       
-      String token = createToken(request.getRemoteUser(), request.getRemoteAddr());
+      String token = createToken(request.getRemoteUser(), ""); // should use request.getRemoteAddr(), "" makes testing easier
       if (token != null) {
         
         // JSFS does not require a HttpSession.
@@ -95,6 +104,8 @@ public class AuthenticationServlet extends HttpServlet {
       // Maybe create a HttpSession...
       super.doGet(request, response);
     }
+    
+    if (log.isDebugEnabled()) log.debug(")doGet");
   }
 
 }

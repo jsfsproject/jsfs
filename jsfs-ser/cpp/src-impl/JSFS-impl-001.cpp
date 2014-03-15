@@ -652,30 +652,28 @@ void BSerializer_706034600(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBas
 namespace com { namespace wilutions { namespace jsfs { 
 
 //-------------------------------------------------
-// Implementation of class BRequest_FileSystemService_uploadFiles
+// Implementation of class BRequest_FileSystemService_uploadFile
 // Generated from class byps.gen.cpp.GenApiClass
 
 // checkpoint byps.gen.cpp.GenApiClass:489
-BRequest_FileSystemService_uploadFiles::BRequest_FileSystemService_uploadFiles() : BMethodRequest(145996442) {
+BRequest_FileSystemService_uploadFile::BRequest_FileSystemService_uploadFile() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
-com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles::BRequest_FileSystemService_uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding)
+com::wilutions::jsfs::BRequest_FileSystemService_uploadFile::BRequest_FileSystemService_uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)
 	: BMethodRequest(145996442) 
-	, items(items)
+	, path(path)
 	, url(url)
 	, method(method)
-	, encoding(encoding)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
-void com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles::serialize(BIO& ar, const BVERSION version) {
-	ar & this->encoding;
+void com::wilutions::jsfs::BRequest_FileSystemService_uploadFile::serialize(BIO& ar, const BVERSION version) {
 	ar & this->method;
+	ar & this->path;
 	ar & this->url;
-	ar & this->items;
 }
-void com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles::execute(PRemote __byps__remote, PAsyncResult __byps__asyncResult) {
+void com::wilutions::jsfs::BRequest_FileSystemService_uploadFile::execute(PRemote __byps__remote, PAsyncResult __byps__asyncResult) {
 	PFileSystemService __byps__remoteT = byps_ptr_cast<FileSystemService>(__byps__remote);
-	__byps__remoteT->uploadFiles(items, url, method, encoding, [__byps__asyncResult](bool __byps__result, BException __byps__ex) {
+	__byps__remoteT->uploadFile(path, url, method, [__byps__asyncResult](bool __byps__result, BException __byps__ex) {
 		if (__byps__ex) {
 			__byps__asyncResult->setAsyncResult(BVariant(__byps__ex));
 		}
@@ -689,13 +687,61 @@ void com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles::execute(PRemo
 
 // checkpoint byps.gen.cpp.GenApiClass:934
 namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_1614176016(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
+void BSerializer_744806851(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
 	BSerializable* p = pBase ? reinterpret_cast<BSerializable*>(pBase) : pObjS.get();
 	if (p) { 
-		com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles& r = * dynamic_cast< com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles*>(p);
+		com::wilutions::jsfs::BRequest_FileSystemService_uploadFile& r = * dynamic_cast< com::wilutions::jsfs::BRequest_FileSystemService_uploadFile*>(p);
 		bio & r;
 	} else {
-		pObjS = PSerializable(new com::wilutions::jsfs::BRequest_FileSystemService_uploadFiles());
+		pObjS = PSerializable(new com::wilutions::jsfs::BRequest_FileSystemService_uploadFile());
+	}
+}
+}}}
+namespace com { namespace wilutions { namespace jsfs { 
+
+//-------------------------------------------------
+// Implementation of class BRequest_FileSystemService_uploadFilesMultipartFormdata
+// Generated from class byps.gen.cpp.GenApiClass
+
+// checkpoint byps.gen.cpp.GenApiClass:489
+BRequest_FileSystemService_uploadFilesMultipartFormdata::BRequest_FileSystemService_uploadFilesMultipartFormdata() : BMethodRequest(145996442) {
+}
+// checkpoint byps.gen.cpp.GenApiClass:536
+com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata::BRequest_FileSystemService_uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method)
+	: BMethodRequest(145996442) 
+	, items(items)
+	, url(url)
+	, method(method)
+	{}
+// checkpoint byps.gen.cpp.GenApiClass:877
+void com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata::serialize(BIO& ar, const BVERSION version) {
+	ar & this->method;
+	ar & this->url;
+	ar & this->items;
+}
+void com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata::execute(PRemote __byps__remote, PAsyncResult __byps__asyncResult) {
+	PFileSystemService __byps__remoteT = byps_ptr_cast<FileSystemService>(__byps__remote);
+	__byps__remoteT->uploadFilesMultipartFormdata(items, url, method, [__byps__asyncResult](bool __byps__result, BException __byps__ex) {
+		if (__byps__ex) {
+			__byps__asyncResult->setAsyncResult(BVariant(__byps__ex));
+		}
+		else {
+			PSerializable __byps__methodResult(new BResult_19(__byps__result));
+			__byps__asyncResult->setAsyncResult(BVariant(__byps__methodResult));
+		}
+	});
+}
+}}}
+
+// checkpoint byps.gen.cpp.GenApiClass:934
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_240503306(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
+	BSerializable* p = pBase ? reinterpret_cast<BSerializable*>(pBase) : pObjS.get();
+	if (p) { 
+		com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata& r = * dynamic_cast< com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata*>(p);
+		bio & r;
+	} else {
+		pObjS = PSerializable(new com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata());
 	}
 }
 }}}
@@ -1120,6 +1166,34 @@ void BSerializer_1100528120(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBa
 namespace com { namespace wilutions { namespace jsfs { 
 
 //-------------------------------------------------
+// Implementation of class FileSystemServiceC
+// Generated from class byps.gen.cpp.GenApiClass
+
+const ::std::wstring FileSystemServiceC::FOLDERID_Documents = std::wstring(L"{FDD39AD0-238F-46AF-ADB4-6C85480369C7}");
+
+// checkpoint byps.gen.cpp.GenApiClass:489
+FileSystemServiceC::FileSystemServiceC() {
+}
+// checkpoint byps.gen.cpp.GenApiClass:877
+void com::wilutions::jsfs::FileSystemServiceC::serialize(BIO& ar, const BVERSION version) {
+}
+}}}
+
+// checkpoint byps.gen.cpp.GenApiClass:934
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_1381128722(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
+	BSerializable* p = pBase ? reinterpret_cast<BSerializable*>(pBase) : pObjS.get();
+	if (p) { 
+		com::wilutions::jsfs::FileSystemServiceC& r = * dynamic_cast< com::wilutions::jsfs::FileSystemServiceC*>(p);
+		bio & r;
+	} else {
+		pObjS = PSerializable(new com::wilutions::jsfs::FileSystemServiceC());
+	}
+}
+}}}
+namespace com { namespace wilutions { namespace jsfs { 
+
+//-------------------------------------------------
 // Implementation of class FindOptions
 // Generated from class byps.gen.cpp.GenApiClass
 
@@ -1148,106 +1222,6 @@ void BSerializer_1092766252(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBa
 		bio & r;
 	} else {
 		pObjS = PSerializable(new com::wilutions::jsfs::FindOptions());
-	}
-}
-}}}
-namespace com { namespace wilutions { namespace jsfs { 
-
-//-------------------------------------------------
-// Implementation of class FormItem
-// Generated from class byps.gen.cpp.GenApiClass
-
-// checkpoint byps.gen.cpp.GenApiClass:489
-FormItem::FormItem() {
-}
-// checkpoint byps.gen.cpp.GenApiClass:536
-com::wilutions::jsfs::FormItem::FormItem(const ::std::wstring& name, const ::std::wstring& type, const byps_ptr< BArray1< ::std::wstring > >& values)
-	: name(name)
-	, type(type)
-	, values(values)
-	{}
-// checkpoint byps.gen.cpp.GenApiClass:877
-void com::wilutions::jsfs::FormItem::serialize(BIO& ar, const BVERSION version) {
-	ar & this->name;
-	ar & this->type;
-	ar & this->values;
-}
-}}}
-
-// checkpoint byps.gen.cpp.GenApiClass:934
-namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_979378962(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
-	BSerializable* p = pBase ? reinterpret_cast<BSerializable*>(pBase) : pObjS.get();
-	if (p) { 
-		com::wilutions::jsfs::FormItem& r = * dynamic_cast< com::wilutions::jsfs::FormItem*>(p);
-		bio & r;
-	} else {
-		pObjS = PSerializable(new com::wilutions::jsfs::FormItem());
-	}
-}
-}}}
-// checkpoint byps.gen.cpp.GenApiClass:934
-namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_566696346(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
-	void* p = pObj.get();
-	if (p) { 
-		BArray1< com::wilutions::jsfs::PFormItem > & r = * reinterpret_cast< BArray1< com::wilutions::jsfs::PFormItem > *>(p);
-		bio & r;
-	} else {
-		pObj = POBJECT(new BArray1< com::wilutions::jsfs::PFormItem > ());
-	}
-}
-}}}
-namespace com { namespace wilutions { namespace jsfs { 
-
-//-------------------------------------------------
-// Implementation of class WatchFolderNotifyInfo
-// Generated from class byps.gen.cpp.GenApiClass
-
-// checkpoint byps.gen.cpp.GenApiClass:489
-WatchFolderNotifyInfo::WatchFolderNotifyInfo() {
-	kind = com::wilutions::jsfs::EWatchFolderNotifyKind::Nothing;
-}
-// checkpoint byps.gen.cpp.GenApiClass:536
-com::wilutions::jsfs::WatchFolderNotifyInfo::WatchFolderNotifyInfo(const PFileInfo& fileInfo, EWatchFolderNotifyKind kind)
-	: fileInfo(fileInfo)
-	, kind(kind)
-	{}
-void WatchFolderNotifyInfo::setFileInfo(PFileInfo v) {
-	fileInfo = v;
-}
-void WatchFolderNotifyInfo::setKind(EWatchFolderNotifyKind v) {
-	kind = v;
-}
-// checkpoint byps.gen.cpp.GenApiClass:877
-void com::wilutions::jsfs::WatchFolderNotifyInfo::serialize(BIO& ar, const BVERSION version) {
-	NotifyInfo::serialize(ar, version);
-	ar & this->kind;
-	ar & this->fileInfo;
-}
-}}}
-
-// checkpoint byps.gen.cpp.GenApiClass:934
-namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_9906860(BIO& bio, POBJECT& , PSerializable& pObjS, void* pBase) {
-	BSerializable* p = pBase ? reinterpret_cast<BSerializable*>(pBase) : pObjS.get();
-	if (p) { 
-		com::wilutions::jsfs::WatchFolderNotifyInfo& r = * dynamic_cast< com::wilutions::jsfs::WatchFolderNotifyInfo*>(p);
-		bio & r;
-	} else {
-		pObjS = PSerializable(new com::wilutions::jsfs::WatchFolderNotifyInfo());
-	}
-}
-}}}
-// checkpoint byps.gen.cpp.GenApiClass:934
-namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_1888107655(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
-	void* p = pObj.get();
-	if (p) { 
-		BArray1< ::std::wstring > & r = * reinterpret_cast< BArray1< ::std::wstring > *>(p);
-		bio & r;
-	} else {
-		pObj = POBJECT(new BArray1< ::std::wstring > ());
 	}
 }
 }}}

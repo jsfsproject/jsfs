@@ -1,6 +1,14 @@
 /* USE THIS FILE ACCORDING TO THE COPYRIGHT RULES IN LICENSE.TXT WHICH IS PART OF THE SOURCE CODE PACKAGE */
 var byps = byps || {};
 
+/**
+ * Longpoll timeout.
+ * Usually a timeout of 30s is used in client applications communicating over the internet.
+ * E.g. the default browser on my Android tablet ignores XHR.timeout and always uses 30s.
+ */
+byps.LONGPOLL_TIMEOUT_SECONDS = 29;
+
+
 // ------------------------------------------------------------------------------------------------
 
 byps.BBinaryModel = function(v) {
@@ -519,7 +527,10 @@ byps.BMessageHeader = function(messageId_or_rhs) {
 };
 
 byps.BMessageHeaderC = {
-	FLAG_RESPONSE : 2
+	FLAG_RESPONSE : 2,
+	FLAG_LONGPOLL : 2,
+	FLAG_TIMEOUT : 4,
+	FLAG_LONGPOLL_TIMEOUT : 6
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -542,14 +553,14 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 	// Send function.
 	// The streams are already sent by a HTML file upload.
 	this.send = function(requestMessage, asyncResult, processAsync) {
-		this._internalSend(requestMessage, asyncResult, this.timeoutMillisClient, processAsync);
+		this._internalSend(requestMessage, asyncResult, false, processAsync);
 	};
 
 	this.sendR = function(requestMessage, asyncResult) {
-		this._internalSend(requestMessage, asyncResult, 60 * 60 * 1000, true);
+		this._internalSend(requestMessage, asyncResult, true, true);
 	};
 
-	this._internalSend = function(requestMessage, asyncResult, timeoutMillis, processAsync) {
+	this._internalSend = function(requestMessage, asyncResult, isReverse, processAsync) {
 		var requestId = Math.random();
 		var xhr = new XMLHttpRequest();
 
@@ -558,7 +569,6 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 		var destUrl = me.url;
 
 		var isNegotiate = byps.BNegotiate_isNegotiateMessage(requestMessage.jsonText);
-		var isReverse = requestMessage.header && (requestMessage.header.flags & byps.BMessageHeaderC.FLAG_RESPONSE) != 0;
 
 		if (isNegotiate) {
 
@@ -584,6 +594,7 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 		xhr.withCredentials = true;
 
 		// XHR supports timeout only for async requests
+		var timeoutMillis = isReverse ? 0 : this.timeoutMillisClient;
 		if (processAsync && timeoutMillis > 0) {
 			xhr.timeout = timeoutMillis;
 		}
@@ -601,7 +612,9 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 					asyncResult(responseMessage, null);
 				}
 				else {
-					var ex = new byps.BException(xhr.status, "HTTP status " + xhr.status, xhr.responseText);
+					// xhr.status == 0 if xhr.abort() has been called - see cancelAllRequests()
+					var errorCode = xhr.status ? xhr.status : byps.BExceptionC.CANCELLED;
+					var ex = new byps.BException(errorCode, "HTTP status " + xhr.status, xhr.responseText);
 					asyncResult(null, ex);
 				}
 
@@ -665,12 +678,38 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 		return v1.toString();
 	};
 
+	const MESSAGEID_CANCEL_ALL_REQUESTS = -1;
+	const MESSAGEID_DISCONNECT = -2;
+		
+	this.done = function() {
+		this._internalCancelAllRequests(MESSAGEID_DISCONNECT);
+	};
+	
 	this.cancelAllRequests = function() {
+		this._internalCancelAllRequests(MESSAGEID_CANCEL_ALL_REQUESTS);
+	};
+
+	this._internalCancelAllRequests = function(cancelMessageId) {
+		
 		for (requestId in this.openRequestsToCancel) {
 			var xhr = this.openRequestsToCancel[requestId];
 			xhr.abort();
 		}
+		
+		// Notify the server about the canceled messages
+		if (cancelMessageId) {
+			this._sendCancelMessage(cancelMessageId);
+		}
+		
 		this.openRequestsToCancel = {};
+	};
+	
+	this._sendCancelMessage = function(cancelMessageId) {
+		var destUrl = me.url + "?messageid=" + cancelMessageId + "&cancel=1";
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', destUrl, false);
+		xhr.withCredentials = true;
+		xhr.send();
 	};
 
 	this.getServletPathForNegotiationAndAuthentication = function() {
@@ -739,7 +778,12 @@ byps.BTransport = function(apiDesc, wire, targetId) {
 
 	this.getResponse = function(requestHeader) {
 		var responseHeader = new byps.BMessageHeader(requestHeader);
-		responseHeader.flags |= byps.BMessageHeaderC.FLAG_RESPONSE;
+		
+		// getResponse is called to process server push requests.
+		// The response of a push request is a long-poll that submits
+		// the result of the request.
+		responseHeader.flags |= byps.BMessageHeaderC.FLAG_LONGPOLL_TIMEOUT;
+		responseHeader.timeout = byps.LONGPOLL_TIMEOUT_SECONDS;
 
 		var bout = new byps.BInputOutput(this, responseHeader);
 		return bout;
@@ -1524,7 +1568,8 @@ byps.BServerR = function(transport, server) {
 		var asyncResult = function(message, exception) {
 			if (exception) {
 				var bout = me.transport.getOutput();
-				bout.header.flags = byps.BMessageHeader.FLAG_RESPONSE;
+				bout.header.flags |= byps.BMessageHeaderC.FLAG_LONGPOLL_TIMEOUT;
+				bout.header.timeout = byps.LONGPOLL_TIMEOUT_SECONDS;
 				bout.setException(exception);
 				message = bout.toMessage();
 			}
@@ -1542,7 +1587,7 @@ byps.BServerR = function(transport, server) {
 
 				}
 				else {
-
+					
 					switch (ex.code) {
 
 					case byps.BExceptionC.SESSION_CLOSED: // Session was invalidated.
@@ -1578,10 +1623,11 @@ byps.BServerR = function(transport, server) {
 	};
 
 	this._makeInitMessage = function() {
-		var outp = this.transport.getOutput();
-		outp.header.flags |= byps.BMessageHeaderC.FLAG_RESPONSE;
-		outp.store(null);
-		return outp.toMessage();
+		var bout = this.transport.getOutput();
+		bout.header.flags |= byps.BMessageHeaderC.FLAG_LONGPOLL_TIMEOUT;
+		bout.header.timeout = byps.LONGPOLL_TIMEOUT_SECONDS;
+		bout.store(null);
+		return bout.toMessage();
 	};
 
 };

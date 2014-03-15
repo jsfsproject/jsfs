@@ -36,7 +36,7 @@ public class BSerializer_979378962 extends BSerializer {
 		final BBufferBin bbuf = bout.bbuf;
 		bbuf.putString(obj.name);
 		bbuf.putString(obj.type);
-		bout.writeObj(obj.values, true, com.wilutions.jsfs.BSerializer_1888107655.instance);
+		bbuf.putString(obj.value);
 	}
 	
 	@Override
@@ -48,7 +48,7 @@ public class BSerializer_979378962 extends BSerializer {
 		
 		obj.name = bbuf.getString();
 		obj.type = bbuf.getString();
-		obj.values = (java.lang.String[])bin.readObj(true, com.wilutions.jsfs.BSerializer_1888107655.instance);
+		obj.value = bbuf.getString();
 		
 		return obj;
 	}

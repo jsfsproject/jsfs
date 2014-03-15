@@ -374,12 +374,12 @@
             <since>0.0.0.0</since>
         </serial>
         <serial>
-            <typeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFiles</typeName>
-            <typeId>1614176016</typeId>
+            <typeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFile</typeName>
+            <typeId>744806851</typeId>
             <members>
                 <member>
-                    <name>items</name>
-                    <typeName>com.wilutions.jsfs.FormItem[]</typeName>
+                    <name>path</name>
+                    <typeName>java.lang.String</typeName>
                     <isTransient>false</isTransient>
                     <isStatic>false</isStatic>
                     <isFinal>false</isFinal>
@@ -404,8 +404,38 @@
                     <access>PUBLIC</access>
                     <since>0.0.0.0</since>
                 </member>
+            </members>
+            <comments/>
+            <baseFullName></baseFullName>
+            <isInline>false</isInline>
+            <isEnum>false</isEnum>
+            <isFinal>true</isFinal>
+            <since>0.0.0.0</since>
+        </serial>
+        <serial>
+            <typeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFilesMultipartFormdata</typeName>
+            <typeId>240503306</typeId>
+            <members>
                 <member>
-                    <name>encoding</name>
+                    <name>items</name>
+                    <typeName>com.wilutions.jsfs.FormItem[]</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>url</name>
+                    <typeName>java.lang.String</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>method</name>
                     <typeName>java.lang.String</typeName>
                     <isTransient>false</isTransient>
                     <isStatic>false</isStatic>
@@ -908,6 +938,41 @@
             <since>0.0.0.0</since>
         </serial>
         <serial>
+            <typeName>com.wilutions.jsfs.FileSystemServiceC</typeName>
+            <typeId>1381128722</typeId>
+            <members>
+                <member>
+                    <name>FOLDERID_Documents</name>
+                    <comments>
+                        <kind>@summary</kind>
+                        <text>This symbol stands for a users document folder.</text>
+                    </comments>
+                    <comments>
+                        <kind>@remarks</kind>
+                        <text>It can be used as a placeholder for the documents directory.</text>
+                    </comments>
+                    <typeName>java.lang.String</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>true</isStatic>
+                    <isFinal>true</isFinal>
+                    <access>PUBLIC</access>
+                    <since>0.0.0.0</since>
+                    <value>IntGREQzOUFEMC0yMzhGLTQ2QUYtQURCNC02Qzg1NDgwMzY5Qzd9Ig==</value>
+                </member>
+            </members>
+            <comments>
+                <comment>
+                    <kind>@summary</kind>
+                    <text>Constants used in the interface {@link FileSystemService}.</text>
+                </comment>
+            </comments>
+            <baseFullName></baseFullName>
+            <isInline>false</isInline>
+            <isEnum>false</isEnum>
+            <isFinal>false</isFinal>
+            <since>0.0.0.0</since>
+        </serial>
+        <serial>
             <typeName>com.wilutions.jsfs.FindOptions</typeName>
             <typeId>1092766252</typeId>
             <members>
@@ -972,17 +1037,17 @@
                     <since>0.0.0.0</since>
                 </member>
                 <member>
-                    <name>values</name>
+                    <name>value</name>
                     <comments>
                         <kind>@summary</kind>
                         <text>Item value.</text>
                     </comments>
                     <comments>
                         <kind>@remarks</kind>
-                        <text>If type is empty or equals to &quot;text&quot;, this array contains one item.
- If type equals to &quot;file&quot;, this array contains the file paths to be uploaded.</text>
+                        <text>If type is empty or equals to &quot;text&quot;, this member holds an input field value.
+ If type equals to &quot;file&quot;, this member contains the file path to be uploaded.</text>
                     </comments>
-                    <typeName>java.lang.String[]</typeName>
+                    <typeName>java.lang.String</typeName>
                     <isTransient>false</isTransient>
                     <isStatic>false</isStatic>
                     <isFinal>false</isFinal>
@@ -993,12 +1058,12 @@
             <comments>
                 <comment>
                     <kind>@summary</kind>
-                    <text>This class defines an item of a file upload request in {@link FileSystemService#uploadFiles}.</text>
+                    <text>This class defines an item of a file upload request in {@link FileSystemService#uploadFilesMultipartFormdata}.</text>
                 </comment>
                 <comment>
                     <kind>@remarks</kind>
                     <text>A FormData object corresponds to an input field in a HTML file upload form. 
- It can specify files to be uploaded as with HTML input field type &quot;file&quot;.
+ It can specify a file to be uploaded as with HTML input field type &quot;file&quot;.
  Or it can hold a simple value as with HTML input field type &quot;text&quot;.</text>
                 </comment>
             </comments>
@@ -1639,16 +1704,16 @@
                     </comments>
                 </method>
                 <method>
-                    <name>uploadFiles</name>
+                    <name>uploadFilesMultipartFormdata</name>
                     <remoteName>com.wilutions.jsfs.FileSystemService</remoteName>
                     <since>0.0.0.0</since>
-                    <requestTypeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFiles</requestTypeName>
+                    <requestTypeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFilesMultipartFormdata</requestTypeName>
                     <resultTypeName>com.wilutions.jsfs.BResult_19</resultTypeName>
                     <exceptionTypeNames/>
                     <comments>
                         <comment>
                             <kind>@summary</kind>
-                            <text>Upload files to server(s).</text>
+                            <text>Upload files to the given URL using multipart/form-data encoding.</text>
                         </comment>
                         <comment>
                             <kind>@param</kind>
@@ -1663,9 +1728,34 @@
                             <text>method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.</text>
                         </comment>
                         <comment>
+                            <kind>@throws</kind>
+                            <text>RemoteException</text>
+                        </comment>
+                    </comments>
+                </method>
+                <method>
+                    <name>uploadFile</name>
+                    <remoteName>com.wilutions.jsfs.FileSystemService</remoteName>
+                    <since>0.0.0.0</since>
+                    <requestTypeName>com.wilutions.jsfs.BRequest_FileSystemService_uploadFile</requestTypeName>
+                    <resultTypeName>com.wilutions.jsfs.BResult_19</resultTypeName>
+                    <exceptionTypeNames/>
+                    <comments>
+                        <comment>
+                            <kind>@summary</kind>
+                            <text>Upload a file to the given URL.</text>
+                        </comment>
+                        <comment>
                             <kind>@param</kind>
-                            <text>encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the 
- request body does merely contain the file bytes.</text>
+                            <text>path Local file path from the view of JSFS agent.</text>
+                        </comment>
+                        <comment>
+                            <kind>@param</kind>
+                            <text>url Target URL. Authentication information should be included, e.g. the JSFS authentication token.</text>
+                        </comment>
+                        <comment>
+                            <kind>@param</kind>
+                            <text>method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.</text>
                         </comment>
                         <comment>
                             <kind>@throws</kind>

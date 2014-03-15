@@ -103,18 +103,28 @@ public interface FileSystemServiceAsync extends BRemote,
 	public void readFile(java.lang.String path, final BAsyncResult<java.io.InputStream> asyncResult) ;
 	
 	/**
-	 * Upload files to server(s).
+	 * Upload files to the given URL using multipart/form-data encoding.
 	 * @param items Form data items, file paths or name/value pairs.
 	 * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
 	 * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
-	 * @param encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the
-	 * @param request body does merely contain the file bytes.
 	 * @throws RemoteException
 	*/
 	// checkpoint byps.gen.j.PrintContext:365
-	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding) throws RemoteException;
+	public void uploadFilesMultipartFormdata(FormItem[] items, java.lang.String url, java.lang.String method) throws RemoteException;
 	// checkpoint byps.gen.j.PrintContext:409
-	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding, final BAsyncResult<Object> asyncResult) ;
+	public void uploadFilesMultipartFormdata(FormItem[] items, java.lang.String url, java.lang.String method, final BAsyncResult<Object> asyncResult) ;
+	
+	/**
+	 * Upload a file to the given URL.
+	 * @param path Local file path from the view of JSFS agent.
+	 * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+	 * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
+	 * @throws RemoteException
+	*/
+	// checkpoint byps.gen.j.PrintContext:365
+	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method) throws RemoteException;
+	// checkpoint byps.gen.j.PrintContext:409
+	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method, final BAsyncResult<Object> asyncResult) ;
 	
 	
 }

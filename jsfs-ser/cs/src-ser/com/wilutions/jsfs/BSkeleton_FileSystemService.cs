@@ -225,29 +225,55 @@ namespace com.wilutions.jsfs
 			return BTaskConstants<System.IO.Stream>.NotImplemented;
 		}
 		
-		public virtual void UploadFiles(FormItem[] items, String url, String method, String encoding) {
+		public virtual void UploadFilesMultipartFormdata(FormItem[] items, String url, String method) {
 			throw new NotImplementedException();
 		}
-		public virtual async void UploadFiles(FormItem[] items, String url, String method, String encoding, BAsyncResult<Object> asyncResult) {
+		public virtual async void UploadFilesMultipartFormdata(FormItem[] items, String url, String method, BAsyncResult<Object> asyncResult) {
 			Object __byps__ret = default(Object);
 			Exception __byps__ex = null;
 			bool __byps__callAsync = false;
 			try {
-				UploadFiles(items, url, method, encoding);
+				UploadFilesMultipartFormdata(items, url, method);
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
 			if (__byps__callAsync) try {
-				await UploadFilesAsync(items, url, method, encoding);
+				await UploadFilesMultipartFormdataAsync(items, url, method);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
 			catch (Exception e) { __byps__ex = e; }
 			asyncResult(__byps__ret, __byps__ex);
 		}
 		/// <summary>
-		/// Upload files to server(s).
+		/// Upload files to the given URL using multipart/form-data encoding.
 		/// </summary>
-		public virtual Task UploadFilesAsync(FormItem[] items, String url, String method, String encoding){
+		public virtual Task UploadFilesMultipartFormdataAsync(FormItem[] items, String url, String method){
+			return BTaskConstants<Object>.NotImplemented;
+		}
+		
+		public virtual void UploadFile(String path, String url, String method) {
+			throw new NotImplementedException();
+		}
+		public virtual async void UploadFile(String path, String url, String method, BAsyncResult<Object> asyncResult) {
+			Object __byps__ret = default(Object);
+			Exception __byps__ex = null;
+			bool __byps__callAsync = false;
+			try {
+				UploadFile(path, url, method);
+			}
+			catch (NotImplementedException) { __byps__callAsync = true; }
+			catch (Exception e) { __byps__ex = e; }
+			if (__byps__callAsync) try {
+				await UploadFileAsync(path, url, method);
+			}
+			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
+			catch (Exception e) { __byps__ex = e; }
+			asyncResult(__byps__ret, __byps__ex);
+		}
+		/// <summary>
+		/// Upload a file to the given URL.
+		/// </summary>
+		public virtual Task UploadFileAsync(String path, String url, String method){
 			return BTaskConstants<Object>.NotImplemented;
 		}
 		

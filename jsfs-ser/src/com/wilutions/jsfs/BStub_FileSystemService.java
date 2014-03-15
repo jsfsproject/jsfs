@@ -128,20 +128,36 @@ public class BStub_FileSystemService extends BStub implements FileSystemServiceA
 	}
 	
 	// checkpoint byps.gen.j.PrintContext:365
-	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding) throws RemoteException {
+	public void uploadFilesMultipartFormdata(FormItem[] items, java.lang.String url, java.lang.String method) throws RemoteException {
 		// checkpoint byps.gen.j.GenRemoteStub:46
 		final BSyncResult<Object> asyncResult = new BSyncResult<Object>();		
-		uploadFiles(items, url, method, encoding, asyncResult);
+		uploadFilesMultipartFormdata(items, url, method, asyncResult);
 		asyncResult.getResult();		
 	}
 	// checkpoint byps.gen.j.PrintContext:409
-	public void uploadFiles(FormItem[] items, java.lang.String url, java.lang.String method, java.lang.String encoding, final BAsyncResult<Object> asyncResult) {
+	public void uploadFilesMultipartFormdata(FormItem[] items, java.lang.String url, java.lang.String method, final BAsyncResult<Object> asyncResult) {
 		// checkpoint byps.gen.j.GenRemoteStub:113
-		BRequest_FileSystemService_uploadFiles req = new BRequest_FileSystemService_uploadFiles();		
+		BRequest_FileSystemService_uploadFilesMultipartFormdata req = new BRequest_FileSystemService_uploadFilesMultipartFormdata();		
 		req.items = items;
 		req.url = url;
 		req.method = method;
-		req.encoding = encoding;
+		transport.sendMethod(req, asyncResult);
+	}
+	
+	// checkpoint byps.gen.j.PrintContext:365
+	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method) throws RemoteException {
+		// checkpoint byps.gen.j.GenRemoteStub:46
+		final BSyncResult<Object> asyncResult = new BSyncResult<Object>();		
+		uploadFile(path, url, method, asyncResult);
+		asyncResult.getResult();		
+	}
+	// checkpoint byps.gen.j.PrintContext:409
+	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method, final BAsyncResult<Object> asyncResult) {
+		// checkpoint byps.gen.j.GenRemoteStub:113
+		BRequest_FileSystemService_uploadFile req = new BRequest_FileSystemService_uploadFile();		
+		req.path = path;
+		req.url = url;
+		req.method = method;
 		transport.sendMethod(req, asyncResult);
 	}
 	

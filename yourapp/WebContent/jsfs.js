@@ -116,16 +116,16 @@ com.wilutions.jsfs.FindOptions = function(reserved) {
 
 
 /**
- * This class defines an item of a file upload request in {@link FileSystemService#uploadFiles}.
+ * This class defines an item of a file upload request in {@link FileSystemService#uploadFilesMultipartFormdata}.
  * A FormData object corresponds to an input field in a HTML file upload form.
- * It can specify files to be uploaded as with HTML input field type "file".
+ * It can specify a file to be uploaded as with HTML input field type "file".
  * Or it can hold a simple value as with HTML input field type "text".
 */
-com.wilutions.jsfs.FormItem = function(name, type, values) {
+com.wilutions.jsfs.FormItem = function(name, type, value) {
 	this._typeId = 979378962;
 	this.name = name || "";
 	this.type = type || "";
-	this.values = values || null;
+	this.value = value || "";
 };
 
 
@@ -179,12 +179,25 @@ com.wilutions.jsfs.EWatchFolderNotifyKind = {
 	EntryDeleted : 3
 };
 
+com.wilutions.jsfs.FileSystemServiceC_Type = function() {
+	/**
+	 * This symbol stands for a users document folder.
+	 * It can be used as a placeholder for the documents directory.
+	*/
+	this.FOLDERID_Documents = "{FDD39AD0-238F-46AF-ADB4-6C85480369C7}";
+};
+
 
 /**
  * ----------------------------------------------
  * API constants
  * ----------------------------------------------
 */
+
+/**
+ * Constants used in the interface {@link FileSystemService}.
+*/
+com.wilutions.jsfs.FileSystemServiceC = new com.wilutions.jsfs.FileSystemServiceC_Type();
 
 
 /**
@@ -469,30 +482,54 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_readFile = functi
 
 // checkpoint byps.gen.js.PrintContext:133
 /**
- * Upload files to server(s).
+ * Upload files to the given URL using multipart/form-data encoding.
  * @param items Form data items, file paths or name/value pairs.
  * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
- * @param encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the
- * @param request body does merely contain the file bytes.
  * @throws RemoteException
 */
-com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFiles = function(items, url, method, encoding) /* returns void , throws BException, InterruptedException*/  {
+com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFilesMultipartFormdata = function(items, url, method) /* returns void , throws BException, InterruptedException*/  {
 	byps.throwUNSUPPORTED("");
 };
 // checkpoint byps.gen.js.PrintContext:133
 /**
- * Upload files to server(s).
+ * Upload files to the given URL using multipart/form-data encoding.
  * @param items Form data items, file paths or name/value pairs.
  * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
- * @param encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the
- * @param request body does merely contain the file bytes.
  * @throws RemoteException
 */
-com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_uploadFiles = function(items, url, method, encoding, __byps__asyncResult){
+com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_uploadFilesMultipartFormdata = function(items, url, method, __byps__asyncResult){
 	try {
-		this.uploadFiles(items, url, method, encoding);
+		this.uploadFilesMultipartFormdata(items, url, method);
+		__byps__asyncResult(null, null);
+	} catch (e) {
+		__byps__asyncResult(null, e);
+	};
+};
+
+// checkpoint byps.gen.js.PrintContext:133
+/**
+ * Upload a file to the given URL.
+ * @param path Local file path from the view of JSFS agent.
+ * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
+ * @throws RemoteException
+*/
+com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFile = function(path, url, method) /* returns void , throws BException, InterruptedException*/  {
+	byps.throwUNSUPPORTED("");
+};
+// checkpoint byps.gen.js.PrintContext:133
+/**
+ * Upload a file to the given URL.
+ * @param path Local file path from the view of JSFS agent.
+ * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
+ * @throws RemoteException
+*/
+com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_uploadFile = function(path, url, method, __byps__asyncResult){
+	try {
+		this.uploadFile(path, url, method);
 		__byps__asyncResult(null, null);
 	} catch (e) {
 		__byps__asyncResult(null, e);
@@ -781,17 +818,30 @@ com.wilutions.jsfs.BStub_FileSystemService.prototype.readFile = function(path, _
 
 // checkpoint byps.gen.js.PrintContext:133
 /**
- * Upload files to server(s).
+ * Upload files to the given URL using multipart/form-data encoding.
  * @param items Form data items, file paths or name/value pairs.
  * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
- * @param encoding Request encoding, can be multipart/form-data or null or empty. If this parameter is null or empty, the
- * @param request body does merely contain the file bytes.
  * @throws RemoteException
 */
-com.wilutions.jsfs.BStub_FileSystemService.prototype.uploadFiles = function(items, url, method, encoding, __byps__asyncResult) {
+com.wilutions.jsfs.BStub_FileSystemService.prototype.uploadFilesMultipartFormdata = function(items, url, method, __byps__asyncResult) {
 	// checkpoint byps.gen.js.GenRemoteStub:40
-	var req =  { _typeId : 1614176016, items : items, url : url, method : method, encoding : encoding };
+	var req =  { _typeId : 240503306, items : items, url : url, method : method };
+	var ret = this.transport.sendMethod(req, __byps__asyncResult);
+	return ret;
+};
+
+// checkpoint byps.gen.js.PrintContext:133
+/**
+ * Upload a file to the given URL.
+ * @param path Local file path from the view of JSFS agent.
+ * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
+ * @throws RemoteException
+*/
+com.wilutions.jsfs.BStub_FileSystemService.prototype.uploadFile = function(path, url, method, __byps__asyncResult) {
+	// checkpoint byps.gen.js.GenRemoteStub:40
+	var req =  { _typeId : 744806851, path : path, url : url, method : method };
 	var ret = this.transport.sendMethod(req, __byps__asyncResult);
 	return ret;
 };
@@ -950,12 +1000,21 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 				}
 			],
 			
-			// Method uploadFiles
-			1614176016 : [ // _typeId of request class
+			// Method uploadFilesMultipartFormdata
+			240503306 : [ // _typeId of request class
 				145996442, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
-					remote.async_uploadFiles(methodObj.items, methodObj.url, methodObj.method, methodObj.encoding, methodResult);
+					remote.async_uploadFilesMultipartFormdata(methodObj.items, methodObj.url, methodObj.method, methodResult);
+				}
+			],
+			
+			// Method uploadFile
+			744806851 : [ // _typeId of request class
+				145996442, // _typeId of remote interface
+				964561591, // _typeId of result class
+				function(remote, methodObj, methodResult) {
+					remote.async_uploadFile(methodObj.path, methodObj.url, methodObj.method, methodResult);
 				}
 			],
 		
@@ -1175,8 +1234,25 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 			false
 		),
 		
-		// com.wilutions.jsfs.BRequest_FileSystemService_uploadFiles
-		1614176016 : new byps.BSerializer(
+		// com.wilutions.jsfs.BRequest_FileSystemService_uploadFile
+		744806851 : new byps.BSerializer(
+			// checkpoint byps.gen.js.GenRegistry:138
+			// names of persistent elements
+			{
+				"path":10, // java.lang.String
+				// names of persistent elements
+				"url":10, // java.lang.String
+				// names of persistent elements
+				"method":10 // java.lang.String
+			},
+			// checkpoint byps.gen.js.GenRegistry:138
+			null,
+			// inlineInstance
+			false
+		),
+		
+		// com.wilutions.jsfs.BRequest_FileSystemService_uploadFilesMultipartFormdata
+		240503306 : new byps.BSerializer(
 			// checkpoint byps.gen.js.GenRegistry:138
 			// names of persistent elements
 			{
@@ -1184,9 +1260,7 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 				// names of persistent elements
 				"url":10, // java.lang.String
 				// names of persistent elements
-				"method":10, // java.lang.String
-				// names of persistent elements
-				"encoding":10 // java.lang.String
+				"method":10 // java.lang.String
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
 			// names of inline elements
@@ -1377,6 +1451,19 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 			false
 		),
 		
+		// com.wilutions.jsfs.FileSystemServiceC
+		1381128722 : new byps.BSerializer(
+			// checkpoint byps.gen.js.GenRegistry:138
+			// names of persistent elements
+			{
+				"FOLDERID_Documents":10 // java.lang.String
+			},
+			// checkpoint byps.gen.js.GenRegistry:138
+			null,
+			// inlineInstance
+			false
+		),
+		
 		// com.wilutions.jsfs.FindOptions
 		1092766252 : new byps.BSerializer(
 			// checkpoint byps.gen.js.GenRegistry:138
@@ -1399,13 +1486,10 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 				// names of persistent elements
 				"type":10, // java.lang.String
 				// names of persistent elements
-				"values":1888107655 // java.lang.String[]
+				"value":10 // java.lang.String
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
-			// names of inline elements
-			{
-				"values":1888107655 // java.lang.String[]
-			},
+			null,
 			// inlineInstance
 			false
 		),

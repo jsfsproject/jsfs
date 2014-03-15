@@ -149,26 +149,46 @@ namespace com.wilutions.jsfs
 			return await task;
 		}
 		
-		public virtual void UploadFiles(FormItem[] items, String url, String method, String encoding) {
+		public virtual void UploadFilesMultipartFormdata(FormItem[] items, String url, String method) {
 			BSyncResult<Object> asyncResult = new BSyncResult<Object>();			
-			UploadFiles(items, url, method, encoding, BAsyncResultHelper.ToDelegate<Object>(asyncResult));
+			UploadFilesMultipartFormdata(items, url, method, BAsyncResultHelper.ToDelegate<Object>(asyncResult));
 			asyncResult.GetResult();			
 		}
-		public virtual void UploadFiles(FormItem[] items, String url, String method, String encoding, BAsyncResult<Object> asyncResult) {
-			BRequest_FileSystemService_uploadFiles req = new BRequest_FileSystemService_uploadFiles();			
+		public virtual void UploadFilesMultipartFormdata(FormItem[] items, String url, String method, BAsyncResult<Object> asyncResult) {
+			BRequest_FileSystemService_uploadFilesMultipartFormdata req = new BRequest_FileSystemService_uploadFilesMultipartFormdata();			
 			req.itemsValue = items;
 			req.urlValue = url;
 			req.methodValue = method;
-			req.encodingValue = encoding;
 			transport.sendMethod(req, asyncResult);
 		}
 		// checkpoint byps.gen.cs.GenRemoteStub:133
-		public async Task UploadFilesAsync(FormItem[] items, String url, String method, String encoding){
-			BRequest_FileSystemService_uploadFiles req = new BRequest_FileSystemService_uploadFiles();			
+		public async Task UploadFilesMultipartFormdataAsync(FormItem[] items, String url, String method){
+			BRequest_FileSystemService_uploadFilesMultipartFormdata req = new BRequest_FileSystemService_uploadFilesMultipartFormdata();			
 			req.itemsValue = items;
 			req.urlValue = url;
 			req.methodValue = method;
-			req.encodingValue = encoding;
+			Task<Object> task = Task<Object>.Factory.FromAsync(transport.BeginSend<Object>, transport.EndSend<Object>, req, null);
+			await task;
+		}
+		
+		public virtual void UploadFile(String path, String url, String method) {
+			BSyncResult<Object> asyncResult = new BSyncResult<Object>();			
+			UploadFile(path, url, method, BAsyncResultHelper.ToDelegate<Object>(asyncResult));
+			asyncResult.GetResult();			
+		}
+		public virtual void UploadFile(String path, String url, String method, BAsyncResult<Object> asyncResult) {
+			BRequest_FileSystemService_uploadFile req = new BRequest_FileSystemService_uploadFile();			
+			req.pathValue = path;
+			req.urlValue = url;
+			req.methodValue = method;
+			transport.sendMethod(req, asyncResult);
+		}
+		// checkpoint byps.gen.cs.GenRemoteStub:133
+		public async Task UploadFileAsync(String path, String url, String method){
+			BRequest_FileSystemService_uploadFile req = new BRequest_FileSystemService_uploadFile();			
+			req.pathValue = path;
+			req.urlValue = url;
+			req.methodValue = method;
 			Task<Object> task = Task<Object>.Factory.FromAsync(transport.BeginSend<Object>, transport.EndSend<Object>, req, null);
 			await task;
 		}

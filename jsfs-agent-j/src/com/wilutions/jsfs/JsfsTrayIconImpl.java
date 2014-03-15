@@ -17,7 +17,7 @@ import javax.swing.Timer;
 
 /**
  * This class provides an icon that is shown in the system tray.
- *
+ * Icon file downloaded from http://www.iconarchive.com/show/icons8-metro-style-icons-by-visualpharm/Debug-External-link-icon.html
  */
 public class JsfsTrayIconImpl implements JsfsTrayIcon {
   

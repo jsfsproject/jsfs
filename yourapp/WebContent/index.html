@@ -24,29 +24,99 @@
  -->
 <script src="jsfs.js"></script>
 
+<!--
+	Import example implementation for JSFS usage.
+ -->
+<script src="jsfs-conn.js"></script>
+
 <script>
 
-/**
- * JSFS Dispatcher URL
- */
-var jsfsDispatcherUrl = "/jsfs-dispatcher/jsfs";
+
+var jsfs = new JsfsConnection();
+
+
+function jsfsInit() {
+	try {
+		// Initialize.
+		// Connect to yourapp to authenticate and connect to JSFS Dispatcher and JSFS Agent
+		jsfs.init();
+		
+		// Register a callback interface to receive notifications from JSFS Agent.
+		// See beginWatch()
+		jsfs.registerNotify(new FileSystemNotifyImpl());
+		
+		alert("OK");
+	}
+	catch (ex) {
+		alert(ex);
+	}
+}
 
 /**
- * URL to the token service of your web application.
+ * List files in a directory.
+ * This function processes asynchonously.
  */
-var tokenServiceUrl = "/yourapp/auth?jsfstoken=true"
+function fslist() {
+	
+	const  dir = "%HOMEDRIVE%%HOMEPATH%\\Documents";
+	
+	jsfs.agent.findFiles(dir + "\\*.*", null, function(fileInfos, ex) {
+		
+		if (ex) {
+			alert("Error: " + ex);
+		}
+		else {
+			var msg = "";
+			for (var i = 0; i < fileInfos.length; i++) {
+				msg += fileInfos[i].name + "\n";
+			}
+			alert(msg);
+		}
+	});
+	
+};
 
 /**
- * BYPS client object.
- * Provides access to the service interface of the JSFS dispatcher.
+ * Read and write a text file.
+ * This function processes synchonously.
  */
-var bclient = null;
+function fsreadwrite() {
+	
+	const file = "%TEMP%\\jsfstext.txt";
+	
+ 	try {
+		var text = "Text written at " + (new Date());
+		jsfs.agent.writeAllText(file, text);
+			
+		var stream = jsfs.agent.readFile(file);
+		var fileView = document.getElementById("fileView");
+		fileView.src = stream.url;
+			
+ 	} catch (ex) {
+ 		// JSFS Agent sets ex.code as Windows error code + 10000
+ 		alert(ex);
+ 	}
+ 
+};
 
 /**
- * JSFS Agent service interface. 
+ * Start a program on the client computer.
+ * This example starts the command line program "sort.exe" in order to sort a list of strings.
+ * The result is received in the FileSystemNotifyImpl.notify() function.
  */
-var jsfsAgent = null;
-
+function fsexecute() {
+	try {
+		var opts = new com.wilutions.jsfs.ExecuteOptions();
+		opts.extraInfo = "DOS sort"; // This string is checked in FileSystemNotifyImpl.notify() 
+		opts.standardInput = "BBB\nAAA\nCCC\n"; 
+		opts.captureOutput = true;
+		opts.captureError = true;
+		jsfs.agent.executeNotifyExit(["sort.exe"], opts);
+	}
+	catch (ex) {
+		alert(""+ex);
+	}
+}
 
 /**
  * Notification interface implementation.
@@ -84,254 +154,6 @@ var FileSystemNotifyImpl = function() {
 FileSystemNotifyImpl.prototype = new com.wilutions.jsfs.BSkeleton_FileSystemNotify();
 
 /**
- * Authentication class.
- * This class is used by the BYPS framework to perform authentication.
- * For the use of JSFS, it connects to "Your Web Application" and requests a token.
- * When the token is received, the FileSystemNotifyImpl object is registered
- * with the JSFS dispatcher.
- */
-JsfsAuthentication = function() {
-	
-	/**
-	 * Token received from "Your Web Application"
-	 */
-	this._token = "";
-	
-	this.getToken = function() {
-		return this._token;
-	}
-	
-	/**
-	 * Query for token.
-	 * Sends a GET request to the token service at tokenServiceUrl.
-	 * Expects a token in the response text.
-	 * This private function is called from this.authenticate().
-	 */
-	this._internalAuthenticate = function(bclient, asyncResult) {
-		
-		var me = this;
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', tokenServiceUrl, true);
-		
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState != 4) return;
-			if (xhr.status == 200) {
-				me._token = xhr.responseText;
-				asyncResult(true, null);
-			}
-			else {
-				var ex = new byps.BException(byps.BExceptionC.IOERROR, "HTTP status " + xhr.status, xhr.responseText);
-				asyncResult(false, ex);
-			}
-		};
-		
-		xhr.send();		
-	};
-	
-	
-	/**
-	 * Authentication function.
-	 * This function is called by the BYPS framework if authentication is required.
-	 * It is invoked after the protocol is negotiated or if a HTTP status 401 is received 
-	 * from a previsious request.
-	 */
-	this.authenticate = function(bclient, asyncResult) {
-		
-		var me = this;
-		
-		// Send request to token service of "Your Web Application".
-		this._internalAuthenticate(bclient, function(ignored, ex) {
-			
-			if (ex) {
-				asyncResult(false, ex);
-			}
-			else {
-				
-				// Received token
-				var jsfsToken = me._token;
-				
-				// Register notify service with JSFS Dispatcher. 
-				// At first, the service object has to be added to the 
-				// list of local available remote interfaces. This is done by
-				// calling bclient.addRemote().
-				// Secondly, the service object is published to the JSFS Dispatcher 
-				// by calling bclient.dispatcherService.registernNotifyService.
-				
-				var notifyImpl = new FileSystemNotifyImpl();
-				bclient.addRemote(notifyImpl);
-			
-				bclient.dispatcherService.registerNotifyService(jsfsToken, notifyImpl, function(ignored, ex) {
-					if (ex) {
-						asyncResult(false, ex);
-					}
-					else {
-						
-						// Quer the JSFS Dispatcher for the JSFS Agent service interface
-						
-						bclient.dispatcherService.getService(jsfsToken, false, function(jsfsService, ex) {
-							
-							if (ex) {
-								asyncResult(false, ex);
-							}
-							else {
-								
-								// Received the JSFS Agent 
-								jsfsAgent = jsfsService;
-								asyncResult(false, null);
-							}
-						});
-					}
-				});
-			}
-		});
-		
-	};
-	
-	
-	/**
-	 * Check, if given exception should trigger an authenication process.
-	 * This function is called from the BYPS framework.
-	 */
-	this.isReloginException = function(bclient, ex, typeId) { 
-		return bclient.transport.isReloginException(ex, typeId); 
-	};
-	
-	/**
-	 * Return the session object.
-	 * BYPS allows to send an implicit session object with each function call.
-	 * But this functionality is not needed here.
-	 */
-	this.getSession = function(bclient, typeId, asyncResult) { 
-		if (asyncResult) {
-			asyncResult(null, null);
-		}
-	};
-};
-
-/**
- * Initialize access to the JSFS Agent.
- * This function connects to the JSFS Dispatcher and queries for the JSFS Agent interface.
- * It sets the global variable bclient. The JSFS Agent interface is asynchronously received by
- * callback functions and stored in the global variable jsfsAgent.
- */
-function initJsfs() {
-	
-	// Mabe the page was re-loaded: terminate previous connections 
-	doneJsfs();
-	
-	// Start background timer that keeps the application server session alive.
-	keepAlive();
-	
-	// Initialize BYPS: 
-	// - provide a BWire object
-	// - provide a BTransportFactory
-	// - create a BClient object
-	// - supply a BAuthentication object
-	// - start the BClient object
-	
-	var wire = new byps.BWireClient(jsfsDispatcherUrl, 0, 60);
-	var transportFactory = new byps.BTransportFactory(
-			com.wilutions.jsfs.BApiDescriptor_JSFS.instance(), 
-			wire, 
-			1); // = number of reverse connections (long-polls)
-	bclient = com.wilutions.jsfs.createClient_JSFS(transportFactory);
-	
-	bclient.setAuthentication(new JsfsAuthentication());
-	
-	// Start BClient object and execute asynchronously.
-	// The object could also be started synchronously.
-	// This would require a synchronous implementation of the BAuthentication object. 
-	
-	bclient.start(function(ignored, ex) {
-		if (ex) {
-			alert("Error " + ex);
-		}
-		else {
-			alert("OK ");
-			
-		}
-	});
-}
-
-/**
- * Cleanup resources (connections).
- */
-function doneJsfs() {
-	if (bclient) {
-		bclient.done();
-	}
-}
-
-/**
- * List files in a directory.
- * This function processes asynchonously.
- */
-function fslist() {
-	
-	const  dir = "%HOMEDRIVE%%HOMEPATH%\\Documents";
-	
-	// The C++ JSFS Agent accepts Known Folder GUIDs too:
-	// const dir = "{FDD39AD0-238F-46AF-ADB4-6C85480369C7}"; // == FOLDERID_Documents
-
-	jsfsAgent.findFiles(dir + "\\*.*", null, function(fileInfos, ex) {
-		
-		if (ex) {
-			alert("Error: " + ex);
-		}
-		else {
-			var msg = "";
-			for (var i = 0; i < fileInfos.length; i++) {
-				msg += fileInfos[i].name + "\n";
-			}
-			alert(msg);
-		}
-	});
-	
-};
-
-/**
- * Read and write a text file.
- * This function processes synchonously.
- */
-function fsreadwrite() {
-	
-	const file = "%HOMEDRIVE%%HOMEPATH%\\Documents\\jsfstext.txt";
-	
- 	try {
-		var text = "Text written at " + (new Date());
-		jsfsAgent.writeAllText(file, text);
-			
-		var stream = jsfsAgent.readFile(file);
-		var fileView = document.getElementById("fileView");
-		fileView.src = stream.url;
-			
- 	} catch (ex) {
- 		// JSFS Agent sets ex.code as Windows error code + 10000
- 		alert(ex);
- 	}
- 
-};
-
-/**
- * Start a program on the client computer.
- * This example starts the command line program "sort.exe" in order to sort a list of strings.
- * The result is received in the FileSystemNotifyImpl.notify() function.
- */
-function fsexecute() {
-	try {
-		var opts = new com.wilutions.jsfs.ExecuteOptions();
-		opts.extraInfo = "DOS sort"; // This string is checked in FileSystemNotifyImpl.notify() 
-		opts.standardInput = "BBB\nAAA\nCCC\n"; 
-		opts.captureOutput = true;
-		opts.captureError = true;
-		jsfsAgent.executeNotifyExit(["sort.exe"], opts);
-	}
-	catch (ex) {
-		alert(""+ex);
-	}
-}
-
-/**
  * Start to watch the desktop folder.
  * If the contents of the desktop folder change, a notifiation is sent to the 
  * FileSystemNotifyImpl.notify() function.
@@ -344,7 +166,7 @@ function beginWatch() {
 	
 	var dir = "%HOMEDRIVE%%HOMEPATH%\\Desktop";
 	
-	watchFolderId = jsfsAgent.beginWatchFolder(dir, 
+	watchFolderId = jsfs.agent.beginWatchFolder(dir, 
 			false,				// Do not watch sub folders 
 			"Watch Desktop" 	// This helps FileSystemNotifyImpl.notify() to distinguish watcher notifications from other messages.
 	);
@@ -357,69 +179,22 @@ function beginWatch() {
  * 
  */
 function endWatch() {
-	jsfsAgent.endWatchFolder(watchFolderId);
+	jsfs.agent.endWatchFolder(watchFolderId);
 }
-
-
 
 /**
- * The BYPS connection should be closed, when the page is unloaded.
- * Otherwise a long-poll request might not be terminated.
+ * Upload a file.
  */
-window.onbeforeunload = function() {
-	doneJsfs();
-}
-
-
-/**
- * Keep the application server session alive.
- * This keeps the jsfsAgent object valid.
- */
-function keepAlive() {
-	if (bclient) {
-		var auth = bclient.getAuthentication();
-		if (auth) {
-			var token = auth.getToken();
-			bclient.dispatcherService.keepAlive(
-					token, 
-					function(ignored, ex) {});
-		}
-	}
-	window.setTimeout("keepAlive()", 300 * 1000);
-}
-
-function fsupload() {
-
+function fsuploadFile() {
 	try {
-		const url = "upload";
+		const url = "upload?";
 		const dir = "%HOMEDRIVE%%HOMEPATH%\\Documents";
 		
-		var fileInfos = jsfsAgent.findFiles(dir + "\\*.*", null);
+		var fileInfos = jsfs.agent.findFiles(dir + "\\*.*", null);
+		var fname = fileInfos[0].name;
 		
-/* 		var formItems = [];
-		formItems[0] = new com.wilutions.jsfs.FormItem();
-		formItems[0].name = "token";
-		formItems[0].type = "text";
-		formItems[0].values = [fileInfos[0].name];
-		jsfsAgent.uploadFiles(formItems, url);
- */		
- 		var formItems = [];
-		formItems[0] = new com.wilutions.jsfs.FormItem();
-		formItems[0].name = "token";
-		formItems[0].type = "text";
-		formItems[0].values = [bclient.getAuthentication().getToken()];
-		
-		formItems[1] = new com.wilutions.jsfs.FormItem();
-		formItems[1].name = "mydocs";
-		formItems[1].type = "file";
-		formItems[1].values = [fileInfos[0].name];
-/*
-		formItems[1].values = [];
-		for (var i = 0; i < fileInfos.length && i < 2; i++) {
-			formItems[1].values[i] = fileInfos[i].name;
-		}
- */	
-		jsfsAgent.uploadFiles(formItems, url, "POST", "multipart/form-data");
+		jsfs.agent.uploadFile(fname, url + "fname=" + encodeURIComponent(fname));
+
     }
 	catch (ex) {
 		alert(ex);
@@ -432,26 +207,20 @@ function fsupload() {
 <h3>Your Web Application</h3><br>
 
 
-<input type="button" value="init" onclick="initJsfs()" />
+<input type="button" value="init" onclick="jsfsInit()" />
 <input type="button" value="list" onclick="fslist()" />
-<input type="button" value="read" onclick="fsreadwrite()" />
+<input type="button" value="read/write" onclick="fsreadwrite()" />
 <input type="button" value="execute" onclick="fsexecute()" />
-<input type="button" value="upload" onclick="fsupload()" />
+<input type="button" value="upload one file" onclick="fsuploadFile()" />
 
 <input type="button" value="beginWatch" onclick="beginWatch()" />
 <input type="button" value="endWatch" onclick="endWatch()" />
 
 <br>
 
-<form action="Servlet" enctype="multipart/form-data">
-<input type="file" name="file" multiple>
-<input type="text" name="text1">
-<input type="text" name="text2">
-</form>
 
 <iframe id="fileView">
 </iframe>
-
 
 </body>
 </html>

@@ -132,11 +132,20 @@ class BRequest_FileSystemService_readFile;
 }}}
 
 //-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_uploadFiles
+// Forward Declaration of class BRequest_FileSystemService_uploadFile
 
 namespace com { namespace wilutions { namespace jsfs { 
 
-class BRequest_FileSystemService_uploadFiles; 
+class BRequest_FileSystemService_uploadFile; 
+
+}}}
+
+//-------------------------------------------------
+// Forward Declaration of class BRequest_FileSystemService_uploadFilesMultipartFormdata
+
+namespace com { namespace wilutions { namespace jsfs { 
+
+class BRequest_FileSystemService_uploadFilesMultipartFormdata; 
 
 }}}
 
@@ -494,24 +503,49 @@ class BRequest_FileSystemService_readFile : public BMethodRequest {
 }}}
 
 //-------------------------------------------------
-// BRequest_FileSystemService_uploadFiles
-// typeId=1614176016
+// BRequest_FileSystemService_uploadFile
+// typeId=744806851
 
 namespace com { namespace wilutions { namespace jsfs { 
 
 using namespace ::byps;
 
-class BRequest_FileSystemService_uploadFiles : public BMethodRequest {
+class BRequest_FileSystemService_uploadFile : public BMethodRequest {
+	public: ::std::wstring path;
+	public: ::std::wstring url;
+	public: ::std::wstring method;
+	
+	// checkpoint byps.gen.cpp.GenApiClass:488
+	public: BRequest_FileSystemService_uploadFile();
+	// checkpoint byps.gen.cpp.GenApiClass:535
+	public: BRequest_FileSystemService_uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method);	
+	public: virtual BTYPEID BSerializable_getTypeId() { return 744806851; }
+	
+	// checkpoint byps.gen.cpp.GenApiClass:871
+	public: void serialize(BIO& ar, const BVERSION version);
+	public: virtual void execute(PRemote __byps__remote, PAsyncResult __byps__asyncResult);
+};
+
+}}}
+
+//-------------------------------------------------
+// BRequest_FileSystemService_uploadFilesMultipartFormdata
+// typeId=240503306
+
+namespace com { namespace wilutions { namespace jsfs { 
+
+using namespace ::byps;
+
+class BRequest_FileSystemService_uploadFilesMultipartFormdata : public BMethodRequest {
 	public: byps_ptr< BArray1< PFormItem > > items;
 	public: ::std::wstring url;
 	public: ::std::wstring method;
-	public: ::std::wstring encoding;
 	
 	// checkpoint byps.gen.cpp.GenApiClass:488
-	public: BRequest_FileSystemService_uploadFiles();
+	public: BRequest_FileSystemService_uploadFilesMultipartFormdata();
 	// checkpoint byps.gen.cpp.GenApiClass:535
-	public: BRequest_FileSystemService_uploadFiles(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, const ::std::wstring& encoding);	
-	public: virtual BTYPEID BSerializable_getTypeId() { return 1614176016; }
+	public: BRequest_FileSystemService_uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method);	
+	public: virtual BTYPEID BSerializable_getTypeId() { return 240503306; }
 	
 	// checkpoint byps.gen.cpp.GenApiClass:871
 	public: void serialize(BIO& ar, const BVERSION version);
@@ -715,8 +749,10 @@ void BSerializer_1131301080(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void*
 void BSerializer_1078989294(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BRequest_FileSystemService_readFile
 void BSerializer_706034600(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
-// Serializer for com.wilutions.jsfs.BRequest_FileSystemService_uploadFiles
-void BSerializer_1614176016(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
+// Serializer for com.wilutions.jsfs.BRequest_FileSystemService_uploadFile
+void BSerializer_744806851(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
+// Serializer for com.wilutions.jsfs.BRequest_FileSystemService_uploadFilesMultipartFormdata
+void BSerializer_240503306(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BRequest_FileSystemService_writeAllText
 void BSerializer_1925305675(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BResult_10
@@ -745,6 +781,8 @@ void BSerializer_665368294(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* 
 void BSerializer_1032737639(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.FileInfo
 void BSerializer_1100528120(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
+// Serializer for com.wilutions.jsfs.FileSystemServiceC
+void BSerializer_1381128722(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.FindOptions
 void BSerializer_1092766252(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.FormItem

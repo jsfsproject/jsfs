@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>File Upload Dialog</title>
+
+<script src="json2.js"></script>
+<script src="byps.js"></script>
+<script src="jsfs.js"></script>
+<script src="jsfs-conn.js"></script>
+
+<script type="text/javascript">
+
+  // Upload files from this directory
+  const localDirectory = com.wilutions.jsfs.FileSystemServiceC.FOLDERID_Documents;
+
+  // Upload URL, internally composed as /yourapp/ + uploadUrl.
+  // Could also be an absolute URL.
+  const uploadUrl = "upload?";
+
+  
+  // Create and initialize JSFS connection object.
+  const jsfs = new JsfsConnection();
+  jsfs.init();
+  
+  // This function is called in body.onload and shows the files in localDirectory.
+  function listFiles() {
+	  clearFiles();
+	  var fileInfos = jsfs.agent.findFiles(localDirectory + "\\*.*", null);
+	  for (var i = 0; i < fileInfos.length; i++) {
+		  addFile(fileInfos[i]);
+	  }
+  }
+  
+  // Upload the selected files to uploadUrl.
+  function uploadSelectedFiles() {
+	  var tab = getTableFiles();
+	  for (var i = 2; i < tab.rows.length; i++) {
+		  var row = tab.rows[i];
+		  var ck = row.cells[0].children[0];
+		  if (ck.checked) {
+			  var fname = ck.value;
+			  var fnameEncoded = encodeURIComponent(fname);
+			  var destUrl = uploadUrl + "fname=" + fnameEncoded;
+			  jsfs.agent.uploadFile(fname, destUrl, function(ignored, ex) {
+				  if (ex) {
+					  alert(ex);
+				  }
+			  });
+		  }
+	  }
+  }
+  
+  // Add a file to the list of files.
+  function addFile(fileInfo) {
+	  var displInfo = fileInfoToDisplInfo(fileInfo);
+	  var tab = getTableFiles();
+	  
+	  if (tab.rows.length == 2) {
+		  updateTitleRow(displInfo.dir);
+	  }
+	  
+	  var row = tab.insertRow(tab.rows.length);
+	  row.className = "uploadDialogListItem";
+	  var cellCheckbox = row.insertCell(0);
+	  cellCheckbox.innerHTML = "<input type='checkbox' value='" + fileInfo.name + "'>";
+	  var cellName = row.insertCell(1);
+	  cellName.innerHTML = displInfo.name;
+	  var cellDate = row.insertCell(2);
+	  cellDate.innerHTML = displInfo.lastModified;
+	  var cellSize = row.insertCell(3);
+	  cellSize.innerHTML = displInfo.size;
+	  cellSize.style.textAlign = "right";
+  }
+  
+  // Update dialog tile with directory.
+  function updateTitleRow(dir) {
+	var tab = getTableFiles();
+	var bnUpload = "<input type='button' value='Upload' onclick='uploadSelectedFiles()' >";
+	tab.rows[0].cells[0].innerHTML = "Files from " + dir + "&nbsp;" + bnUpload;
+
+  }
+  
+  // Clear the list of files
+  function clearFiles() {
+	  var tab = getTableFiles();
+	  while (tab.rows.length > 2) {
+		tab.deleteRow(2);
+	  }
+  }
+  
+  // Obtain the DOM object for the file list.
+  function getTableFiles() {
+	var tab = document.getElementById("uploadDialogId");
+	return tab;
+  }
+  
+  // Convert the file infomation from JSFS Agent to 
+  // the file information used in the file list.
+  function fileInfoToDisplInfo(fileInfo) {
+	  var displInfo = {};
+	  displInfo.size = fileInfo.size;
+	  	  
+	  var name = fileInfo.name;
+	  var p = name.lastIndexOf("\\");
+	  var q = name.lastIndexOf("/");
+	  if (q > p) p = q;
+	  displInfo.name = fileInfo.name.substring(p+1);
+	  displInfo.dir = p >= 0 ? fileInfo.name.substring(0, p) : "";
+	  
+	  displInfo.lastModified = dateToIso(fileInfo.lastModified);
+	  
+	  return displInfo;
+  }
+  
+  function dateToIso(date) {
+	  var year = "" + date.getFullYear();
+	  var month = numberToString(date.getMonth() + 1, "00");
+	  var day = numberToString(date.getDate(), "00");
+	  var hour = numberToString(date.getHours(), "00");
+	  var min = numberToString(date.getMinutes(), "00");
+	  var sec = numberToString(date.getSeconds(), "00");
+	  return  year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+  }
+  
+  function numberToString(n, pad) {
+	  var s = "" + n;
+	  var p = pad.length - s.length;
+	  if (p >= 0) {
+	  	s = pad.substring(0, p) + s;
+	  }
+	  return s;
+  }
+  
+</script>
+
+<style type="text/css">
+	.uploadDialog  {
+		font-family : 'Arial';
+		font-size : 10pt;
+		font-weight : bold;
+		background-color : #CCCCFF;
+		cursor:default;
+	}
+	.uploadDialogTitle {
+		background-color : #BBBBBB;
+	}
+	.uploadDialogListTitle {
+		background-color : #CCCCCC;
+	}
+	.uploadDialogListItem {
+		background-color : #EEEEEE;
+	}
+	
+</style>
+
+</head>
+<body onload="listFiles()">
+
+<table id="uploadDialogId" class="uploadDialog">
+	<tr class="uploadDialogTitle"><td colspan="4">Upload Files</td></tr>
+	<tr class="uploadDialogListTitle"><td>&nbsp;<td>Name</td><td>Date</td><td style="text-align:right">Size</td></tr>
+	<tr class="uploadDialogListItem"><td><input type="checkbox"></td><td>Dateiname123.doc</td><td>20.01.2013</td><td>12 KB</td></tr>
+	
+</table>
+
+</body>
+</html>
