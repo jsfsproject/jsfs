@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\byps\cpp\common\byps\include;..\..\..\byps\cpp\common\bypshttp\include;..\..\..\byps\cpp\common\bypshttp\include\platform\win;..\..\jsfs-ser\cpp\src-api</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\git\byps\lib\cpp\include;D:\git\byps\lib\cpp\include\platform\win;..\..\jsfs-ser\cpp\src-api</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -80,7 +80,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\byps\cpp\common\byps\include;..\..\..\byps\cpp\common\bypshttp\include;..\..\..\byps\cpp\common\bypshttp\include\platform\win;..\..\jsfs-ser\cpp\src-api</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\git\byps\lib\cpp\include;D:\git\byps\lib\cpp\include\platform\win;..\..\jsfs-ser\cpp\src-api</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
