@@ -105,7 +105,7 @@ public interface FileSystemServiceAsync extends BRemote,
 	/**
 	 * Upload files to the given URL using multipart/form-data encoding.
 	 * @param items Form data items, file paths or name/value pairs.
-	 * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+	 * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
 	 * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
 	 * @throws RemoteException
 	*/
@@ -117,7 +117,7 @@ public interface FileSystemServiceAsync extends BRemote,
 	/**
 	 * Upload a file to the given URL.
 	 * @param path Local file path from the view of JSFS agent.
-	 * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+	 * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
 	 * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
 	 * @throws RemoteException
 	*/

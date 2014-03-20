@@ -1721,7 +1721,7 @@
                         </comment>
                         <comment>
                             <kind>@param</kind>
-                            <text>url Target URL. Authentication information should be included, e.g. the JSFS authentication token.</text>
+                            <text>url Target URL. JSFS Agent should be authorized to send data to this URL.</text>
                         </comment>
                         <comment>
                             <kind>@param</kind>
@@ -1751,7 +1751,7 @@
                         </comment>
                         <comment>
                             <kind>@param</kind>
-                            <text>url Target URL. Authentication information should be included, e.g. the JSFS authentication token.</text>
+                            <text>url Target URL. JSFS Agent should be authorized to send data to this URL.</text>
                         </comment>
                         <comment>
                             <kind>@param</kind>

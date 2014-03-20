@@ -484,7 +484,7 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_readFile = functi
 /**
  * Upload files to the given URL using multipart/form-data encoding.
  * @param items Form data items, file paths or name/value pairs.
- * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
@@ -495,7 +495,7 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFilesMultipartFor
 /**
  * Upload files to the given URL using multipart/form-data encoding.
  * @param items Form data items, file paths or name/value pairs.
- * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
@@ -512,7 +512,7 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_uploadFilesMultip
 /**
  * Upload a file to the given URL.
  * @param path Local file path from the view of JSFS agent.
- * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
@@ -523,7 +523,7 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFile = function(p
 /**
  * Upload a file to the given URL.
  * @param path Local file path from the view of JSFS agent.
- * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
@@ -820,7 +820,7 @@ com.wilutions.jsfs.BStub_FileSystemService.prototype.readFile = function(path, _
 /**
  * Upload files to the given URL using multipart/form-data encoding.
  * @param items Form data items, file paths or name/value pairs.
- * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
@@ -835,7 +835,7 @@ com.wilutions.jsfs.BStub_FileSystemService.prototype.uploadFilesMultipartFormdat
 /**
  * Upload a file to the given URL.
  * @param path Local file path from the view of JSFS agent.
- * @param url Target URL. Authentication information should be included, e.g. the JSFS authentication token.
+ * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
  * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
