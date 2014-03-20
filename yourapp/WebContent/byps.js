@@ -591,7 +591,16 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 		destUrl += new Date().getTime();
 
 		xhr.open(isNegotiate ? 'GET' : 'POST', destUrl, processAsync);
-		xhr.withCredentials = true;
+		
+		// When using XSS with Tomcat CORS filter, option withCredentials ensures that 
+		// the session cookie is submitted in every call.
+		// Firefox does not support this option for synchronous requests. 
+		try {
+			if (processAsync) xhr.withCredentials = true;
+		}
+		catch(ex) {
+			alert("Unable to set xhr.withCredentials: " + ex);
+		}
 
 		// XHR supports timeout only for async requests
 		var timeoutMillis = isReverse ? 0 : this.timeoutMillisClient;
