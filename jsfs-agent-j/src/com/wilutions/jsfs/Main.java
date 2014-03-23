@@ -29,12 +29,12 @@ public class Main {
   /**
    * JSFS Dispatcher URL
    */
-  private static String jsfsDispatcherUrl = "http://169.254.152.171:5080/jsfs-dispatcher/jsfs";
+  private static String jsfsDispatcherUrl = "http://localhost:5080/jsfs-dispatcher/jsfs";
 
   /**
    * URL to the token service of your web application.
    */
-  private static String yourWebappUrl = "http://169.254.152.171:5080/yourapp/";
+  private static String yourWebappUrl = "http://locahost:5080/yourapp/";
   private static String tokenServiceUrl = yourWebappUrl + "auth?jsfstoken=true";
 
   /**

@@ -1,7 +1,6 @@
 /* USE THIS FILE ACCORDING TO THE COPYRIGHT RULES IN LICENSE.TXT WHICH IS PART OF THE SOURCE CODE PACKAGE */ 
 package com.wilutions.jsfs;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -40,7 +39,6 @@ public class JsfsDispatcherServlet extends HHttpServlet {
 
   private static final long serialVersionUID = 1L;
   private static Log log = LogFactory.getLog(JsfsDispatcherServlet.class);
-  private File tempDir;
   private final HConfigImpl config = new HConfigImpl();
   private final BApiDescriptor apiDesc = BApiDescriptor_JSFS.instance();
 
@@ -49,15 +47,6 @@ public class JsfsDispatcherServlet extends HHttpServlet {
    */
   public JsfsDispatcherServlet() {
     super();
-
-    if (tempDir == null) {
-      String tempDirStr = System.getProperty("java.io.tmpdir");
-      if (tempDirStr != null && tempDirStr.length() != 0) {
-        tempDir = new File(tempDirStr);
-      }
-    }
-    tempDir.mkdirs();
-    
     apiDesc.addRegistry(new JRegistry_JSFS());
   }
 
@@ -81,7 +70,7 @@ public class JsfsDispatcherServlet extends HHttpServlet {
     String remoteUser = request.getRemoteUser();
     if (log.isDebugEnabled()) log.debug("remoteUser=" + remoteUser);
 
-    HSession sess = new MySession(hsess, remoteUser, tempDir, stubRegistry);
+    HSession sess = new MySession(hsess, remoteUser, null, stubRegistry);
     if (log.isDebugEnabled()) log.debug(")createSession=" + sess);
     return sess;
   }
