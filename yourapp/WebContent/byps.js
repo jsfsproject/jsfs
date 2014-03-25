@@ -716,7 +716,7 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 	this._sendCancelMessage = function(cancelMessageId) {
 		var destUrl = me.url + "?messageid=" + cancelMessageId + "&cancel=1";
 		var xhr = new XMLHttpRequest();
-		xhr.open('GET', destUrl, false);
+		xhr.open('GET', destUrl, true);
 		xhr.withCredentials = true;
 		xhr.send();
 	};
