@@ -39,10 +39,8 @@ namespace com.wilutions.jsfs
 			bbuf.putInt(obj.Size);
 			// checkpoint byps.gen.cs.PrintContext:494
 			bbuf.putLong(obj.SizeL);
-			if (version >= 100000000000001L) {
-				// checkpoint byps.gen.cs.PrintContext:494
-				bout.writeObj(obj.Icon, false, com.wilutions.jsfs.BSerializer_1374008726.instance);
-			}
+			// checkpoint byps.gen.cs.PrintContext:494
+			bout.writeObj(obj.Icon, false, com.wilutions.jsfs.BSerializer_1374008726.instance);
 		}
 		
 		public override Object read(Object obj1, BInput bin1, long version)
@@ -63,10 +61,8 @@ namespace com.wilutions.jsfs
 			obj.Size = bbuf.getInt();
 			// checkpoint byps.gen.cs.PrintContext:449
 			obj.SizeL = bbuf.getLong();
-			if (version >= 100000000000001L) {
-				// checkpoint byps.gen.cs.PrintContext:449
-				obj.Icon = (byte[])bin.readObj(false, com.wilutions.jsfs.BSerializer_1374008726.instance);
-			}
+			// checkpoint byps.gen.cs.PrintContext:449
+			obj.Icon = (byte[])bin.readObj(false, com.wilutions.jsfs.BSerializer_1374008726.instance);
 			
 			return obj;
 		}

@@ -28,7 +28,6 @@ public final class BRequest_FileSystemService_beginWatchFolder extends BMethodRe
 			__byps__remoteT.beginWatchFolder(dir, recursive, extraInfo, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

@@ -113,8 +113,5 @@
     <Image Include="res\Visualpharm-Icons8-Metro-Style-Debug-External-link.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\File-Types-Word-icon.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>

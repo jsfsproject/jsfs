@@ -26,7 +26,6 @@ public final class BRequest_FileSystemService_endWatchFolder extends BMethodRequ
 			__byps__remoteT.endWatchFolder(handle, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

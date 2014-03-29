@@ -26,7 +26,6 @@ public final class BRequest_FileSystemService_readFile extends BMethodRequest im
 			__byps__remoteT.readFile(path, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

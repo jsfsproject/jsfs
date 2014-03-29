@@ -27,7 +27,6 @@ public final class BRequest_DispatcherService_registerService extends BMethodReq
 			__byps__remoteT.registerService(token, service, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

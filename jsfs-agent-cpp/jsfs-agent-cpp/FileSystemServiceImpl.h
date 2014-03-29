@@ -1,8 +1,6 @@
 /* USE THIS FILE ACCORDING TO THE COPYRIGHT RULES IN LICENSE.TXT WHICH IS PART OF THE SOURCE CODE PACKAGE */ 
 #pragma once
 
-//http://dotnet-snippets.de/snippet/gdi-speichern-eines-png/814
-
 #include "WinHttpClient.h"
 #include "JSFS-api.h"
 #include "WatchDir.h"

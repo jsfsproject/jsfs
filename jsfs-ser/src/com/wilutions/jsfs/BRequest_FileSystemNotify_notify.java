@@ -26,7 +26,6 @@ public final class BRequest_FileSystemNotify_notify extends BMethodRequest imple
 			__byps__remoteT.notify(notifyInfo, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

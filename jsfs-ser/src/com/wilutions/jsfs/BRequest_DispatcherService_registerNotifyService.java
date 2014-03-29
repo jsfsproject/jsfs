@@ -27,7 +27,6 @@ public final class BRequest_DispatcherService_registerNotifyService extends BMet
 			__byps__remoteT.registerNotifyService(token, service, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

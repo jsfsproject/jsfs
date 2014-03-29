@@ -493,7 +493,7 @@ namespace com { namespace wilutions { namespace jsfs {
 BRequest_FileSystemService_executeNotifyExit::BRequest_FileSystemService_executeNotifyExit() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
-com::wilutions::jsfs::BRequest_FileSystemService_executeNotifyExit::BRequest_FileSystemService_executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts)
+com::wilutions::jsfs::BRequest_FileSystemService_executeNotifyExit::BRequest_FileSystemService_executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts)
 	: BMethodRequest(145996442) 
 	, args(args)
 	, opts(opts)
@@ -551,7 +551,7 @@ void com::wilutions::jsfs::BRequest_FileSystemService_findFiles::serialize(BIO& 
 }
 void com::wilutions::jsfs::BRequest_FileSystemService_findFiles::execute(PRemote __byps__remote, PAsyncResult __byps__asyncResult) {
 	PFileSystemService __byps__remoteT = byps_ptr_cast<FileSystemService>(__byps__remote);
-	__byps__remoteT->findFiles(path, findOptions, [__byps__asyncResult](byps_ptr< ::std::vector< PFileInfo > > __byps__result, BException __byps__ex) {
+	__byps__remoteT->findFiles(path, findOptions, [__byps__asyncResult](PVectorFileInfo __byps__result, BException __byps__ex) {
 		if (__byps__ex) {
 			__byps__asyncResult->setAsyncResult(BVariant(__byps__ex));
 		}
@@ -721,7 +721,7 @@ namespace com { namespace wilutions { namespace jsfs {
 BRequest_FileSystemService_uploadFilesMultipartFormdata::BRequest_FileSystemService_uploadFilesMultipartFormdata() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
-com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata::BRequest_FileSystemService_uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method)
+com::wilutions::jsfs::BRequest_FileSystemService_uploadFilesMultipartFormdata::BRequest_FileSystemService_uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method)
 	: BMethodRequest(145996442) 
 	, items(items)
 	, url(url)
@@ -1166,9 +1166,7 @@ void com::wilutions::jsfs::FileInfo::serialize(BIO& ar, const BVERSION version) 
 	ar & this->readonly;
 	ar & this->size;
 	ar & this->sizeL;
-	if (version >= 100000000000001) {
-		ar & this->icon;
-	}
+	ar & this->icon;
 }
 }}}
 

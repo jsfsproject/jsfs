@@ -6,159 +6,6 @@
 
 
 //-------------------------------------------------
-// Forward Declaration of class BRequest_DispatcherService_getNotifyService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_DispatcherService_getNotifyService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_DispatcherService_getService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_DispatcherService_getService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_DispatcherService_keepAlive
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_DispatcherService_keepAlive; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_DispatcherService_registerNotifyService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_DispatcherService_registerNotifyService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_DispatcherService_registerService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_DispatcherService_registerService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_DispatcherService_unregisterNotifyService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_DispatcherService_unregisterNotifyService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_DispatcherService_unregisterService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_DispatcherService_unregisterService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemNotify_notify
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemNotify_notify; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_beginWatchFolder
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_beginWatchFolder; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_endWatchFolder
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_endWatchFolder; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_executeNotifyExit
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_executeNotifyExit; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_findFiles
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_findFiles; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_readAllText
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_readAllText; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_readFile
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_readFile; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_uploadFile
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_uploadFile; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_uploadFilesMultipartFormdata
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_uploadFilesMultipartFormdata; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BRequest_FileSystemService_writeAllText
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BRequest_FileSystemService_writeAllText; 
-
-}}}
-
-//-------------------------------------------------
 // BRequest_DispatcherService_getNotifyService
 // typeId=1090607752
 
@@ -413,13 +260,13 @@ namespace com { namespace wilutions { namespace jsfs {
 using namespace ::byps;
 
 class BRequest_FileSystemService_executeNotifyExit : public BMethodRequest {
-	public: byps_ptr< BArray1< ::std::wstring > > args;
+	public: PArrayString args;
 	public: PExecuteOptions opts;
 	
 	// checkpoint byps.gen.cpp.GenApiClass:488
 	public: BRequest_FileSystemService_executeNotifyExit();
 	// checkpoint byps.gen.cpp.GenApiClass:535
-	public: BRequest_FileSystemService_executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts);	
+	public: BRequest_FileSystemService_executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts);	
 	public: virtual BTYPEID BSerializable_getTypeId() { return 1824869366; }
 	
 	// checkpoint byps.gen.cpp.GenApiClass:871
@@ -537,14 +384,14 @@ namespace com { namespace wilutions { namespace jsfs {
 using namespace ::byps;
 
 class BRequest_FileSystemService_uploadFilesMultipartFormdata : public BMethodRequest {
-	public: byps_ptr< BArray1< PFormItem > > items;
+	public: PArrayFormItem items;
 	public: ::std::wstring url;
 	public: ::std::wstring method;
 	
 	// checkpoint byps.gen.cpp.GenApiClass:488
 	public: BRequest_FileSystemService_uploadFilesMultipartFormdata();
 	// checkpoint byps.gen.cpp.GenApiClass:535
-	public: BRequest_FileSystemService_uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method);	
+	public: BRequest_FileSystemService_uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method);	
 	public: virtual BTYPEID BSerializable_getTypeId() { return 240503306; }
 	
 	// checkpoint byps.gen.cpp.GenApiClass:871
@@ -608,9 +455,9 @@ namespace com { namespace wilutions { namespace jsfs {
 using namespace ::byps;
 
 class BResult_1439246415 : public BSerializable {
-	public: byps_ptr< ::std::vector< com::wilutions::jsfs::PFileInfo > > result;
+	public: com::wilutions::jsfs::PVectorFileInfo result;
 	// checkpoint byps.gen.cpp.GenApiClass:473
-	public: BResult_1439246415(byps_ptr< ::std::vector< com::wilutions::jsfs::PFileInfo > > result = byps_ptr< ::std::vector< com::wilutions::jsfs::PFileInfo > >()) : result(result) {}	
+	public: BResult_1439246415(com::wilutions::jsfs::PVectorFileInfo result = com::wilutions::jsfs::PVectorFileInfo()) : result(result) {}	
 	public: virtual BTYPEID BSerializable_getTypeId() { return 1733426638; }
 	
 	// checkpoint byps.gen.cpp.GenApiClass:871

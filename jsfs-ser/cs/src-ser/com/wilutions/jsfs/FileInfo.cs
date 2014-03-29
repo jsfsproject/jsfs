@@ -150,7 +150,7 @@ namespace com.wilutions.jsfs
 		
 		
 		/// <summary>
-		/// File icon.
+		/// File icon in PNG format.
 		/// </summary>
 		public byte[] Icon
 		{

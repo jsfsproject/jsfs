@@ -27,7 +27,6 @@ public final class BRequest_FileSystemService_executeNotifyExit extends BMethodR
 			__byps__remoteT.executeNotifyExit(args, opts, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

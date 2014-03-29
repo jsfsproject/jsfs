@@ -28,7 +28,6 @@ public final class BRequest_FileSystemService_uploadFilesMultipartFormdata exten
 			__byps__remoteT.uploadFilesMultipartFormdata(items, url, method, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

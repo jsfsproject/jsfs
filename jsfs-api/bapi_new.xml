@@ -3,7 +3,7 @@
     <apiDesc>
         <name>JSFS</name>
         <apiPack>com.wilutions.jsfs</apiPack>
-        <version>1.0.0.1</version>
+        <version>1.0.0.0</version>
         <uniqueObjects>false</uniqueObjects>
     </apiDesc>
     <serials>
@@ -940,18 +940,14 @@
                     <name>icon</name>
                     <comments>
                         <kind>@summary</kind>
-                        <text>File icon.</text>
-                    </comments>
-                    <comments>
-                        <kind>@since</kind>
-                        <text>1.0.0.1</text>
+                        <text>File icon in PNG format.</text>
                     </comments>
                     <typeName>byte[]</typeName>
                     <isTransient>false</isTransient>
                     <isStatic>false</isStatic>
                     <isFinal>false</isFinal>
                     <access>PROTECTED</access>
-                    <since>1.0.0.1</since>
+                    <since>0.0.0.0</since>
                 </member>
             </members>
             <comments>

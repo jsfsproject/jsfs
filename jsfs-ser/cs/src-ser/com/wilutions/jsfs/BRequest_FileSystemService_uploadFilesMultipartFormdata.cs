@@ -25,7 +25,6 @@ namespace com.wilutions.jsfs
 				__byps__remoteT.UploadFilesMultipartFormdata(itemsValue, urlValue, methodValue, BAsyncResultHelper.ToDelegate(__byps__outerResult));
 			} catch (Exception e) {
 				__byps__asyncResult.setAsyncResult(null, e);
-				throw e;
 			}
 		}		
 		

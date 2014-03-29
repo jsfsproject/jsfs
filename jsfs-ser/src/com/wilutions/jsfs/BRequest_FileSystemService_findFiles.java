@@ -27,7 +27,6 @@ public final class BRequest_FileSystemService_findFiles extends BMethodRequest i
 			__byps__remoteT.findFiles(path, findOptions, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

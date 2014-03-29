@@ -42,10 +42,10 @@ namespace com { namespace wilutions { namespace jsfs {
 void BSerializer_566696346(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
 	void* p = pObj.get();
 	if (p) { 
-		BArray1< com::wilutions::jsfs::PFormItem > & r = * reinterpret_cast< BArray1< com::wilutions::jsfs::PFormItem > *>(p);
+		::byps::BArray1< com::wilutions::jsfs::PFormItem > & r = * reinterpret_cast< ::byps::BArray1< com::wilutions::jsfs::PFormItem > *>(p);
 		bio & r;
 	} else {
-		pObj = POBJECT(new BArray1< com::wilutions::jsfs::PFormItem > ());
+		pObj = POBJECT(new ::byps::BArray1< com::wilutions::jsfs::PFormItem > ());
 	}
 }
 }}}
@@ -95,10 +95,10 @@ namespace com { namespace wilutions { namespace jsfs {
 void BSerializer_1888107655(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
 	void* p = pObj.get();
 	if (p) { 
-		BArray1< ::std::wstring > & r = * reinterpret_cast< BArray1< ::std::wstring > *>(p);
+		::byps::BArray1< ::std::wstring > & r = * reinterpret_cast< ::byps::BArray1< ::std::wstring > *>(p);
 		bio & r;
 	} else {
-		pObj = POBJECT(new BArray1< ::std::wstring > ());
+		pObj = POBJECT(new ::byps::BArray1< ::std::wstring > ());
 	}
 }
 }}}
@@ -115,11 +115,13 @@ void BSerializer_1439246415(BIO& bio, POBJECT& pObj, PSerializable& , void* ) {
 }
 }}}
 
-namespace com { namespace wilutions { namespace jsfs { 
 
+namespace com { namespace wilutions { namespace jsfs { 
 BStub_DispatcherService::BStub_DispatcherService(PTransport transport) 
 	: BStub(transport) {}
+}}}
 
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_DispatcherService::registerService(const ::std::wstring& token, const PFileSystemService& service)  {
 	BSyncResultT< bool > syncResult;	
 	registerService(token, service, [&syncResult](bool v, BException ex) {
@@ -132,6 +134,9 @@ void BStub_DispatcherService::registerService(const ::std::wstring& token, const
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_DispatcherService::unregisterService(const ::std::wstring& token)  {
 	BSyncResultT< bool > syncResult;	
 	unregisterService(token, [&syncResult](bool v, BException ex) {
@@ -144,6 +149,9 @@ void BStub_DispatcherService::unregisterService(const ::std::wstring& token, ::s
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 PFileSystemService BStub_DispatcherService::getService(const ::std::wstring& token, bool onlyHere)  {
 	BSyncResultT< PFileSystemService > syncResult;	
 	getService(token, onlyHere, [&syncResult](PFileSystemService v, BException ex) {
@@ -156,6 +164,9 @@ void BStub_DispatcherService::getService(const ::std::wstring& token, bool onlyH
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PFileSystemService, BResult_336045129 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_DispatcherService::registerNotifyService(const ::std::wstring& token, const PFileSystemNotify& service)  {
 	BSyncResultT< bool > syncResult;	
 	registerNotifyService(token, service, [&syncResult](bool v, BException ex) {
@@ -168,6 +179,9 @@ void BStub_DispatcherService::registerNotifyService(const ::std::wstring& token,
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_DispatcherService::unregisterNotifyService(const ::std::wstring& token)  {
 	BSyncResultT< bool > syncResult;	
 	unregisterNotifyService(token, [&syncResult](bool v, BException ex) {
@@ -180,6 +194,9 @@ void BStub_DispatcherService::unregisterNotifyService(const ::std::wstring& toke
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 PFileSystemNotify BStub_DispatcherService::getNotifyService(const ::std::wstring& token, bool onlyHere)  {
 	BSyncResultT< PFileSystemNotify > syncResult;	
 	getNotifyService(token, onlyHere, [&syncResult](PFileSystemNotify v, BException ex) {
@@ -192,6 +209,9 @@ void BStub_DispatcherService::getNotifyService(const ::std::wstring& token, bool
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PFileSystemNotify, BResult_1816639285 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_DispatcherService::keepAlive(const ::std::wstring& token)  {
 	BSyncResultT< bool > syncResult;	
 	keepAlive(token, [&syncResult](bool v, BException ex) {
@@ -206,7 +226,7 @@ void BStub_DispatcherService::keepAlive(const ::std::wstring& token, ::std::func
 }
 }}}
 
-// checkpoint byps.gen.cpp.GenRemoteStub:225
+// checkpoint byps.gen.cpp.GenRemoteStub:224
 namespace com { namespace wilutions { namespace jsfs { 
 void BSerializer_1153231042(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 	BSerializable* p = pObjS.get();
@@ -225,10 +245,11 @@ void BSerializer_1153231042(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 }
 }}}
 
+
 namespace com { namespace wilutions { namespace jsfs { 
 
 void BSkeleton_FileSystemNotify::notify(const PNotifyInfo& notifyInfo)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
 void BSkeleton_FileSystemNotify::notify(const PNotifyInfo& notifyInfo, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
@@ -242,11 +263,13 @@ void BSkeleton_FileSystemNotify::notify(const PNotifyInfo& notifyInfo, ::std::fu
 }}}
 
 
-namespace com { namespace wilutions { namespace jsfs { 
 
+namespace com { namespace wilutions { namespace jsfs { 
 BStub_FileSystemNotify::BStub_FileSystemNotify(PTransport transport) 
 	: BStub(transport) {}
+}}}
 
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_FileSystemNotify::notify(const PNotifyInfo& notifyInfo)  {
 	BSyncResultT< bool > syncResult;	
 	notify(notifyInfo, [&syncResult](bool v, BException ex) {
@@ -261,7 +284,7 @@ void BStub_FileSystemNotify::notify(const PNotifyInfo& notifyInfo, ::std::functi
 }
 }}}
 
-// checkpoint byps.gen.cpp.GenRemoteStub:225
+// checkpoint byps.gen.cpp.GenRemoteStub:224
 namespace com { namespace wilutions { namespace jsfs { 
 void BSerializer_544795964(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 	BSerializable* p = pObjS.get();
@@ -280,13 +303,14 @@ void BSerializer_544795964(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 }
 }}}
 
+
 namespace com { namespace wilutions { namespace jsfs { 
 
-byps_ptr< ::std::vector< PFileInfo > > BSkeleton_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+PVectorFileInfo BSkeleton_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions)  {
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
-void BSkeleton_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (byps_ptr< ::std::vector< PFileInfo > >, BException ex) > asyncResult)  {
-	byps_ptr< ::std::vector< PFileInfo > > __byps__ret = byps_ptr< ::std::vector< PFileInfo > >();
+void BSkeleton_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (PVectorFileInfo, BException ex) > asyncResult)  {
+	PVectorFileInfo __byps__ret = PVectorFileInfo();
 	try {
 		__byps__ret = findFiles(path, findOptions);
 		asyncResult(__byps__ret, BException());
@@ -295,7 +319,7 @@ void BSkeleton_FileSystemService::findFiles(const ::std::wstring& path, const PF
 	}
 }
 ::std::wstring BSkeleton_FileSystemService::readAllText(const ::std::wstring& path)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
 void BSkeleton_FileSystemService::readAllText(const ::std::wstring& path, ::std::function< void (::std::wstring, BException ex) > asyncResult)  {
 	::std::wstring __byps__ret = ::std::wstring();
@@ -307,7 +331,7 @@ void BSkeleton_FileSystemService::readAllText(const ::std::wstring& path, ::std:
 	}
 }
 void BSkeleton_FileSystemService::writeAllText(const ::std::wstring& path, const ::std::wstring& text)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
 void BSkeleton_FileSystemService::writeAllText(const ::std::wstring& path, const ::std::wstring& text, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
@@ -318,10 +342,10 @@ void BSkeleton_FileSystemService::writeAllText(const ::std::wstring& path, const
 		asyncResult(__byps__ret, __byps__ex);
 	}
 }
-void BSkeleton_FileSystemService::executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+void BSkeleton_FileSystemService::executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts)  {
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
-void BSkeleton_FileSystemService::executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult)  {
+void BSkeleton_FileSystemService::executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
 	try {
 		executeNotifyExit(args, opts);
@@ -331,7 +355,7 @@ void BSkeleton_FileSystemService::executeNotifyExit(const byps_ptr< BArray1< ::s
 	}
 }
 int32_t BSkeleton_FileSystemService::beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
 void BSkeleton_FileSystemService::beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo, ::std::function< void (int32_t, BException ex) > asyncResult)  {
 	int32_t __byps__ret = int32_t();
@@ -343,7 +367,7 @@ void BSkeleton_FileSystemService::beginWatchFolder(const ::std::wstring& dir, bo
 	}
 }
 void BSkeleton_FileSystemService::endWatchFolder(int32_t handle)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
 void BSkeleton_FileSystemService::endWatchFolder(int32_t handle, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
@@ -355,7 +379,7 @@ void BSkeleton_FileSystemService::endWatchFolder(int32_t handle, ::std::function
 	}
 }
 PContentStream BSkeleton_FileSystemService::readFile(const ::std::wstring& path)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
 void BSkeleton_FileSystemService::readFile(const ::std::wstring& path, ::std::function< void (PContentStream, BException ex) > asyncResult)  {
 	PContentStream __byps__ret = PContentStream();
@@ -366,10 +390,10 @@ void BSkeleton_FileSystemService::readFile(const ::std::wstring& path, ::std::fu
 		asyncResult(__byps__ret, __byps__ex);
 	}
 }
-void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method)  {
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
-void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
+void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
 	try {
 		uploadFilesMultipartFormdata(items, url, method);
@@ -379,7 +403,7 @@ void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< B
 	}
 }
 void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)  {
-	throw BException(EX_UNSUPPORTED_METHOD, L"");
+	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
 void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
@@ -393,23 +417,28 @@ void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const :
 }}}
 
 
-namespace com { namespace wilutions { namespace jsfs { 
 
+namespace com { namespace wilutions { namespace jsfs { 
 BStub_FileSystemService::BStub_FileSystemService(PTransport transport) 
 	: BStub(transport) {}
+}}}
 
-byps_ptr< ::std::vector< PFileInfo > > BStub_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions)  {
-	BSyncResultT< byps_ptr< ::std::vector< PFileInfo > > > syncResult;	
-	findFiles(path, findOptions, [&syncResult](byps_ptr< ::std::vector< PFileInfo > > v, BException ex) {
+namespace com { namespace wilutions { namespace jsfs { 
+PVectorFileInfo BStub_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions)  {
+	BSyncResultT< PVectorFileInfo > syncResult;	
+	findFiles(path, findOptions, [&syncResult](PVectorFileInfo v, BException ex) {
 		syncResult.setAsyncResult(v, ex);
 	});
 	return syncResult.getResult();
 }
-void BStub_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (byps_ptr< ::std::vector< PFileInfo > >, BException ex) > asyncResult)  {
+void BStub_FileSystemService::findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (PVectorFileInfo, BException ex) > asyncResult)  {
 	PMethodRequest req(new BRequest_FileSystemService_findFiles(path, findOptions));
-	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< byps_ptr< ::std::vector< PFileInfo > >, BResult_1439246415 >(asyncResult) );
+	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PVectorFileInfo, BResult_1439246415 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 ::std::wstring BStub_FileSystemService::readAllText(const ::std::wstring& path)  {
 	BSyncResultT< ::std::wstring > syncResult;	
 	readAllText(path, [&syncResult](::std::wstring v, BException ex) {
@@ -422,6 +451,9 @@ void BStub_FileSystemService::readAllText(const ::std::wstring& path, ::std::fun
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< ::std::wstring, BResult_10 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_FileSystemService::writeAllText(const ::std::wstring& path, const ::std::wstring& text)  {
 	BSyncResultT< bool > syncResult;	
 	writeAllText(path, text, [&syncResult](bool v, BException ex) {
@@ -434,18 +466,24 @@ void BStub_FileSystemService::writeAllText(const ::std::wstring& path, const ::s
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
-void BStub_FileSystemService::executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts)  {
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
+void BStub_FileSystemService::executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts)  {
 	BSyncResultT< bool > syncResult;	
 	executeNotifyExit(args, opts, [&syncResult](bool v, BException ex) {
 		syncResult.setAsyncResult(v, ex);
 	});
 	syncResult.getResult();
 }
-void BStub_FileSystemService::executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult)  {
+void BStub_FileSystemService::executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult)  {
 	PMethodRequest req(new BRequest_FileSystemService_executeNotifyExit(args, opts));
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 int32_t BStub_FileSystemService::beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo)  {
 	BSyncResultT< int32_t > syncResult;	
 	beginWatchFolder(dir, recursive, extraInfo, [&syncResult](int32_t v, BException ex) {
@@ -458,6 +496,9 @@ void BStub_FileSystemService::beginWatchFolder(const ::std::wstring& dir, bool r
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< int32_t, BResult_5 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_FileSystemService::endWatchFolder(int32_t handle)  {
 	BSyncResultT< bool > syncResult;	
 	endWatchFolder(handle, [&syncResult](bool v, BException ex) {
@@ -470,6 +511,9 @@ void BStub_FileSystemService::endWatchFolder(int32_t handle, ::std::function< vo
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 PContentStream BStub_FileSystemService::readFile(const ::std::wstring& path)  {
 	BSyncResultT< PContentStream > syncResult;	
 	readFile(path, [&syncResult](PContentStream v, BException ex) {
@@ -482,18 +526,24 @@ void BStub_FileSystemService::readFile(const ::std::wstring& path, ::std::functi
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< PContentStream, BResult_15 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
-void BStub_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method)  {
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
+void BStub_FileSystemService::uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method)  {
 	BSyncResultT< bool > syncResult;	
 	uploadFilesMultipartFormdata(items, url, method, [&syncResult](bool v, BException ex) {
 		syncResult.setAsyncResult(v, ex);
 	});
 	syncResult.getResult();
 }
-void BStub_FileSystemService::uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
+void BStub_FileSystemService::uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
 	PMethodRequest req(new BRequest_FileSystemService_uploadFilesMultipartFormdata(items, url, method));
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }
+}}}
+
+namespace com { namespace wilutions { namespace jsfs { 
 void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)  {
 	BSyncResultT< bool > syncResult;	
 	uploadFile(path, url, method, [&syncResult](bool v, BException ex) {
@@ -508,7 +558,7 @@ void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std
 }
 }}}
 
-// checkpoint byps.gen.cpp.GenRemoteStub:225
+// checkpoint byps.gen.cpp.GenRemoteStub:224
 namespace com { namespace wilutions { namespace jsfs { 
 void BSerializer_145996442(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 	BSerializable* p = pObjS.get();
@@ -526,6 +576,7 @@ void BSerializer_145996442(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 	}
 }
 }}}
+
 //-------------------------------------------------
 // Registry 
 
@@ -565,10 +616,10 @@ com::wilutions::jsfs::BRegistry_JSFS::BRegistry_JSFS()
 	registerClass(typeid(com::wilutions::jsfs::FileSystemServiceC), com::wilutions::jsfs::BSerializer_1381128722, 1381128722);
 	registerClass(typeid(com::wilutions::jsfs::FindOptions), com::wilutions::jsfs::BSerializer_1092766252, 1092766252);
 	registerClass(typeid(com::wilutions::jsfs::FormItem), com::wilutions::jsfs::BSerializer_979378962, 979378962);
-	registerClass(typeid(BArray1< com::wilutions::jsfs::PFormItem > ), com::wilutions::jsfs::BSerializer_566696346, 566696346);
+	registerClass(typeid(::byps::BArray1< com::wilutions::jsfs::PFormItem > ), com::wilutions::jsfs::BSerializer_566696346, 566696346);
 	registerClass(typeid(com::wilutions::jsfs::NotifyInfo), com::wilutions::jsfs::BSerializer_1274131736, 1274131736);
 	registerClass(typeid(com::wilutions::jsfs::WatchFolderNotifyInfo), com::wilutions::jsfs::BSerializer_9906860, 9906860);
-	registerClass(typeid(BArray1< ::std::wstring > ), com::wilutions::jsfs::BSerializer_1888107655, 1888107655);
+	registerClass(typeid(::byps::BArray1< ::std::wstring > ), com::wilutions::jsfs::BSerializer_1888107655, 1888107655);
 	registerClass(typeid(::std::vector< com::wilutions::jsfs::PFileInfo >), com::wilutions::jsfs::BSerializer_1439246415, 1439246415);
 }
 namespace com { namespace wilutions { namespace jsfs { 
@@ -594,12 +645,12 @@ PClient_JSFS BClient_JSFS::createClientR(PTransport transport) {
 	return PClient_JSFS(new BClient_JSFS(transport));
 }
 void BClient_JSFS::addRemote(PSkeleton_FileSystemNotify remoteSkeleton) {
-	if (!serverR) throw BException(EX_NO_REVERSE_CONNECTIONS, L"No reverse connections.");
+	if (!serverR) throw BException(BExceptionC::NO_REVERSE_CONNECTIONS, L"No reverse connections.");
 	serverR->server->addRemote(544795964, remoteSkeleton);
 }
 
 void BClient_JSFS::addRemote(PSkeleton_FileSystemService remoteSkeleton) {
-	if (!serverR) throw BException(EX_NO_REVERSE_CONNECTIONS, L"No reverse connections.");
+	if (!serverR) throw BException(BExceptionC::NO_REVERSE_CONNECTIONS, L"No reverse connections.");
 	serverR->server->addRemote(145996442, remoteSkeleton);
 }
 

@@ -14,9 +14,9 @@ com.wilutions.jsfs = com.wilutions.jsfs || {};
 */
 com.wilutions.jsfs.BApiDescriptor_JSFS = {
 	/**
-	 * API serialisation version: 1.0.0.1
+	 * API serialisation version: 1.0.0.0
 	 */
-	VERSION : "1.0.0.1",
+	VERSION : "1.0.0.0",
 	
 	/**
 	 * Internal used API Desciptor.
@@ -25,7 +25,7 @@ com.wilutions.jsfs.BApiDescriptor_JSFS = {
 		return new byps.BApiDescriptor(
 			"JSFS",
 			"com.wilutions.jsfs",
-			"1.0.0.1",
+			"1.0.0.0",
 			false, // uniqueObjects
 			new com.wilutions.jsfs.BRegistry_JSFS()
 		);

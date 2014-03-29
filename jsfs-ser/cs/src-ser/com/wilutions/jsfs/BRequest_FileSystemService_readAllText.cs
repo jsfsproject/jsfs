@@ -25,7 +25,6 @@ namespace com.wilutions.jsfs
 				__byps__remoteT.ReadAllText(pathValue, BAsyncResultHelper.ToDelegate(__byps__outerResult));
 			} catch (Exception e) {
 				__byps__asyncResult.setAsyncResult("", e);
-				throw e;
 			}
 		}		
 		

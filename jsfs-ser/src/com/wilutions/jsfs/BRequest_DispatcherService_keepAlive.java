@@ -26,7 +26,6 @@ public final class BRequest_DispatcherService_keepAlive extends BMethodRequest i
 			__byps__remoteT.keepAlive(token, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

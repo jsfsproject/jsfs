@@ -28,7 +28,6 @@ public final class BRequest_FileSystemService_uploadFile extends BMethodRequest 
 			__byps__remoteT.uploadFile(path, url, method, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

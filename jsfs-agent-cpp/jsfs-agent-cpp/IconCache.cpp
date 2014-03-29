@@ -89,6 +89,8 @@ static PBytes createPngIcon(const std::wstring& fname) {
 			
 				strm->Release();
 			}
+
+			delete bmp;
 		}
 
 		DestroyIcon(fi.hIcon);

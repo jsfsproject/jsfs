@@ -27,7 +27,6 @@ public final class BRequest_DispatcherService_getService extends BMethodRequest 
 			__byps__remoteT.getService(token, onlyHere, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
-			throw e;
 		}
 	}	
 	

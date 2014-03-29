@@ -3,115 +3,110 @@
 
 #include <Byps.h>
 
-//-------------------------------------------------
-// Forward Declaration of class BStub_DispatcherService
+//--------------------------------------------------------
+// Forward Definitions for Namespace byps
+//--------------------------------------------------------
 
-namespace com { namespace wilutions { namespace jsfs { 
+namespace byps {
 
-class BStub_DispatcherService; 
-typedef byps_ptr< BStub_DispatcherService > PStub_DispatcherService; 
+	// byps.BValueClass
+	class BValueClass; 
+	typedef byps_ptr< BValueClass > PBValueClass; 
+	
+	// java.lang.Object
+	class BSerializable; 
+	typedef byps_ptr< BSerializable > PSerializable; 
+	
+	// java.lang.String[]
+	typedef ::byps::BArray1< ::std::wstring >  BArrayString;
+	typedef byps_ptr< BArrayString > PArrayString;
+	
+	// java.util.List<java.lang.Object>
+	typedef ::std::vector< PSerializable > BVectorObject;
+	typedef byps_ptr< BVectorObject > PVectorObject;
+	
+} // byps
 
-}}}
+//--------------------------------------------------------
+// Forward Definitions for Namespace com::wilutions::jsfs
+//--------------------------------------------------------
 
-//-------------------------------------------------
-// Forward Declaration of class BStub_FileSystemNotify
+namespace com {
 
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BStub_FileSystemNotify; 
-typedef byps_ptr< BStub_FileSystemNotify > PStub_FileSystemNotify; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class BStub_FileSystemService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class BStub_FileSystemService; 
-typedef byps_ptr< BStub_FileSystemService > PStub_FileSystemService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class NotifyInfo
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class NotifyInfo; 
-typedef byps_ptr< NotifyInfo > PNotifyInfo; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class ExecuteNotifyInfo
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class ExecuteNotifyInfo; 
-typedef byps_ptr< ExecuteNotifyInfo > PExecuteNotifyInfo; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class ExecuteOptions
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class ExecuteOptions; 
-typedef byps_ptr< ExecuteOptions > PExecuteOptions; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class FileInfo
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class FileInfo; 
-typedef byps_ptr< FileInfo > PFileInfo; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class FileSystemServiceC
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class FileSystemServiceC; 
-typedef byps_ptr< FileSystemServiceC > PFileSystemServiceC; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class FindOptions
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class FindOptions; 
-typedef byps_ptr< FindOptions > PFindOptions; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class FormItem
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class FormItem; 
-typedef byps_ptr< FormItem > PFormItem; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class WatchFolderNotifyInfo
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class WatchFolderNotifyInfo; 
-typedef byps_ptr< WatchFolderNotifyInfo > PWatchFolderNotifyInfo; 
-
-}}}
+	namespace wilutions {
+	
+		namespace jsfs {
+		
+			// com.wilutions.jsfs.BStub_DispatcherService
+			class BStub_DispatcherService; 
+			typedef byps_ptr< BStub_DispatcherService > PStub_DispatcherService; 
+			
+			// com.wilutions.jsfs.BStub_FileSystemNotify
+			class BStub_FileSystemNotify; 
+			typedef byps_ptr< BStub_FileSystemNotify > PStub_FileSystemNotify; 
+			
+			// com.wilutions.jsfs.BStub_FileSystemService
+			class BStub_FileSystemService; 
+			typedef byps_ptr< BStub_FileSystemService > PStub_FileSystemService; 
+			
+			// com.wilutions.jsfs.EWatchFolderNotifyKind
+			enum EWatchFolderNotifyKind; 
+			
+			// com.wilutions.jsfs.ExecuteNotifyInfo
+			class ExecuteNotifyInfo; 
+			typedef byps_ptr< ExecuteNotifyInfo > PExecuteNotifyInfo; 
+			
+			// com.wilutions.jsfs.ExecuteOptions
+			class ExecuteOptions; 
+			typedef byps_ptr< ExecuteOptions > PExecuteOptions; 
+			
+			// com.wilutions.jsfs.FileInfo
+			class FileInfo; 
+			typedef byps_ptr< FileInfo > PFileInfo; 
+			
+			// com.wilutions.jsfs.FileSystemServiceC
+			class FileSystemServiceC; 
+			typedef byps_ptr< FileSystemServiceC > PFileSystemServiceC; 
+			
+			// com.wilutions.jsfs.FindOptions
+			class FindOptions; 
+			typedef byps_ptr< FindOptions > PFindOptions; 
+			
+			// com.wilutions.jsfs.FormItem
+			class FormItem; 
+			typedef byps_ptr< FormItem > PFormItem; 
+			
+			// com.wilutions.jsfs.NotifyInfo
+			class NotifyInfo; 
+			typedef byps_ptr< NotifyInfo > PNotifyInfo; 
+			
+			// com.wilutions.jsfs.WatchFolderNotifyInfo
+			class WatchFolderNotifyInfo; 
+			typedef byps_ptr< WatchFolderNotifyInfo > PWatchFolderNotifyInfo; 
+			
+			// com.wilutions.jsfs.DispatcherService
+			class DispatcherService; 
+			typedef byps_ptr< DispatcherService > PDispatcherService; 
+			
+			// com.wilutions.jsfs.FileSystemNotify
+			class FileSystemNotify; 
+			typedef byps_ptr< FileSystemNotify > PFileSystemNotify; 
+			
+			// com.wilutions.jsfs.FileSystemService
+			class FileSystemService; 
+			typedef byps_ptr< FileSystemService > PFileSystemService; 
+			
+			// com.wilutions.jsfs.FormItem[]
+			typedef ::byps::BArray1< com::wilutions::jsfs::PFormItem >  BArrayFormItem;
+			typedef byps_ptr< BArrayFormItem > PArrayFormItem;
+			
+			// java.util.List<com.wilutions.jsfs.FileInfo>
+			typedef ::std::vector< com::wilutions::jsfs::PFileInfo > BVectorFileInfo;
+			typedef byps_ptr< BVectorFileInfo > PVectorFileInfo;
+			
+		} // com::wilutions::jsfs
+	} // com::wilutions
+} // com
 
 //-------------------------------------------------
 // EWatchFolderNotifyKind
@@ -335,7 +330,7 @@ class FileInfo : public BSerializable {
 	/// </summary>
 	protected: BDateTime lastModified;
 	/// <summary>
-	/// File icon.
+	/// File icon in PNG format.
 	/// </summary>
 	protected: PBytes icon;
 	
@@ -514,36 +509,6 @@ class WatchFolderNotifyInfo : public NotifyInfo {
 }}}
 
 //-------------------------------------------------
-// Forward Declaration of class DispatcherService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class DispatcherService; 
-typedef byps_ptr< DispatcherService > PDispatcherService; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class FileSystemNotify
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class FileSystemNotify; 
-typedef byps_ptr< FileSystemNotify > PFileSystemNotify; 
-
-}}}
-
-//-------------------------------------------------
-// Forward Declaration of class FileSystemService
-
-namespace com { namespace wilutions { namespace jsfs { 
-
-class FileSystemService; 
-typedef byps_ptr< FileSystemService > PFileSystemService; 
-
-}}}
-
-//-------------------------------------------------
 // DispatcherService
 
 namespace com { namespace wilutions { namespace jsfs { 
@@ -643,25 +608,18 @@ class BStub_DispatcherService : public BStub, public virtual DispatcherService {
 	
 	public: virtual void registerService(const ::std::wstring& token, const PFileSystemService& service) ;
 	public: virtual void registerService(const ::std::wstring& token, const PFileSystemService& service, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
 	public: virtual void unregisterService(const ::std::wstring& token) ;
 	public: virtual void unregisterService(const ::std::wstring& token, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
 	public: virtual PFileSystemService getService(const ::std::wstring& token, bool onlyHere) ;
 	public: virtual void getService(const ::std::wstring& token, bool onlyHere, ::std::function< void (PFileSystemService, BException ex) > asyncResult) ;
-	
 	public: virtual void registerNotifyService(const ::std::wstring& token, const PFileSystemNotify& service) ;
 	public: virtual void registerNotifyService(const ::std::wstring& token, const PFileSystemNotify& service, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
 	public: virtual void unregisterNotifyService(const ::std::wstring& token) ;
 	public: virtual void unregisterNotifyService(const ::std::wstring& token, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
 	public: virtual PFileSystemNotify getNotifyService(const ::std::wstring& token, bool onlyHere) ;
 	public: virtual void getNotifyService(const ::std::wstring& token, bool onlyHere, ::std::function< void (PFileSystemNotify, BException ex) > asyncResult) ;
-	
 	public: virtual void keepAlive(const ::std::wstring& token) ;
 	public: virtual void keepAlive(const ::std::wstring& token, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
 	
 };
 }}}
@@ -734,7 +692,6 @@ class BStub_FileSystemNotify : public BStub, public virtual FileSystemNotify {
 	public: virtual void notify(const PNotifyInfo& notifyInfo) ;
 	public: virtual void notify(const PNotifyInfo& notifyInfo, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
-	
 };
 }}}
 
@@ -754,8 +711,8 @@ class FileSystemService : public virtual BRemote {
 	/// <summary>
 	/// List files in a directory.
 	/// </summary>
-	public: virtual byps_ptr< ::std::vector< PFileInfo > > findFiles(const ::std::wstring& path, const PFindOptions& findOptions)  = 0;
-	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (byps_ptr< ::std::vector< PFileInfo > >, BException ex) > asyncResult)  = 0;
+	public: virtual PVectorFileInfo findFiles(const ::std::wstring& path, const PFindOptions& findOptions)  = 0;
+	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (PVectorFileInfo, BException ex) > asyncResult)  = 0;
 	
 	/// <summary>
 	/// Read text file.
@@ -786,8 +743,8 @@ class FileSystemService : public virtual BRemote {
 	/// {@link ExecuteOptions#extraInfo} is set in opts, the first element in args can also be a
 	/// file name. In this case the file is opened via ShellExecute with verb "open".
 	/// </remarks>
-	public: virtual void executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts)  = 0;
-	public: virtual void executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult)  = 0;
+	public: virtual void executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts)  = 0;
+	public: virtual void executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult)  = 0;
 	
 	/// <summary>
 	/// Begin watching a folder.
@@ -821,8 +778,8 @@ class FileSystemService : public virtual BRemote {
 	/// <summary>
 	/// Upload files to the given URL using multipart/form-data encoding.
 	/// </summary>
-	public: virtual void uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method)  = 0;
-	public: virtual void uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  = 0;
+	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method)  = 0;
+	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  = 0;
 	
 	/// <summary>
 	/// Upload a file to the given URL.
@@ -850,8 +807,8 @@ class BSkeleton_FileSystemService : public BSkeleton, public virtual FileSystemS
 	
 	public: virtual BTYPEID BSerializable_getTypeId() { return 145996442; }
 	
-	public: virtual byps_ptr< ::std::vector< PFileInfo > > findFiles(const ::std::wstring& path, const PFindOptions& findOptions) ;
-	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (byps_ptr< ::std::vector< PFileInfo > >, BException ex) > asyncResult) ;
+	public: virtual PVectorFileInfo findFiles(const ::std::wstring& path, const PFindOptions& findOptions) ;
+	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (PVectorFileInfo, BException ex) > asyncResult) ;
 	
 	public: virtual ::std::wstring readAllText(const ::std::wstring& path) ;
 	public: virtual void readAllText(const ::std::wstring& path, ::std::function< void (::std::wstring, BException ex) > asyncResult) ;
@@ -859,8 +816,8 @@ class BSkeleton_FileSystemService : public BSkeleton, public virtual FileSystemS
 	public: virtual void writeAllText(const ::std::wstring& path, const ::std::wstring& text) ;
 	public: virtual void writeAllText(const ::std::wstring& path, const ::std::wstring& text, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
-	public: virtual void executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts) ;
-	public: virtual void executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult) ;
+	public: virtual void executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts) ;
+	public: virtual void executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
 	public: virtual int32_t beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo) ;
 	public: virtual void beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo, ::std::function< void (int32_t, BException ex) > asyncResult) ;
@@ -871,8 +828,8 @@ class BSkeleton_FileSystemService : public BSkeleton, public virtual FileSystemS
 	public: virtual PContentStream readFile(const ::std::wstring& path) ;
 	public: virtual void readFile(const ::std::wstring& path, ::std::function< void (PContentStream, BException ex) > asyncResult) ;
 	
-	public: virtual void uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method) ;
-	public: virtual void uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
+	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method) ;
+	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
 	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) ;
 	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
@@ -897,33 +854,24 @@ class BStub_FileSystemService : public BStub, public virtual FileSystemService {
 	
 	public: virtual BTYPEID BSerializable_getTypeId() { return 145996442; }
 	
-	public: virtual byps_ptr< ::std::vector< PFileInfo > > findFiles(const ::std::wstring& path, const PFindOptions& findOptions) ;
-	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (byps_ptr< ::std::vector< PFileInfo > >, BException ex) > asyncResult) ;
-	
+	public: virtual PVectorFileInfo findFiles(const ::std::wstring& path, const PFindOptions& findOptions) ;
+	public: virtual void findFiles(const ::std::wstring& path, const PFindOptions& findOptions, ::std::function< void (PVectorFileInfo, BException ex) > asyncResult) ;
 	public: virtual ::std::wstring readAllText(const ::std::wstring& path) ;
 	public: virtual void readAllText(const ::std::wstring& path, ::std::function< void (::std::wstring, BException ex) > asyncResult) ;
-	
 	public: virtual void writeAllText(const ::std::wstring& path, const ::std::wstring& text) ;
 	public: virtual void writeAllText(const ::std::wstring& path, const ::std::wstring& text, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
-	public: virtual void executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts) ;
-	public: virtual void executeNotifyExit(const byps_ptr< BArray1< ::std::wstring > >& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
+	public: virtual void executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts) ;
+	public: virtual void executeNotifyExit(const PArrayString& args, const PExecuteOptions& opts, ::std::function< void (bool, BException ex) > asyncResult) ;
 	public: virtual int32_t beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo) ;
 	public: virtual void beginWatchFolder(const ::std::wstring& dir, bool recursive, const ::std::wstring& extraInfo, ::std::function< void (int32_t, BException ex) > asyncResult) ;
-	
 	public: virtual void endWatchFolder(int32_t handle) ;
 	public: virtual void endWatchFolder(int32_t handle, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
 	public: virtual PContentStream readFile(const ::std::wstring& path) ;
 	public: virtual void readFile(const ::std::wstring& path, ::std::function< void (PContentStream, BException ex) > asyncResult) ;
-	
-	public: virtual void uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method) ;
-	public: virtual void uploadFilesMultipartFormdata(const byps_ptr< BArray1< PFormItem > >& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
+	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method) ;
+	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
 	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) ;
 	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
-	
 	
 };
 }}}
@@ -945,9 +893,9 @@ using namespace ::byps;
 
 class BApiDescriptor_JSFS { 
 	/**
-	 * API serialisation version: 1.0.0.1
+	 * API serialisation version: 1.0.0.0
 	 */
-	public: const static int64_t VERSION = 100000000000001LL;
+	public: const static int64_t VERSION = 100000000000000LL;
 	public: static PApiDescriptor instance();
 };
 

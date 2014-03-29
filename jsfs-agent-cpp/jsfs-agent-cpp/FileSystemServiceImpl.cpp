@@ -6,27 +6,11 @@
 #include "resource.h"
 #include <thread>
 
-//static PBytes iconDocument;
-
 CFileSystemServiceImpl::CFileSystemServiceImpl(PClient_JSFS bclient)
 	: bclient(bclient)
 {
 	tpool = BThreadPool::create(NULL, 100);
 
-	//if (!iconDocument) {
-	//	HRSRC hRes = ::FindResource(NULL, MAKEINTRESOURCE(IDB_DOCUMENT_PNG), L"PNG");
-	//	if (hRes) {
-	//		HGLOBAL hGlobal = ::LoadResource(NULL, hRes);
-	//		if (hGlobal) {
-	//			void* pRes = ::LockResource(hGlobal);
-	//			if (pRes) {
-	//				size_t nSize = ::SizeofResource(NULL, hRes);
-	//				iconDocument = BBytes::create(nSize);
-	//				memcpy(iconDocument->data, pRes, nSize);
-	//			}
-	//		}
-	//	}
-	//}
 }
 
 CFileSystemServiceImpl::~CFileSystemServiceImpl(void)
@@ -170,7 +154,7 @@ wstring CFileSystemServiceImpl::checkValidEncoding(const wstring& encoding) {
 
 	wstringstream wss;
 	wss << L"Unsupported encoding=" << encoding << L", must be UTF-8, UTF-16LE or UNICODE.";
-	throw BException(EX_INTERNAL, wss.str());
+	throw BException(BExceptionC::INTERNAL, wss.str());
 	//return encoding;
 }
 
@@ -456,7 +440,7 @@ public:
 		::CloseHandle(execInfo.hProcess);
 
 		if (wait == WAIT_TIMEOUT) {
-			throw BException(EX_TIMEOUT, L"Timeout while waiting for " + args->at(0));
+			throw BException(BExceptionC::TIMEOUT, L"Timeout while waiting for " + args->at(0));
 		}
 		else if (wait != WAIT_OBJECT_0) {
 			throw CFileSystemServiceImpl::createException(L"Error while waiting for " + args->at(0), err);
@@ -530,7 +514,7 @@ public:
 		if (hReadStderrFinished) ::CloseHandle(hReadStderrFinished);
 
 		if (wait == WAIT_TIMEOUT) {
-			throw BException(EX_TIMEOUT, L"Timeout while waiting for " + args->at(0));
+			throw BException(BExceptionC::TIMEOUT, L"Timeout while waiting for " + args->at(0));
 		}
 		else if (wait == WAIT_FAILED) {
 			throw CFileSystemServiceImpl::createException(L"Error while waiting for " + args->at(0), err);
@@ -570,7 +554,7 @@ PFileSystemNotify CFileSystemServiceImpl::getNotifyService(PClient_JSFS bclient)
 
 void CFileSystemServiceImpl::internalExecute(const PArrayString& args, const PExecuteOptions& opts, bool notify) {
 
-	if (!args || args->length() == 0) throw BException(EX_INTERNAL, L"Parameter args must not be empty");
+	if (!args || args->length() == 0) throw BException(BExceptionC::INTERNAL, L"Parameter args must not be empty");
 
 	PRunnable job(new WaitForProcessExit_Job(shared_from_this(), args, opts, notify));
 	if (notify) {
@@ -635,7 +619,7 @@ int32_t CFileSystemServiceImpl::beginWatchFolder(const ::std::wstring& dir, bool
 	
 	PClient_JSFS bclient = this->bclient.lock();
 	if (!bclient) {
-		throw BException(EX_CANCELLED, L"Application already stopped");
+		throw BException(BExceptionC::CANCELLED, L"Application already stopped");
 	}
 
 	std::wstring watchDirectory = makeValidPath(dir);

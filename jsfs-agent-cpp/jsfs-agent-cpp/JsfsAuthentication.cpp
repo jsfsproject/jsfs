@@ -48,10 +48,10 @@ public:
 			var.get(bytes);
 			if (bytes) {
 				std::string body((char*)bytes->data, bytes->length);
-				token = BToStdWString(body);
+				token = byps::fromUtf8(body);
 			}
 			else {
-				ex = BException(EX_UNAUTHORIZED);
+				ex = BException(BExceptionC::UNAUTHORIZED);
 			}
 		}
 

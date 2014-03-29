@@ -144,7 +144,6 @@
     <None Include="res\jsfsagentcpp.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\File-Types-Word-icon.png" />
     <Image Include="res\jsfs-agent-cpp.ico" />
     <Image Include="res\Visualpharm-Icons8-Metro-Style-Debug-External-link.ico" />
   </ItemGroup>
