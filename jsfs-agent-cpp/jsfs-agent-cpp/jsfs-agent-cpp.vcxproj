@@ -106,6 +106,7 @@
     <ClInclude Include="..\..\jsfs-ser\cpp\src-api\JSFS-api.h" />
     <ClInclude Include="..\..\jsfs-ser\cpp\src-impl\JSFS-impl.h" />
     <ClInclude Include="FileSystemServiceImpl.h" />
+    <ClInclude Include="IconCache.h" />
     <ClInclude Include="jsfs-agent-cpp.h" />
     <ClInclude Include="jsfs-agent-cppDlg.h" />
     <ClInclude Include="JsfsAuthentication.h" />
@@ -125,6 +126,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FileSystemServiceImpl.cpp" />
+    <ClCompile Include="IconCache.cpp" />
     <ClCompile Include="jsfs-agent-cpp.cpp" />
     <ClCompile Include="jsfs-agent-cppDlg.cpp" />
     <ClCompile Include="JsfsAuthentication.cpp" />
@@ -142,6 +144,7 @@
     <None Include="res\jsfsagentcpp.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\File-Types-Word-icon.png" />
     <Image Include="res\jsfs-agent-cpp.ico" />
     <Image Include="res\Visualpharm-Icons8-Metro-Style-Debug-External-link.ico" />
   </ItemGroup>

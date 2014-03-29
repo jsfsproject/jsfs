@@ -3,10 +3,21 @@
     <apiDesc>
         <name>JSFS</name>
         <apiPack>com.wilutions.jsfs</apiPack>
-        <version>1.0.0.0</version>
+        <version>1.0.0.1</version>
         <uniqueObjects>false</uniqueObjects>
     </apiDesc>
     <serials>
+        <serial>
+            <typeName>byte[]</typeName>
+            <typeId>1374008726</typeId>
+            <members/>
+            <comments/>
+            <baseFullName></baseFullName>
+            <isInline>false</isInline>
+            <isEnum>false</isEnum>
+            <isFinal>false</isFinal>
+            <since>0.0.0.0</since>
+        </serial>
         <serial>
             <typeName>com.wilutions.jsfs.BRequest_DispatcherService_getNotifyService</typeName>
             <typeId>1090607752</typeId>
@@ -859,7 +870,8 @@
                     </comments>
                     <comments>
                         <kind>@remarks</kind>
-                        <text>This member is negative if the file size is greater than or equal to 2^31.</text>
+                        <text>This member is negative if the file size is
+ greater than or equal to 2^31.</text>
                     </comments>
                     <typeName>int</typeName>
                     <isTransient>false</isTransient>
@@ -923,6 +935,23 @@
                     <isFinal>false</isFinal>
                     <access>PROTECTED</access>
                     <since>0.0.0.0</since>
+                </member>
+                <member>
+                    <name>icon</name>
+                    <comments>
+                        <kind>@summary</kind>
+                        <text>File icon.</text>
+                    </comments>
+                    <comments>
+                        <kind>@since</kind>
+                        <text>1.0.0.1</text>
+                    </comments>
+                    <typeName>byte[]</typeName>
+                    <isTransient>false</isTransient>
+                    <isStatic>false</isStatic>
+                    <isFinal>false</isFinal>
+                    <access>PROTECTED</access>
+                    <since>1.0.0.1</since>
                 </member>
             </members>
             <comments>

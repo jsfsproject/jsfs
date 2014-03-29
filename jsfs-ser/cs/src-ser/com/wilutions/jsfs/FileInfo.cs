@@ -21,13 +21,14 @@ namespace com.wilutions.jsfs
 		public FileInfo() {
 		}		
 		
-		public FileInfo(String @name, int @size, long @sizeL, bool @directory, bool @readonly, DateTime @lastModified) {
+		public FileInfo(String @name, int @size, long @sizeL, bool @directory, bool @readonly, DateTime @lastModified, byte[] @icon) {
 			this.nameValue = @name;
 			this.sizeValue = @size;
 			this.sizeLValue = @sizeL;
 			this.directoryValue = @directory;
 			this.readonlyValue = @readonly;
 			this.lastModifiedValue = @lastModified;
+			this.iconValue = @icon;
 		}		
 		
 		public FileInfo(FileInfo rhs)
@@ -38,6 +39,7 @@ namespace com.wilutions.jsfs
 			this.directoryValue = rhs.directoryValue;
 			this.readonlyValue = rhs.readonlyValue;
 			this.lastModifiedValue = rhs.lastModifiedValue;
+			this.iconValue = rhs.iconValue;
 		}		
 		
 		#endregion
@@ -64,7 +66,8 @@ namespace com.wilutions.jsfs
 		/// File size if less than 2^31.
 		/// </summary>
 		/// <remarks>
-		/// This member is negative if the file size is greater than or equal to 2^31.
+		/// This member is negative if the file size is
+		/// greater than or equal to 2^31.
 		/// </remarks>
 		public int Size
 		{
@@ -146,6 +149,22 @@ namespace com.wilutions.jsfs
 		}
 		
 		
+		/// <summary>
+		/// File icon.
+		/// </summary>
+		public byte[] Icon
+		{
+			get
+			{
+				return iconValue;
+			}
+			set
+			{
+				this.iconValue = value;
+			}
+		}
+		
+		
 		#endregion
 		
 		#region Fields
@@ -161,6 +180,8 @@ namespace com.wilutions.jsfs
 		protected bool readonlyValue;
 
 		protected DateTime lastModifiedValue;
+
+		protected byte[] iconValue;
 
 		#endregion
 		

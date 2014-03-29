@@ -62,13 +62,22 @@
 	  
 	  var row = tab.insertRow(tab.rows.length);
 	  row.className = "uploadDialogListItem";
-	  var cellCheckbox = row.insertCell(0);
+	  
+	  var colIdx = 0;
+	  
+	  var cellCheckbox = row.insertCell(colIdx++);
 	  cellCheckbox.innerHTML = "<input type='checkbox' value='" + fileInfo.name + "'>";
-	  var cellName = row.insertCell(1);
+	  
+	  var cellIcon = row.insertCell(colIdx++);
+	  cellIcon.innerHTML = fileInfo.icon ? "<img src='data:image/x-png;base64," + fileInfo.icon + "'>" : "&nbsp;";
+	  
+	  var cellName = row.insertCell(colIdx++);
 	  cellName.innerHTML = displInfo.name;
-	  var cellDate = row.insertCell(2);
+	  
+	  var cellDate = row.insertCell(colIdx++);
 	  cellDate.innerHTML = displInfo.lastModified;
-	  var cellSize = row.insertCell(3);
+	  
+	  var cellSize = row.insertCell(colIdx++);
 	  cellSize.innerHTML = displInfo.size;
 	  cellSize.style.textAlign = "right";
   }
@@ -158,8 +167,8 @@
 <body onload="listFiles()">
 
 <table id="uploadDialogId" class="uploadDialog">
-	<tr class="uploadDialogTitle"><td colspan="4">Upload Files</td></tr>
-	<tr class="uploadDialogListTitle"><td>&nbsp;<td>Name</td><td>Date</td><td style="text-align:right">Size</td></tr>
+	<tr class="uploadDialogTitle"><td colspan="5">Upload Files</td></tr>
+	<tr class="uploadDialogListTitle"><td>&nbsp;</td><td>&nbsp;</td><td>Name</td><td>Date</td><td style="text-align:right">Size</td></tr>
 	<tr class="uploadDialogListItem"><td><input type="checkbox"></td><td>Dateiname123.doc</td><td>20.01.2013</td><td>12 KB</td></tr>
 	
 </table>

@@ -11,7 +11,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 ////////////////////////////////////////////
 // BYPS implementations
 #include "Byps.hpp"
@@ -19,6 +18,9 @@
 #include "BLogger.hpp"
 LOGGER_IMPL
 ////////////////////////////////////////////
+
+#include <gdiplus.h>
+static ULONG_PTR g_gdiplusToken;
 
 // CjsfsagentcppApp
 
@@ -34,10 +36,14 @@ CjsfsagentcppApp::CjsfsagentcppApp()
 	// support Restart Manager
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
 
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
 }
 
+CjsfsagentcppApp::~CjsfsagentcppApp()
+{
+	Gdiplus::GdiplusShutdown(g_gdiplusToken);
+}
 
 // The one and only CjsfsagentcppApp object
 

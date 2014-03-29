@@ -12,7 +12,7 @@ import byps.*;
 // isEnum=false
 // isFinal=false
 // isInline=false
-// #members=6
+// #members=7
 
 // checkpoint byps.gen.j.GenSerStruct:274
 @SuppressWarnings("all")
@@ -38,6 +38,7 @@ public class JSerializer_1100528120 extends JSerializer_Object {
 		bbuf.putBoolean("readonly", obj.readonly);
 		bbuf.putInt("size", obj.size);
 		bbuf.putLong("sizeL", obj.sizeL);
+		bbuf.putArrayByte("icon", obj.icon);
 	}
 	
 	@Override
@@ -51,6 +52,7 @@ public class JSerializer_1100528120 extends JSerializer_Object {
 		obj.readonly = js.getBoolean("readonly");
 		obj.size = js.getInt("size");
 		obj.sizeL = js.getLong("sizeL");
+		obj.icon = js.getArrayByte("icon");
 		
 		return obj;
 	}

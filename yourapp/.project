@@ -3,6 +3,8 @@
 	<name>yourapp</name>
 	<comment></comment>
 	<projects>
+		<project>jsfs-api</project>
+		<project>jsfs-ser</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

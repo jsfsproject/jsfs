@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app>
+<web-app xmlns:web="http://xmlns.jcp.org/xml/ns/javaee">
   <display-name>My Application</display-name>
   <servlet>
     <servlet-name>AuthenticationServlet</servlet-name>

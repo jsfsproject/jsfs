@@ -13,6 +13,20 @@ void operator & (BIO& ar, EWatchFolderNotifyKind& e) {
 
 }}}
 
+// checkpoint byps.gen.cpp.GenApiClass:902
+namespace com { namespace wilutions { namespace jsfs { 
+void BSerializer_1374008726(BIO& bio, POBJECT& pObj, PSerializable&, void* ){
+	PBytes p = byps_static_ptr_cast<BBytes>(pObj);
+	if (bio.is_loading) {
+		if (p) return;
+		bio.serialize(p);
+		pObj = p;
+	}
+	else {
+		bio.serialize(p);
+	}
+}
+}}}
 namespace com { namespace wilutions { namespace jsfs { 
 
 //-------------------------------------------------
@@ -1114,13 +1128,14 @@ FileInfo::FileInfo() {
 	readonly = false;
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
-com::wilutions::jsfs::FileInfo::FileInfo(const ::std::wstring& name, int32_t size, int64_t sizeL, bool directory, bool readonly, const BDateTime& lastModified)
+com::wilutions::jsfs::FileInfo::FileInfo(const ::std::wstring& name, int32_t size, int64_t sizeL, bool directory, bool readonly, const BDateTime& lastModified, const PBytes& icon)
 	: name(name)
 	, size(size)
 	, sizeL(sizeL)
 	, directory(directory)
 	, readonly(readonly)
 	, lastModified(lastModified)
+	, icon(icon)
 	{}
 void FileInfo::setName(::std::wstring v) {
 	name = v;
@@ -1140,6 +1155,9 @@ void FileInfo::setReadonly(bool v) {
 void FileInfo::setLastModified(BDateTime v) {
 	lastModified = v;
 }
+void FileInfo::setIcon(PBytes v) {
+	icon = v;
+}
 // checkpoint byps.gen.cpp.GenApiClass:877
 void com::wilutions::jsfs::FileInfo::serialize(BIO& ar, const BVERSION version) {
 	ar & this->directory;
@@ -1148,6 +1166,9 @@ void com::wilutions::jsfs::FileInfo::serialize(BIO& ar, const BVERSION version) 
 	ar & this->readonly;
 	ar & this->size;
 	ar & this->sizeL;
+	if (version >= 100000000000001) {
+		ar & this->icon;
+	}
 }
 }}}
 

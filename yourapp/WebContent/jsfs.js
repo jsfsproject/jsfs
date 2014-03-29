@@ -14,9 +14,9 @@ com.wilutions.jsfs = com.wilutions.jsfs || {};
 */
 com.wilutions.jsfs.BApiDescriptor_JSFS = {
 	/**
-	 * API serialisation version: 1.0.0.0
+	 * API serialisation version: 1.0.0.1
 	 */
-	VERSION : "1.0.0.0",
+	VERSION : "1.0.0.1",
 	
 	/**
 	 * Internal used API Desciptor.
@@ -25,7 +25,7 @@ com.wilutions.jsfs.BApiDescriptor_JSFS = {
 		return new byps.BApiDescriptor(
 			"JSFS",
 			"com.wilutions.jsfs",
-			"1.0.0.0",
+			"1.0.0.1",
 			false, // uniqueObjects
 			new com.wilutions.jsfs.BRegistry_JSFS()
 		);
@@ -95,7 +95,7 @@ com.wilutions.jsfs.ExecuteOptions = function(extraInfo, standardInput, captureOu
 /**
  * This class contains information about a file or directory.
 */
-com.wilutions.jsfs.FileInfo = function(name, size, sizeL, directory, readonly, lastModified) {
+com.wilutions.jsfs.FileInfo = function(name, size, sizeL, directory, readonly, lastModified, icon) {
 	this._typeId = 1100528120;
 	this.name = name || "";
 	this.size = size || 0;
@@ -103,6 +103,7 @@ com.wilutions.jsfs.FileInfo = function(name, size, sizeL, directory, readonly, l
 	this.directory = directory || false;
 	this.readonly = readonly || false;
 	this.lastModified = lastModified || null;
+	this.icon = icon || null;
 };
 
 
@@ -1033,6 +1034,12 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 	
 	this._serializerMap = {
 		
+		// byte[]
+		1374008726 : new byps.BSerializerArray(
+			2, // Element type: byte
+			1
+		),
+		
 		// com.wilutions.jsfs.BRequest_DispatcherService_getNotifyService
 		1090607752 : new byps.BSerializer(
 			// checkpoint byps.gen.js.GenRegistry:138
@@ -1440,12 +1447,16 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 				// names of persistent elements
 				"readonly":1, // boolean
 				// names of persistent elements
-				"lastModified":17 // java.util.Date
+				"lastModified":17, // java.util.Date
+				// names of persistent elements
+				"icon":1374008726 // byte[]
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
 			// names of inline elements
 			{
-				"lastModified":17 // java.util.Date
+				"lastModified":17, // java.util.Date
+				// names of inline elements
+				"icon":1374008726 // byte[]
 			},
 			// inlineInstance
 			false

@@ -311,7 +311,8 @@ class FileInfo : public BSerializable {
 	/// File size if less than 2^31.
 	/// </summary>
 	/// <remarks>
-	/// This member is negative if the file size is greater than or equal to 2^31.
+	/// This member is negative if the file size is
+	/// greater than or equal to 2^31.
 	/// </remarks>
 	protected: int32_t size;
 	/// <summary>
@@ -333,11 +334,15 @@ class FileInfo : public BSerializable {
 	/// Last modified date.
 	/// </summary>
 	protected: BDateTime lastModified;
+	/// <summary>
+	/// File icon.
+	/// </summary>
+	protected: PBytes icon;
 	
 	// checkpoint byps.gen.cpp.GenApiClass:488
 	public: FileInfo();
 	// checkpoint byps.gen.cpp.GenApiClass:535
-	public: FileInfo(const ::std::wstring& name, int32_t size, int64_t sizeL, bool directory, bool readonly, const BDateTime& lastModified);	
+	public: FileInfo(const ::std::wstring& name, int32_t size, int64_t sizeL, bool directory, bool readonly, const BDateTime& lastModified, const PBytes& icon);	
 	public: virtual BTYPEID BSerializable_getTypeId() { return 1100528120; }
 	
 	public: ::std::wstring getName() { return name; }
@@ -352,6 +357,8 @@ class FileInfo : public BSerializable {
 	public: void setReadonly(bool v);
 	public: BDateTime getLastModified() { return lastModified; }
 	public: void setLastModified(BDateTime v);
+	public: PBytes getIcon() { return icon; }
+	public: void setIcon(PBytes v);
 	// checkpoint byps.gen.cpp.GenApiClass:871
 	public: void serialize(BIO& ar, const BVERSION version);
 };
@@ -938,9 +945,9 @@ using namespace ::byps;
 
 class BApiDescriptor_JSFS { 
 	/**
-	 * API serialisation version: 1.0.0.0
+	 * API serialisation version: 1.0.0.1
 	 */
-	public: const static int64_t VERSION = 100000000000000LL;
+	public: const static int64_t VERSION = 100000000000001LL;
 	public: static PApiDescriptor instance();
 };
 

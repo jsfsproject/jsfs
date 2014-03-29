@@ -721,6 +721,8 @@ class BResult_5 : public BSerializable {
 
 namespace com { namespace wilutions { namespace jsfs { 
 
+// Serializer for byte[]
+void BSerializer_1374008726(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BRequest_DispatcherService_getNotifyService
 void BSerializer_1090607752(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* pBase);
 // Serializer for com.wilutions.jsfs.BRequest_DispatcherService_getService

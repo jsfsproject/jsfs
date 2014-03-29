@@ -37,6 +37,7 @@ namespace com.wilutions.jsfs
 			new BRegisteredSerializer(1274131736, "com.wilutions.jsfs.BSerializer_1274131736", com.wilutions.jsfs.BSerializer_1274131736.instance),
 			new BRegisteredSerializer(1354059712, "com.wilutions.jsfs.BSerializer_1354059712", com.wilutions.jsfs.BSerializer_1354059712.instance),
 			new BRegisteredSerializer(1366717454, "com.wilutions.jsfs.BSerializer_1366717454", com.wilutions.jsfs.BSerializer_1366717454.instance),
+			new BRegisteredSerializer(1374008726, "com.wilutions.jsfs.BSerializer_1374008726", com.wilutions.jsfs.BSerializer_1374008726.instance),
 			new BRegisteredSerializer(1381128722, "com.wilutions.jsfs.BSerializer_1381128722", com.wilutions.jsfs.BSerializer_1381128722.instance),
 			new BRegisteredSerializer(1439246415, "com.wilutions.jsfs.BSerializer_1439246415", com.wilutions.jsfs.BSerializer_1439246415.instance),
 			new BRegisteredSerializer(1542825705, "com.wilutions.jsfs.BSerializer_1542825705", com.wilutions.jsfs.BSerializer_1542825705.instance),

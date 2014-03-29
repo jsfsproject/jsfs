@@ -531,6 +531,7 @@ void BSerializer_145996442(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
 
 com::wilutions::jsfs::BRegistry_JSFS::BRegistry_JSFS()
 {
+	registerClass(typeid(BBytes), com::wilutions::jsfs::BSerializer_1374008726, 1374008726);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_DispatcherService_getNotifyService), com::wilutions::jsfs::BSerializer_1090607752, 1090607752);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_DispatcherService_getService), com::wilutions::jsfs::BSerializer_575037953, 575037953);
 	registerClass(typeid(com::wilutions::jsfs::BRequest_DispatcherService_keepAlive), com::wilutions::jsfs::BSerializer_1609273478, 1609273478);

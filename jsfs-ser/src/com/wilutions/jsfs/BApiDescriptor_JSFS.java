@@ -10,9 +10,9 @@ import byps.*;
 public class BApiDescriptor_JSFS { 
 
 	/**
-	 * API serialisation version: 1.0.0.0
+	 * API serialisation version: 1.0.0.1
 	 */
-	public final static long VERSION = 100000000000000L;
+	public final static long VERSION = 100000000000001L;
 	
 	public final static BApiDescriptor instance() {
 		return new BApiDescriptor(

@@ -1,7 +1,11 @@
 package com.wilutions.jsfs;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Date;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  * Utility class.
@@ -23,6 +27,7 @@ public class FileInfoHelper {
     fi.setReadonly(!file.canWrite());
     //fi.setHidden(file.isHidden());
     fi.setLastModified(new Date(file.lastModified()));
+    fi.setIcon(IconCache.getPngIcon(file));
     return fi;
   }
 

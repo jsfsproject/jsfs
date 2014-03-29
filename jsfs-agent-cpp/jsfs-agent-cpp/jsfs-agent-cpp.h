@@ -20,6 +20,7 @@ class CjsfsagentcppApp : public CWinApp
 {
 public:
 	CjsfsagentcppApp();
+	virtual ~CjsfsagentcppApp();
 
 // Overrides
 public:

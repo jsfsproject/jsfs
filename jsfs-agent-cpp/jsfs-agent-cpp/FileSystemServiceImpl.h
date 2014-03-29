@@ -53,6 +53,8 @@ public:
 	virtual int32_t beginWatchFolder(const wstring& dir, bool recursive, const wstring& extraInfo) ;
 	virtual void endWatchFolder(int32_t handle) ;
 
+	virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) ;
+
 	virtual PContentStream readFile(const wstring& path);
 
 	static BException createException(DWORD winErrorCode);

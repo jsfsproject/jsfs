@@ -40,6 +40,7 @@ public class BRegistry_JSFS extends BRegistry {
 		new BRegisteredSerializer(1274131736, "com.wilutions.jsfs.BSerializer_1274131736"),
 		new BRegisteredSerializer(1354059712, "com.wilutions.jsfs.BSerializer_1354059712"),
 		new BRegisteredSerializer(1366717454, "com.wilutions.jsfs.BSerializer_1366717454"),
+		new BRegisteredSerializer(1374008726, "com.wilutions.jsfs.BSerializer_1374008726"),
 		new BRegisteredSerializer(1381128722, "com.wilutions.jsfs.BSerializer_1381128722"),
 		new BRegisteredSerializer(1439246415, "com.wilutions.jsfs.BSerializer_1439246415"),
 		new BRegisteredSerializer(1542825705, "com.wilutions.jsfs.BSerializer_1542825705"),

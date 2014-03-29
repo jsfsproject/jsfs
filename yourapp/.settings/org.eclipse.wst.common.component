@@ -2,6 +2,12 @@
     <wb-module deploy-name="yourapp">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="jsfs-api.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jsfs-api/jsfs-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jsfs-ser.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jsfs-ser/jsfs-ser">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/yourapp/build/classes"/>
         <property name="context-root" value="yourapp"/>
     </wb-module>

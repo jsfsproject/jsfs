@@ -60,6 +60,9 @@
     <ClInclude Include="WatchDir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IconCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsfs-agent-cpp.cpp">
@@ -89,6 +92,9 @@
     <ClCompile Include="WatchDir.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IconCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="jsfs-agent-cpp.rc">
@@ -105,6 +111,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\Visualpharm-Icons8-Metro-Style-Debug-External-link.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\File-Types-Word-icon.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

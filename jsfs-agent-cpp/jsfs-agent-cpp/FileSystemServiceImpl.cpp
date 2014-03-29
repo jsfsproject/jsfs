@@ -2,13 +2,31 @@
 #include "stdafx.h"
 #include "FileSystemServiceImpl.h"
 #include "JsfsAuthentication.h"
-
+#include "IconCache.h"
+#include "resource.h"
 #include <thread>
+
+//static PBytes iconDocument;
 
 CFileSystemServiceImpl::CFileSystemServiceImpl(PClient_JSFS bclient)
 	: bclient(bclient)
 {
 	tpool = BThreadPool::create(NULL, 100);
+
+	//if (!iconDocument) {
+	//	HRSRC hRes = ::FindResource(NULL, MAKEINTRESOURCE(IDB_DOCUMENT_PNG), L"PNG");
+	//	if (hRes) {
+	//		HGLOBAL hGlobal = ::LoadResource(NULL, hRes);
+	//		if (hGlobal) {
+	//			void* pRes = ::LockResource(hGlobal);
+	//			if (pRes) {
+	//				size_t nSize = ::SizeofResource(NULL, hRes);
+	//				iconDocument = BBytes::create(nSize);
+	//				memcpy(iconDocument->data, pRes, nSize);
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 CFileSystemServiceImpl::~CFileSystemServiceImpl(void)
@@ -90,6 +108,8 @@ PFileInfo CFileSystemServiceImpl::fileInfoFromWin32FindData(const wstring& dir, 
 
 	fi->setLastModified(toDateTime(fd.ftLastWriteTime));
 
+	fi->setIcon(IconCache::getPngIcon(fi->getName()));
+
 	return PFileInfo(fi);
 }
 
@@ -130,6 +150,8 @@ byps_ptr< vector<PFileInfo> > CFileSystemServiceImpl::findFiles(const wstring& p
 		if (i != 0) {
 			if (!::FindNextFile(hfind, &fd)) break;
 		}
+
+		if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 
 		PFileInfo fi = fileInfoFromWin32FindData(dir, fd);
 		if (fi) {
@@ -682,4 +704,8 @@ PContentStream CFileSystemServiceImpl::readFile(const wstring& path1) {
 	int64_t contentLength = getFileContentLength(path);
 	PContentStream cstream(new BContentStreamFile(path, contentType, contentLength));
 	return cstream;
+}
+
+void CFileSystemServiceImpl::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) {
+	BSkeleton_FileSystemService::uploadFile(path, url, method);
 }
