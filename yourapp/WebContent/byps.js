@@ -687,8 +687,8 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 		return v1.toString();
 	};
 
-	const MESSAGEID_CANCEL_ALL_REQUESTS = -1;
-	const MESSAGEID_DISCONNECT = -2;
+	var MESSAGEID_CANCEL_ALL_REQUESTS = -1;
+	var MESSAGEID_DISCONNECT = -2;
 		
 	this.done = function() {
 		this._internalCancelAllRequests(MESSAGEID_DISCONNECT);
