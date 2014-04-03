@@ -27,15 +27,16 @@ public class MySession extends HSession {
    * @see JsfsDispatcher
    */
   private final JsfsDispatcher jsfsDispatcher;
+  
+  /**
+   * API descriptor with JSON serializers.
+   */
+  public final static BApiDescriptor apiDesc = BApiDescriptor_JSFS.instance().addRegistry(new JRegistry_JSFS());
 
 	public MySession(HttpSession hsess, String remoteUser, File tempDir,
 			BServerRegistry stubRegistry) {
 		super(hsess, remoteUser, tempDir, stubRegistry);
     
-		// Add JSON serialization
-		BApiDescriptor apiDesc = BApiDescriptor_JSFS.instance();
-		apiDesc.addRegistry(new JRegistry_JSFS());
-		
 		// Initialize objects required by BYPS 
     BTransportFactory transportFactory = getTransportFactory(apiDesc);
     server = BServer_JSFS.createServer(transportFactory);

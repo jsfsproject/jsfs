@@ -40,14 +40,12 @@ public class JsfsDispatcherServlet extends HHttpServlet {
   private static final long serialVersionUID = 1L;
   private static Log log = LogFactory.getLog(JsfsDispatcherServlet.class);
   private final HConfigImpl config = new HConfigImpl();
-  private final BApiDescriptor apiDesc = BApiDescriptor_JSFS.instance();
 
   /**
    * @see HttpServlet#HttpServlet()
    */
   public JsfsDispatcherServlet() {
     super();
-    apiDesc.addRegistry(new JRegistry_JSFS());
   }
 
   /**
@@ -93,7 +91,7 @@ public class JsfsDispatcherServlet extends HHttpServlet {
    */
    @Override
   protected BApiDescriptor getApiDescriptor() {
-    return apiDesc;
+    return MySession.apiDesc;
   }
 
    /**
