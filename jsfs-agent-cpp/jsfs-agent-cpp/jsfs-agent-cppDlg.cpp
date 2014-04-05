@@ -7,7 +7,7 @@
 #include "jsfs-agent-cpp.h"
 #include "jsfs-agent-cppDlg.h"
 #include "afxdialogex.h"
-
+#include "IconCache.h"
 
 #include "JsfsAuthentication.h"
 #include "JsfsWireClient.h"
@@ -287,3 +287,9 @@ void CjsfsagentcppDlg::OnWindowPosChanging(WINDOWPOS* lpwndpos)
 	CDialogEx::OnWindowPosChanging(lpwndpos);
 }
 
+
+
+LRESULT CjsfsagentcppDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return CDialogEx::WindowProc(message, wParam, lParam);
+}
