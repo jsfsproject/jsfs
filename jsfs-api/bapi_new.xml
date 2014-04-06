@@ -406,15 +406,6 @@
                     <access>PUBLIC</access>
                     <since>0.0.0.0</since>
                 </member>
-                <member>
-                    <name>method</name>
-                    <typeName>java.lang.String</typeName>
-                    <isTransient>false</isTransient>
-                    <isStatic>false</isStatic>
-                    <isFinal>false</isFinal>
-                    <access>PUBLIC</access>
-                    <since>0.0.0.0</since>
-                </member>
             </members>
             <comments/>
             <baseFullName></baseFullName>
@@ -1777,10 +1768,6 @@
                         <comment>
                             <kind>@param</kind>
                             <text>url Target URL. JSFS Agent should be authorized to send data to this URL.</text>
-                        </comment>
-                        <comment>
-                            <kind>@param</kind>
-                            <text>method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.</text>
                         </comment>
                         <comment>
                             <kind>@throws</kind>

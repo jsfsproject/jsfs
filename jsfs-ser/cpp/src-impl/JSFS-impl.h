@@ -360,12 +360,11 @@ using namespace ::byps;
 class BRequest_FileSystemService_uploadFile : public BMethodRequest {
 	public: ::std::wstring path;
 	public: ::std::wstring url;
-	public: ::std::wstring method;
 	
 	// checkpoint byps.gen.cpp.GenApiClass:488
 	public: BRequest_FileSystemService_uploadFile();
 	// checkpoint byps.gen.cpp.GenApiClass:535
-	public: BRequest_FileSystemService_uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method);	
+	public: BRequest_FileSystemService_uploadFile(const ::std::wstring& path, const ::std::wstring& url);	
 	public: virtual BTYPEID BSerializable_getTypeId() { return 744806851; }
 	
 	// checkpoint byps.gen.cpp.GenApiClass:871

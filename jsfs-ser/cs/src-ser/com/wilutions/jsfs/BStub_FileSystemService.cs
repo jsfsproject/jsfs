@@ -171,24 +171,22 @@ namespace com.wilutions.jsfs
 			await task;
 		}
 		
-		public virtual void UploadFile(String path, String url, String method) {
+		public virtual void UploadFile(String path, String url) {
 			BSyncResult<Object> asyncResult = new BSyncResult<Object>();			
-			UploadFile(path, url, method, BAsyncResultHelper.ToDelegate<Object>(asyncResult));
+			UploadFile(path, url, BAsyncResultHelper.ToDelegate<Object>(asyncResult));
 			asyncResult.GetResult();			
 		}
-		public virtual void UploadFile(String path, String url, String method, BAsyncResult<Object> asyncResult) {
+		public virtual void UploadFile(String path, String url, BAsyncResult<Object> asyncResult) {
 			BRequest_FileSystemService_uploadFile req = new BRequest_FileSystemService_uploadFile();			
 			req.pathValue = path;
 			req.urlValue = url;
-			req.methodValue = method;
 			transport.sendMethod(req, asyncResult);
 		}
 		// checkpoint byps.gen.cs.GenRemoteStub:133
-		public async Task UploadFileAsync(String path, String url, String method){
+		public async Task UploadFileAsync(String path, String url){
 			BRequest_FileSystemService_uploadFile req = new BRequest_FileSystemService_uploadFile();			
 			req.pathValue = path;
 			req.urlValue = url;
-			req.methodValue = method;
 			Task<Object> task = Task<Object>.Factory.FromAsync(transport.BeginSend<Object>, transport.EndSend<Object>, req, null);
 			await task;
 		}

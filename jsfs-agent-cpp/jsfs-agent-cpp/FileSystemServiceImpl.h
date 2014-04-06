@@ -37,8 +37,11 @@ class CFileSystemServiceImpl :
 	// Generate notifyIDs 
 	byps_atomic<int32_t> nextNotifyId;
 
+    // URL to "Your Web application", used in uploadFile()
+    wstring yourWebappUrl;
+
 public:
-	CFileSystemServiceImpl(PClient_JSFS bclient);
+	CFileSystemServiceImpl(PClient_JSFS bclient, const wstring& yourWebappUrl);
 	virtual ~CFileSystemServiceImpl(void);
 
 	virtual byps_ptr< vector<PFileInfo> > CFileSystemServiceImpl::findFiles(const wstring& path, const PFindOptions& findOptions);
@@ -51,7 +54,7 @@ public:
 	virtual int32_t beginWatchFolder(const wstring& dir, bool recursive, const wstring& extraInfo) ;
 	virtual void endWatchFolder(int32_t handle) ;
 
-	virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) ;
+	virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, ::std::function< void (bool, BException ex) > asyncResult) ;
 
 	virtual PContentStream readFile(const wstring& path);
 

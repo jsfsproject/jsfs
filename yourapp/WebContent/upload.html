@@ -15,7 +15,9 @@
   const localDirectory = com.wilutions.jsfs.FileSystemServiceC.FOLDERID_Documents;
 
   // Upload URL, internally composed as /yourapp/ + uploadUrl.
-  // Could also be an absolute URL.
+  // Could also be an absolute URL that adresses any other server,
+  // since the files are uploaded from the JSFS Agent which is 
+  // not constrained to a Same-Origin-Policy.
   const uploadUrl = "upload?";
 
   
@@ -69,7 +71,7 @@
 	  cellCheckbox.innerHTML = "<input type='checkbox' value='" + fileInfo.name + "'>";
 	  
 	  var cellIcon = row.insertCell(colIdx++);
-	  cellIcon.innerHTML = fileInfo.icon ? "<img src='data:image/x-png;base64," + fileInfo.icon + "'>" : "&nbsp;";
+	  cellIcon.innerHTML = fileInfo.icon ? "<img src='data:image/png;base64," + fileInfo.icon + "'>" : "&nbsp;";
 	  
 	  var cellName = row.insertCell(colIdx++);
 	  cellName.innerHTML = displInfo.name;

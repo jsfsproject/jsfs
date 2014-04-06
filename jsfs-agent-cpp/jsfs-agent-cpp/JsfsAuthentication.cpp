@@ -6,8 +6,8 @@
 
 using namespace byps::http;
 
-JsfsAuthentication::JsfsAuthentication(wstring tokenServiceUrl, wstring userName, wstring userPwd)
-	: tokenServiceUrl(tokenServiceUrl), userName(userName), userPwd(userPwd)
+JsfsAuthentication::JsfsAuthentication(const wstring& yourWebappUrl, const wstring& tokenServiceUrl, const wstring& userName, const wstring& userPwd)
+	: yourWebappUrl(yourWebappUrl), tokenServiceUrl(tokenServiceUrl), userName(userName), userPwd(userPwd)
 {
 	httpClient = HttpClient_create(NULL);
 }
@@ -78,10 +78,11 @@ void JsfsAuthentication::authenticate(PClient bclient, function<void (bool, BExc
 
 	PClient_JSFS jsfsClient = byps_ptr_cast<BClient_JSFS>(bclient);
 	PJsfsAuthentication auth = shared_from_this();
+    wstring yourWebappUrl = this->yourWebappUrl;
 
-	internalAuthenticate(bclient, [jsfsClient, auth, asyncResult](wstring token, BException ex) {
+	internalAuthenticate(bclient, [jsfsClient, yourWebappUrl, auth, asyncResult](wstring token, BException ex) {
 
-		PSkeleton_FileSystemService jsfsService = PSkeleton_FileSystemService(new CFileSystemServiceImpl(jsfsClient));
+		PSkeleton_FileSystemService jsfsService = PSkeleton_FileSystemService(new CFileSystemServiceImpl(jsfsClient, yourWebappUrl));
 		jsfsClient->addRemote(jsfsService);
 
 		auth->token = token;

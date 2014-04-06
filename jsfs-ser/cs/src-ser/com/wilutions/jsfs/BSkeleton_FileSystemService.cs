@@ -251,20 +251,20 @@ namespace com.wilutions.jsfs
 			return BTaskConstants<Object>.NotImplemented;
 		}
 		
-		public virtual void UploadFile(String path, String url, String method) {
+		public virtual void UploadFile(String path, String url) {
 			throw new NotImplementedException();
 		}
-		public virtual async void UploadFile(String path, String url, String method, BAsyncResult<Object> asyncResult) {
+		public virtual async void UploadFile(String path, String url, BAsyncResult<Object> asyncResult) {
 			Object __byps__ret = default(Object);
 			Exception __byps__ex = null;
 			bool __byps__callAsync = false;
 			try {
-				UploadFile(path, url, method);
+				UploadFile(path, url);
 			}
 			catch (NotImplementedException) { __byps__callAsync = true; }
 			catch (Exception e) { __byps__ex = e; }
 			if (__byps__callAsync) try {
-				await UploadFileAsync(path, url, method);
+				await UploadFileAsync(path, url);
 			}
 			catch (NotImplementedException) { __byps__ex = new BException(BExceptionC.UNSUPPORTED_METHOD, ""); }
 			catch (Exception e) { __byps__ex = e; }
@@ -273,7 +273,7 @@ namespace com.wilutions.jsfs
 		/// <summary>
 		/// Upload a file to the given URL.
 		/// </summary>
-		public virtual Task UploadFileAsync(String path, String url, String method){
+		public virtual Task UploadFileAsync(String path, String url){
 			return BTaskConstants<Object>.NotImplemented;
 		}
 		

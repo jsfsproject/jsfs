@@ -514,10 +514,9 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_uploadFilesMultip
  * Upload a file to the given URL.
  * @param path Local file path from the view of JSFS agent.
  * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
- * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
-com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFile = function(path, url, method) /* returns void , throws BException, InterruptedException*/  {
+com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFile = function(path, url) /* returns void , throws BException, InterruptedException*/  {
 	byps.throwUNSUPPORTED("");
 };
 // checkpoint byps.gen.js.PrintContext:133
@@ -525,12 +524,11 @@ com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.uploadFile = function(p
  * Upload a file to the given URL.
  * @param path Local file path from the view of JSFS agent.
  * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
- * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
-com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_uploadFile = function(path, url, method, __byps__asyncResult){
+com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.async_uploadFile = function(path, url, __byps__asyncResult){
 	try {
-		this.uploadFile(path, url, method);
+		this.uploadFile(path, url);
 		__byps__asyncResult(null, null);
 	} catch (e) {
 		__byps__asyncResult(null, e);
@@ -837,12 +835,11 @@ com.wilutions.jsfs.BStub_FileSystemService.prototype.uploadFilesMultipartFormdat
  * Upload a file to the given URL.
  * @param path Local file path from the view of JSFS agent.
  * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
- * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
  * @throws RemoteException
 */
-com.wilutions.jsfs.BStub_FileSystemService.prototype.uploadFile = function(path, url, method, __byps__asyncResult) {
+com.wilutions.jsfs.BStub_FileSystemService.prototype.uploadFile = function(path, url, __byps__asyncResult) {
 	// checkpoint byps.gen.js.GenRemoteStub:40
-	var req =  { _typeId : 744806851, path : path, url : url, method : method };
+	var req =  { _typeId : 744806851, path : path, url : url };
 	var ret = this.transport.sendMethod(req, __byps__asyncResult);
 	return ret;
 };
@@ -1015,7 +1012,7 @@ com.wilutions.jsfs.BServer_JSFS = function(transport) {
 				145996442, // _typeId of remote interface
 				964561591, // _typeId of result class
 				function(remote, methodObj, methodResult) {
-					remote.async_uploadFile(methodObj.path, methodObj.url, methodObj.method, methodResult);
+					remote.async_uploadFile(methodObj.path, methodObj.url, methodResult);
 				}
 			],
 		
@@ -1248,9 +1245,7 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 			{
 				"path":10, // java.lang.String
 				// names of persistent elements
-				"url":10, // java.lang.String
-				// names of persistent elements
-				"method":10 // java.lang.String
+				"url":10 // java.lang.String
 			},
 			// checkpoint byps.gen.js.GenRegistry:138
 			null,

@@ -28,8 +28,6 @@ namespace com.wilutions.jsfs
 			BOutputBin bout = (BOutputBin)bout1;
 			BBufferBin bbuf = bout.bbuf;
 			// checkpoint byps.gen.cs.PrintContext:494
-			bbuf.putString(obj.methodValue);
-			// checkpoint byps.gen.cs.PrintContext:494
 			bbuf.putString(obj.pathValue);
 			// checkpoint byps.gen.cs.PrintContext:494
 			bbuf.putString(obj.urlValue);
@@ -41,8 +39,6 @@ namespace com.wilutions.jsfs
 			BRequest_FileSystemService_uploadFile obj = (BRequest_FileSystemService_uploadFile)(obj1 != null ? obj1 : bin.onObjectCreated(new BRequest_FileSystemService_uploadFile()));
 			
 			BBufferBin bbuf = bin.bbuf;
-			// checkpoint byps.gen.cs.PrintContext:449
-			obj.methodValue = bbuf.getString();
 			// checkpoint byps.gen.cs.PrintContext:449
 			obj.pathValue = bbuf.getString();
 			// checkpoint byps.gen.cs.PrintContext:449

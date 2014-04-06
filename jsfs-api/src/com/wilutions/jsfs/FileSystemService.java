@@ -97,9 +97,8 @@ public interface FileSystemService extends BRemote {
    * Upload a file to the given URL.
    * @param path Local file path from the view of JSFS agent.
    * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
-   * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
    * @throws RemoteException
    */
-  public void uploadFile(String path, String url, String method) throws RemoteException;
+  public void uploadFile(String path, String url) throws RemoteException;
   
 }

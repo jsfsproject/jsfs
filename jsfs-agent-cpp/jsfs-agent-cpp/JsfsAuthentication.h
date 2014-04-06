@@ -12,6 +12,7 @@ typedef byps_ptr<JsfsAuthentication> PJsfsAuthentication;
 
 class JsfsAuthentication : public BAuthentication, public byps_enable_shared_from_this<JsfsAuthentication>
 {
+    wstring yourWebappUrl;
 	wstring tokenServiceUrl;
 	wstring userName;
 	wstring userPwd;
@@ -19,7 +20,7 @@ class JsfsAuthentication : public BAuthentication, public byps_enable_shared_fro
 	PHttpClient httpClient;
 
 public:
-	JsfsAuthentication(wstring tokenServiceUrl, wstring userName, wstring userPwd);
+	JsfsAuthentication(const wstring& yourWebappUrl, const wstring& tokenServiceUrl, const wstring& userName, const wstring& userPwd);
 	virtual ~JsfsAuthentication(void);
 
 	wstring getToken() {

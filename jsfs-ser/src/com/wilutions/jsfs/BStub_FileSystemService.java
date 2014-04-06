@@ -145,19 +145,18 @@ public class BStub_FileSystemService extends BStub implements FileSystemServiceA
 	}
 	
 	// checkpoint byps.gen.j.PrintContext:365
-	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method) throws RemoteException {
+	public void uploadFile(java.lang.String path, java.lang.String url) throws RemoteException {
 		// checkpoint byps.gen.j.GenRemoteStub:46
 		final BSyncResult<Object> asyncResult = new BSyncResult<Object>();		
-		uploadFile(path, url, method, asyncResult);
+		uploadFile(path, url, asyncResult);
 		asyncResult.getResult();		
 	}
 	// checkpoint byps.gen.j.PrintContext:409
-	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method, final BAsyncResult<Object> asyncResult) {
+	public void uploadFile(java.lang.String path, java.lang.String url, final BAsyncResult<Object> asyncResult) {
 		// checkpoint byps.gen.j.GenRemoteStub:113
 		BRequest_FileSystemService_uploadFile req = new BRequest_FileSystemService_uploadFile();		
 		req.path = path;
 		req.url = url;
-		req.method = method;
 		transport.sendMethod(req, asyncResult);
 	}
 	

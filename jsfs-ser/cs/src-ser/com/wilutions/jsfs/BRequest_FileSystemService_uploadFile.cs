@@ -22,7 +22,7 @@ namespace com.wilutions.jsfs
 			try {
 				FileSystemService __byps__remoteT = (FileSystemService)__byps__remote;				
 				BAsyncResultSendMethod<Object> __byps__outerResult = new BAsyncResultSendMethod<Object>(__byps__asyncResult, new BResult_19());				
-				__byps__remoteT.UploadFile(pathValue, urlValue, methodValue, BAsyncResultHelper.ToDelegate(__byps__outerResult));
+				__byps__remoteT.UploadFile(pathValue, urlValue, BAsyncResultHelper.ToDelegate(__byps__outerResult));
 			} catch (Exception e) {
 				__byps__asyncResult.setAsyncResult(null, e);
 			}
@@ -35,8 +35,6 @@ namespace com.wilutions.jsfs
 		internal String pathValue;
 
 		internal String urlValue;
-
-		internal String methodValue;
 
 		#endregion
 		

@@ -12,7 +12,7 @@ import byps.*;
 // isEnum=false
 // isFinal=true
 // isInline=false
-// #members=3
+// #members=2
 
 // checkpoint byps.gen.j.GenSerStruct:274
 @SuppressWarnings("all")
@@ -34,7 +34,6 @@ public class BSerializer_744806851 extends BSerializer {
 		final BRequest_FileSystemService_uploadFile obj = (BRequest_FileSystemService_uploadFile)obj1;		
 		final BOutputBin bout = (BOutputBin)bout1;
 		final BBufferBin bbuf = bout.bbuf;
-		bbuf.putString(obj.method);
 		bbuf.putString(obj.path);
 		bbuf.putString(obj.url);
 	}
@@ -46,7 +45,6 @@ public class BSerializer_744806851 extends BSerializer {
 		
 		final BBufferBin bbuf = bin.bbuf;
 		
-		obj.method = bbuf.getString();
 		obj.path = bbuf.getString();
 		obj.url = bbuf.getString();
 		

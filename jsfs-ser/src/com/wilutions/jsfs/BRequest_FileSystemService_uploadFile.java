@@ -15,7 +15,6 @@ public final class BRequest_FileSystemService_uploadFile extends BMethodRequest 
 
 	public java.lang.String path;
 	public java.lang.String url;
-	public java.lang.String method;
 	
 	public final static long serialVersionUID = 744806851L;
 	
@@ -25,7 +24,7 @@ public final class BRequest_FileSystemService_uploadFile extends BMethodRequest 
 		try {
 			final FileSystemServiceAsync __byps__remoteT = (FileSystemServiceAsync)__byps__remote;			
 			BAsyncResultSendMethod<Object> __byps__outerResult = new BAsyncResultSendMethod<Object>(__byps__asyncResult, new BResult_19());			
-			__byps__remoteT.uploadFile(path, url, method, __byps__outerResult);
+			__byps__remoteT.uploadFile(path, url, __byps__outerResult);
 		} catch (Throwable e) {
 			__byps__asyncResult.setAsyncResult(null, e);
 		}
@@ -36,7 +35,6 @@ public final class BRequest_FileSystemService_uploadFile extends BMethodRequest 
 		s.append("[FileSystemService.uploadFile(");
 		s.append(path);
 		s.append(",").append(url);
-		s.append(",").append(method);
 		s.append(")]");
 		return s.toString();
 	}

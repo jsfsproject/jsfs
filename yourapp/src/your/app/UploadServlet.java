@@ -38,11 +38,7 @@ public class UploadServlet extends HttpServlet {
 		super.service(arg0, arg1);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request,
+	protected void doPut(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		File tempFile = null;
 		InputStream input = null;
@@ -62,6 +58,7 @@ public class UploadServlet extends HttpServlet {
 			input = request.getInputStream();
 		}
 
+		System.out.println("tempFile="+ tempFile);
 		OutputStream output = new FileOutputStream(tempFile);
 		try {
 			byte[] buffer = new byte[1024];

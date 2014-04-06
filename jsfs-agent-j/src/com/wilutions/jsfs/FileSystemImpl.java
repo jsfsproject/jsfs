@@ -412,11 +412,10 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
   }
   
   @Override
-  public void uploadFile(String path, String url, String method) throws RemoteException {
+  public void uploadFile(String path, String url) throws RemoteException {
     
     if (isStringEmpty(path)) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: path must not be empty.");
     if (isStringEmpty(url)) throw new BException(BExceptionC.INTERNAL, "Invalid parameter: url must not be empty.");
-    if (isStringEmpty(method)) method = "POST";
     
     // Relative URL?
     if (!url.startsWith("http:")) {
@@ -431,7 +430,7 @@ public class FileSystemImpl extends BSkeleton_FileSystemService {
     try {
       connection = (HttpURLConnection)new URL(url).openConnection();
       connection.setDoOutput(true);
-      connection.setRequestMethod(method);
+      connection.setRequestMethod("PUT");
       connection.setRequestProperty("Content-Type: ", URLConnection.guessContentTypeFromName(binaryFile.getName()));
       connection.setFixedLengthStreamingMode(binaryFile.length());
       output = connection.getOutputStream();

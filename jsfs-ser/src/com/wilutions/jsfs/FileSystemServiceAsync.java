@@ -118,13 +118,12 @@ public interface FileSystemServiceAsync extends BRemote,
 	 * Upload a file to the given URL.
 	 * @param path Local file path from the view of JSFS agent.
 	 * @param url Target URL. JSFS Agent should be authorized to send data to this URL.
-	 * @param method HTTP method, can be POST or PUT. If this parameter is null or empty, method POST is used.
 	 * @throws RemoteException
 	*/
 	// checkpoint byps.gen.j.PrintContext:365
-	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method) throws RemoteException;
+	public void uploadFile(java.lang.String path, java.lang.String url) throws RemoteException;
 	// checkpoint byps.gen.j.PrintContext:409
-	public void uploadFile(java.lang.String path, java.lang.String url, java.lang.String method, final BAsyncResult<Object> asyncResult) ;
+	public void uploadFile(java.lang.String path, java.lang.String url, final BAsyncResult<Object> asyncResult) ;
 	
 	
 }

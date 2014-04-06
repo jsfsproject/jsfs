@@ -145,12 +145,12 @@ namespace com.wilutions.jsfs
 		/// <summary>
 		/// Upload a file to the given URL.
 		/// </summary>
-		void UploadFile(String path, String url, String method);
-		void UploadFile(String path, String url, String method, BAsyncResult<Object> asyncResult) ;
+		void UploadFile(String path, String url);
+		void UploadFile(String path, String url, BAsyncResult<Object> asyncResult) ;
 		/// <summary>
 		/// Upload a file to the given URL.
 		/// </summary>
-		Task UploadFileAsync(String path, String url, String method);
+		Task UploadFileAsync(String path, String url);
 		
 		
 	}

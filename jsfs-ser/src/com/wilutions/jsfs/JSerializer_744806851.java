@@ -12,7 +12,7 @@ import byps.*;
 // isEnum=false
 // isFinal=true
 // isInline=false
-// #members=3
+// #members=2
 
 // checkpoint byps.gen.j.GenSerStruct:274
 @SuppressWarnings("all")
@@ -32,7 +32,6 @@ public class JSerializer_744806851 extends JSerializer_Object {
 	@Override
 	public void internalWrite(final Object obj1, final BOutputJson bout, final BBufferJson bbuf) throws BException {
 		final BRequest_FileSystemService_uploadFile obj = (BRequest_FileSystemService_uploadFile)obj1;		
-		bbuf.putString("method", obj.method);
 		bbuf.putString("path", obj.path);
 		bbuf.putString("url", obj.url);
 	}
@@ -42,7 +41,6 @@ public class JSerializer_744806851 extends JSerializer_Object {
 		final BRequest_FileSystemService_uploadFile obj = (BRequest_FileSystemService_uploadFile)(obj1 != null ? obj1 : bin.onObjectCreated(new BRequest_FileSystemService_uploadFile()));
 		
 		final BJsonObject js = bin.currentObject;
-		obj.method = js.getString("method");
 		obj.path = js.getString("path");
 		obj.url = js.getString("url");
 		

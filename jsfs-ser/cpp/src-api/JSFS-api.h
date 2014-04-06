@@ -784,8 +784,8 @@ class FileSystemService : public virtual BRemote {
 	/// <summary>
 	/// Upload a file to the given URL.
 	/// </summary>
-	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)  = 0;
-	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  = 0;
+	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url)  = 0;
+	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, ::std::function< void (bool, BException ex) > asyncResult)  = 0;
 	
 	
 };
@@ -831,8 +831,8 @@ class BSkeleton_FileSystemService : public BSkeleton, public virtual FileSystemS
 	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method) ;
 	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
-	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) ;
-	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
+	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url) ;
+	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
 	
 };
@@ -870,8 +870,8 @@ class BStub_FileSystemService : public BStub, public virtual FileSystemService {
 	public: virtual void readFile(const ::std::wstring& path, ::std::function< void (PContentStream, BException ex) > asyncResult) ;
 	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method) ;
 	public: virtual void uploadFilesMultipartFormdata(const PArrayFormItem& items, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
-	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) ;
-	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult) ;
+	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url) ;
+	public: virtual void uploadFile(const ::std::wstring& path, const ::std::wstring& url, ::std::function< void (bool, BException ex) > asyncResult) ;
 	
 };
 }}}

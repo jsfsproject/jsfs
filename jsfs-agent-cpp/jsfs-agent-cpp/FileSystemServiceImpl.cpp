@@ -6,8 +6,8 @@
 #include "resource.h"
 #include <thread>
 
-CFileSystemServiceImpl::CFileSystemServiceImpl(PClient_JSFS bclient)
-	: bclient(bclient)
+CFileSystemServiceImpl::CFileSystemServiceImpl(PClient_JSFS bclient, const wstring& yourWebappUrl)
+	: bclient(bclient), yourWebappUrl(yourWebappUrl)
 {
 	tpool = BThreadPool::create(NULL, 100);
 
@@ -690,6 +690,35 @@ PContentStream CFileSystemServiceImpl::readFile(const wstring& path1) {
 	return cstream;
 }
 
-void CFileSystemServiceImpl::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method) {
-	BSkeleton_FileSystemService::uploadFile(path, url, method);
+class BAsyncResult_uploadFile : public BAsyncResult {
+    PHttpClient httpClient;
+    PHttpPutStream put;
+    ::std::function< void (bool, BException ex) > innerResult;
+public:
+    BAsyncResult_uploadFile(PHttpClient httpClient, PHttpPutStream put, ::std::function< void (bool, BException ex) > innerResult) 
+        : httpClient(httpClient), put(put), innerResult(innerResult) {
+    }
+    virtual void setAsyncResult(const BVariant& result) {
+        innerResult(true, result.getException());
+        delete this;
+    }
+};
+
+void CFileSystemServiceImpl::uploadFile(const ::std::wstring& path, const ::std::wstring& url, ::std::function< void (bool, BException ex) > asyncResult) {
+    PHttpClient httpClient = HttpClient_create(NULL);
+    
+    // Relative URL?
+    wstring destUrl = url;
+    if (destUrl.find(L"http:") != 0) {
+      destUrl = yourWebappUrl + wstring(L"/") + destUrl;
+    }
+    
+    httpClient->init(destUrl);
+
+    PHttpPutStream put = httpClient->putStream(destUrl);
+    PContentStream stream(new BContentStreamFile(path));
+
+    // Pass the HttpClient and HttpPutStream to the async result in order
+    // to hold a reference as long as the request is running.
+    put->send(stream, new BAsyncResult_uploadFile(httpClient, put, asyncResult));
 }

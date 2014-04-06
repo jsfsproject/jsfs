@@ -402,13 +402,13 @@ void BSkeleton_FileSystemService::uploadFilesMultipartFormdata(const PArrayFormI
 		asyncResult(__byps__ret, __byps__ex);
 	}
 }
-void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)  {
+void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url)  {
 	throw BException(BExceptionC::UNSUPPORTED_METHOD, L"");
 }
-void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
+void BSkeleton_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, ::std::function< void (bool, BException ex) > asyncResult)  {
 	bool __byps__ret = false;
 	try {
-		uploadFile(path, url, method);
+		uploadFile(path, url);
 		asyncResult(__byps__ret, BException());
 	} catch (const std::exception& __byps__ex) {
 		asyncResult(__byps__ret, __byps__ex);
@@ -544,15 +544,15 @@ void BStub_FileSystemService::uploadFilesMultipartFormdata(const PArrayFormItem&
 }}}
 
 namespace com { namespace wilutions { namespace jsfs { 
-void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)  {
+void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url)  {
 	BSyncResultT< bool > syncResult;	
-	uploadFile(path, url, method, [&syncResult](bool v, BException ex) {
+	uploadFile(path, url, [&syncResult](bool v, BException ex) {
 		syncResult.setAsyncResult(v, ex);
 	});
 	syncResult.getResult();
 }
-void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method, ::std::function< void (bool, BException ex) > asyncResult)  {
-	PMethodRequest req(new BRequest_FileSystemService_uploadFile(path, url, method));
+void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std::wstring& url, ::std::function< void (bool, BException ex) > asyncResult)  {
+	PMethodRequest req(new BRequest_FileSystemService_uploadFile(path, url));
 	PAsyncResult outerResult( new BAsyncResultReceiveMethodL< bool, BResult_19 >(asyncResult) );
 	transport->sendMethod(req, outerResult);
 }

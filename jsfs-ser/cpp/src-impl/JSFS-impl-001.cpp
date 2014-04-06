@@ -673,21 +673,19 @@ namespace com { namespace wilutions { namespace jsfs {
 BRequest_FileSystemService_uploadFile::BRequest_FileSystemService_uploadFile() : BMethodRequest(145996442) {
 }
 // checkpoint byps.gen.cpp.GenApiClass:536
-com::wilutions::jsfs::BRequest_FileSystemService_uploadFile::BRequest_FileSystemService_uploadFile(const ::std::wstring& path, const ::std::wstring& url, const ::std::wstring& method)
+com::wilutions::jsfs::BRequest_FileSystemService_uploadFile::BRequest_FileSystemService_uploadFile(const ::std::wstring& path, const ::std::wstring& url)
 	: BMethodRequest(145996442) 
 	, path(path)
 	, url(url)
-	, method(method)
 	{}
 // checkpoint byps.gen.cpp.GenApiClass:877
 void com::wilutions::jsfs::BRequest_FileSystemService_uploadFile::serialize(BIO& ar, const BVERSION version) {
-	ar & this->method;
 	ar & this->path;
 	ar & this->url;
 }
 void com::wilutions::jsfs::BRequest_FileSystemService_uploadFile::execute(PRemote __byps__remote, PAsyncResult __byps__asyncResult) {
 	PFileSystemService __byps__remoteT = byps_ptr_cast<FileSystemService>(__byps__remote);
-	__byps__remoteT->uploadFile(path, url, method, [__byps__asyncResult](bool __byps__result, BException __byps__ex) {
+	__byps__remoteT->uploadFile(path, url, [__byps__asyncResult](bool __byps__result, BException __byps__ex) {
 		if (__byps__ex) {
 			__byps__asyncResult->setAsyncResult(BVariant(__byps__ex));
 		}
