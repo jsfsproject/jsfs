@@ -653,40 +653,10 @@ void CFileSystemServiceImpl::endWatchFolder(int32_t handle)  {
 	watchers.erase(handle);
 }
 
-wstring CFileSystemServiceImpl::getFileContentType(const wstring& path) {
-	wstring contentType = L"application/octet-stream";
-	WCHAR fext[_MAX_EXT];
-	_wsplitpath_s(path.c_str(), NULL, 0, NULL, 0, NULL, 0, fext, ARRAYSIZE(fext));
-	HKEY hkey = NULL;
-	if (::RegOpenKeyEx(HKEY_CLASSES_ROOT, fext, 0, KEY_READ, &hkey) == ERROR_SUCCESS) {
-		WCHAR buf[100] = {0};
-		DWORD len = sizeof(buf)-2;
-		DWORD err = ::RegQueryValueEx(hkey, L"Content Type", NULL, NULL, (LPBYTE)buf, &len);
-		if (err == ERROR_SUCCESS) {
-			contentType = wstring(buf);
-		}
-		::RegCloseKey(hkey);
-	}
-	return contentType;
-}
-
-int64_t CFileSystemServiceImpl::getFileContentLength(const wstring& path) {
-	HANDLE hFile = ::CreateFile(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile == INVALID_HANDLE_VALUE) {
-		DWORD err = ::GetLastError();
-		throw createException(err);
-	}
-	LARGE_INTEGER fsize = {0};
-	::GetFileSizeEx(hFile, &fsize);
-	::CloseHandle(hFile);
-	return fsize.QuadPart;
-}
-
 PContentStream CFileSystemServiceImpl::readFile(const wstring& path1) {
 	wstring path = makeValidPath(path1);
-	wstring contentType = getFileContentType(path);
-	int64_t contentLength = getFileContentLength(path);
-	PContentStream cstream(new BContentStreamFile(path, contentType, contentLength));
+  BFile file(path);
+	PContentStream cstream(new BContentStreamWrapper(file));
 	return cstream;
 }
 
@@ -715,10 +685,11 @@ void CFileSystemServiceImpl::uploadFile(const ::std::wstring& path, const ::std:
     
     httpClient->init(destUrl);
 
-    PHttpPutStream put = httpClient->putStream(destUrl);
-    PContentStream stream(new BContentStreamFile(path));
+    BFile file(path);
+    PContentStream stream(new BContentStreamWrapper(file));
 
     // Pass the HttpClient and HttpPutStream to the async result in order
     // to hold a reference as long as the request is running.
+    PHttpPutStream put = httpClient->putStream(destUrl);
     put->send(stream, new BAsyncResult_uploadFile(httpClient, put, asyncResult));
 }

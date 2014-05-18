@@ -80,8 +80,6 @@ private:
 	static PFileInfo fileInfoFromWin32FindData(const wstring& dir, const WIN32_FIND_DATA& fd);
 	static wstring makeValidPath(const wstring& path);
 	PFileSystemNotify getNotifyService();
-	int64_t getFileContentLength(const wstring& path);
-	wstring getFileContentType(const wstring& path);
 
 };
 
