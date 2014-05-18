@@ -48,7 +48,8 @@ public interface FileSystemService extends BRemote {
    * The first element in args[] is assumed to be the application name to be started. If only 
    * {@link ExecuteOptions#extraInfo} is set in opts, the first element in args can also be a 
    * file name. In this case the file is opened via ShellExecute with verb "open".
-   * @param args Arguments
+   * @param args Arguments, first argument is the program to be executed or file name to be opened. 
+   * Further arguments are passed as program arguments in the command line.
    * @param opts Options
    * @throws RemoteException
    */
