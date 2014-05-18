@@ -228,20 +228,8 @@ void BStub_DispatcherService::keepAlive(const ::std::wstring& token, ::std::func
 
 // checkpoint byps.gen.cpp.GenRemoteStub:224
 namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_1153231042(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
-	BSerializable* p = pObjS.get();
-	if (bio.is_loading) {
-		if (p) return;
-		BTargetId targetId;
-		bio & targetId;
-		PTransport transport(new BTransport(*bio.transport, targetId));
-		pObjS = PSerializable(new com::wilutions::jsfs::BStub_DispatcherService(transport));
-	}
-	else {
-		BRemote* r = dynamic_cast<BRemote*>(p);
-		BTargetId targetId = r->BRemote_getTargetId();
-		bio & targetId;
-	}
+void BSerializer_1153231042(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* reserved){
+	BSerializer_16_Template<com::wilutions::jsfs::BStub_DispatcherService, 1153231042>(bio, pObj, pObjS, reserved);
 }
 }}}
 
@@ -286,20 +274,8 @@ void BStub_FileSystemNotify::notify(const PNotifyInfo& notifyInfo, ::std::functi
 
 // checkpoint byps.gen.cpp.GenRemoteStub:224
 namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_544795964(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
-	BSerializable* p = pObjS.get();
-	if (bio.is_loading) {
-		if (p) return;
-		BTargetId targetId;
-		bio & targetId;
-		PTransport transport(new BTransport(*bio.transport, targetId));
-		pObjS = PSerializable(new com::wilutions::jsfs::BStub_FileSystemNotify(transport));
-	}
-	else {
-		BRemote* r = dynamic_cast<BRemote*>(p);
-		BTargetId targetId = r->BRemote_getTargetId();
-		bio & targetId;
-	}
+void BSerializer_544795964(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* reserved){
+	BSerializer_16_Template<com::wilutions::jsfs::BStub_FileSystemNotify, 544795964>(bio, pObj, pObjS, reserved);
 }
 }}}
 
@@ -560,20 +536,8 @@ void BStub_FileSystemService::uploadFile(const ::std::wstring& path, const ::std
 
 // checkpoint byps.gen.cpp.GenRemoteStub:224
 namespace com { namespace wilutions { namespace jsfs { 
-void BSerializer_145996442(BIO& bio, POBJECT& , PSerializable& pObjS, void* ){
-	BSerializable* p = pObjS.get();
-	if (bio.is_loading) {
-		if (p) return;
-		BTargetId targetId;
-		bio & targetId;
-		PTransport transport(new BTransport(*bio.transport, targetId));
-		pObjS = PSerializable(new com::wilutions::jsfs::BStub_FileSystemService(transport));
-	}
-	else {
-		BRemote* r = dynamic_cast<BRemote*>(p);
-		BTargetId targetId = r->BRemote_getTargetId();
-		bio & targetId;
-	}
+void BSerializer_145996442(BIO& bio, POBJECT& pObj, PSerializable& pObjS, void* reserved){
+	BSerializer_16_Template<com::wilutions::jsfs::BStub_FileSystemService, 145996442>(bio, pObj, pObjS, reserved);
 }
 }}}
 

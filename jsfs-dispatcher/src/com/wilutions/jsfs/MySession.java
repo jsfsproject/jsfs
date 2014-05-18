@@ -1,14 +1,12 @@
 /* USE THIS FILE ACCORDING TO THE COPYRIGHT RULES IN LICENSE.TXT WHICH IS PART OF THE SOURCE CODE PACKAGE */ 
 package com.wilutions.jsfs;
 
-import java.io.File;
-
 import javax.servlet.http.HttpSession;
 
 import byps.BApiDescriptor;
 import byps.BServer;
-import byps.BServerRegistry;
 import byps.BTransportFactory;
+import byps.http.HServerContext;
 import byps.http.HSession;
 
 /**
@@ -33,9 +31,8 @@ public class MySession extends HSession {
    */
   public final static BApiDescriptor apiDesc = BApiDescriptor_JSFS.instance().addRegistry(new JRegistry_JSFS());
 
-	public MySession(HttpSession hsess, String remoteUser, File tempDir,
-			BServerRegistry stubRegistry) {
-		super(hsess, remoteUser, tempDir, stubRegistry);
+	public MySession(HttpSession hsess, String remoteUser, HServerContext serverContext) {
+		super(hsess, remoteUser, serverContext);
     
 		// Initialize objects required by BYPS 
     BTransportFactory transportFactory = getTransportFactory(apiDesc);

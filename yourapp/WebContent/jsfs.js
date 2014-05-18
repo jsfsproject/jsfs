@@ -219,11 +219,11 @@ com.wilutions.jsfs.BSkeleton_FileSystemNotify = function() {
 	
 	this.transport = null; // is set in BServer.addRemote
 	
-	this.toJSON = function (key) {
-		return { _typeId : 544795964, targetId : this.transport.targetId };
-	};
 	
-	
+};
+
+com.wilutions.jsfs.BSkeleton_FileSystemNotify.prototype.toJSON = function (key) {
+	return { _typeId : 544795964, targetId : this.transport.targetId.toString() };
 };
 
 // checkpoint byps.gen.js.PrintContext:133
@@ -262,11 +262,11 @@ com.wilutions.jsfs.BSkeleton_FileSystemService = function() {
 	
 	this.transport = null; // is set in BServer.addRemote
 	
-	this.toJSON = function (key) {
-		return { _typeId : 145996442, targetId : this.transport.targetId };
-	};
 	
-	
+};
+
+com.wilutions.jsfs.BSkeleton_FileSystemService.prototype.toJSON = function (key) {
+	return { _typeId : 145996442, targetId : this.transport.targetId.toString() };
 };
 
 // checkpoint byps.gen.js.PrintContext:133
@@ -1383,13 +1383,13 @@ com.wilutions.jsfs.BRegistry_JSFS = function() {
 		),
 		
 		// com.wilutions.jsfs.BStub_DispatcherService
-		1153231042 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_DispatcherService),
+		1153231042 : new byps.BSerializer_16(com.wilutions.jsfs.BStub_DispatcherService),
 		
 		// com.wilutions.jsfs.BStub_FileSystemNotify
-		544795964 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_FileSystemNotify),
+		544795964 : new byps.BSerializer_16(com.wilutions.jsfs.BStub_FileSystemNotify),
 		
 		// com.wilutions.jsfs.BStub_FileSystemService
-		145996442 : new byps.BSerializerRemote(com.wilutions.jsfs.BStub_FileSystemService),
+		145996442 : new byps.BSerializer_16(com.wilutions.jsfs.BStub_FileSystemService),
 		
 		// com.wilutions.jsfs.ExecuteNotifyInfo
 		665368294 : new byps.BSerializer(

@@ -50,7 +50,7 @@ namespace com {
 			typedef byps_ptr< BStub_FileSystemService > PStub_FileSystemService; 
 			
 			// com.wilutions.jsfs.EWatchFolderNotifyKind
-			enum EWatchFolderNotifyKind; 
+			enum EWatchFolderNotifyKind : int32_t; 
 			
 			// com.wilutions.jsfs.ExecuteNotifyInfo
 			class ExecuteNotifyInfo; 

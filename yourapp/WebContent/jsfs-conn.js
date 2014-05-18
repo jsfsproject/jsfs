@@ -133,7 +133,7 @@ var JsfsConnection = function() {
 		// The BYPS connection should be closed, when the page is unloaded.
 		// Otherwise a long-poll request might not be terminated.
 		var me = this;
-		window.onbeforeunload = function() {
+		window.onunload = function() {
 			me.done();
 		};
 	};

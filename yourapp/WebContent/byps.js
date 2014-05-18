@@ -165,6 +165,12 @@ byps.BExceptionC = {
   UNAUTHORIZED : 401,
 
   /**
+   * This code can be used, if authentication has failed.
+   * Same as HttpURLConnection.HTTP_FORBIDDEN.
+   */
+  FORBIDDEN : 403,
+  
+  /**
 	 * Timeout. This code is used, if an operation exceeds its time limit.
 	 * HWireClientR sends this code for expired long-polls. Same value as
 	 * HttpURLConnection.HTTP_CLIENT_TIMEOUT.
@@ -340,14 +346,26 @@ byps.BSerializerMap = function(valueTypeId) {
 byps.BSerializer_15 = function() {
 
 	this.write = function(obj, bout) {
+		
 	};
 	
 	this.read = function(obj, bin) {
 	
+		var serverId = bin.transport.targetId.serverId;
+		var messageId = bin.header.messageId;
+		var streamId = obj.streamId;
+		
+		var targetIdStr = obj.targetId;
+		if (targetIdStr) {
+			var targetId = new byps.BTargetId(targetIdStr);
+			serverId = targetId.serverId;
+			messageId = targetId.getMessageId();
+			streamId = targetId.getStreamId();
+		}
+		
 		var url = bin.transport.wire.url;
 		url += (url.indexOf('?') != url.length - 1) ? '?' : '&';
-		obj.url = url + "messageid=" + bin.header.messageId + "&streamid=" + obj.streamId;
-		return obj;
+		obj.url = url + "serverid=" + serverId + "&messageid=" + messageId + "&streamid=" + streamId;
 	
 		return obj;
 	};
@@ -378,7 +396,7 @@ byps.BSerializer_17.prototype = new byps.BSerializer();
 
 // ------------------------------------------------------------------------------------------------
 
-byps.BSerializerRemote = function(clazz) {
+byps.BSerializer_16 = function(clazz) {
 
 	// When sending a remote, internal members are omitted.
 	// The remote has a toJSON method that creates an
@@ -389,7 +407,9 @@ byps.BSerializerRemote = function(clazz) {
 
 	this.read = function(obj, bin) {
 		if (obj.constructor !== Object) return obj;
-		var transport = new byps.BTransport(bin.transport.apiDesc, bin.transport.wire, obj.targetId);
+		var targetIdStr = obj.targetId;
+		var targetId = new byps.BTargetId(targetIdStr);
+		var transport = byps.createTransportForRemote(bin.transport, targetId);
 		obj = new clazz(transport);
 		return obj;
 	};
@@ -446,22 +466,64 @@ byps.BApiDescriptor = function(name, basePackage, version, uniqueObjects, regist
 	this.registry = registry;
 };
 
-// ------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
+byps.BTargetId = function(str) {
+	
+	if (str) {
+		var arr = str.split(".");
+		this.serverId = arr[0];
+		this.v1 = arr[1] + ".";
+		this.v2 = arr[2] + ".";
+		this.remoteId = (arr.length > 3) ? arr[3] : 0;
+		this.signature = (arr.length > 4) ? (arr[4] + ".") : "0.";
+	}
+	else {
+		this.serverId = 0;
+		this.v1 = "0.";
+		this.v2 = "0.";
+		this.remoteId = 0;
+		this.signature = "0.";
+	}
+	
+};
+
+byps.BTargetId.prototype.getStreamId = function() { 
+	return this.v2;
+};
+
+byps.BTargetId.prototype.getMessageId = function() {
+	return this.v1;
+};
+
+byps.BTargetId.prototype.getRemoteId = function() {
+	return this.remoteId;
+};
+
+byps.BTargetId.prototype.toString = function() {
+	var str = this.serverId + "." + this.v1 + this.v2;
+	if (this.remoteId) {
+		str += this.remoteId + "." + this.signature;
+	}
+	return str;
+};
+
+//------------------------------------------------------------------------------------------------
 
 byps.BNegotiate = function(apiDesc) {
 	this.JSON = "J";
 
 	this.protocols = this.JSON;
 	this.version = apiDesc.version;
-	this.targetId = "";
+	this.targetId = new byps.BTargetId();
 
 	this.toArray = function() {
-		return [ "N", "J", this.version, "_", this.targetId ];
+		return [ "N", "J", this.version, "_", this.targetId.toString() ];
 	};
 
 	this.fromArray = function(arr) {
 		if (!arr || arr.length < 5 || arr[0] != "N") throw new byps.BException(byps.BException_CORRUPT, "Invalid negotiate message.");
-		this.targetId = arr[4];
+		this.targetId = new byps.BTargetId(arr[4]);
 	};
 };
 
@@ -505,7 +567,7 @@ byps.BMessageHeader = function(messageId_or_rhs) {
 
 	this.error = 0;
 	this.flags = 0;
-	this.targetId = "";
+	this.targetId = null;
 	this.messageId = "";
 
 	if (typeof messageId_or_rhs == 'string') {
@@ -690,15 +752,15 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 	var MESSAGEID_CANCEL_ALL_REQUESTS = -1;
 	var MESSAGEID_DISCONNECT = -2;
 		
-	this.done = function() {
-		this._internalCancelAllRequests(MESSAGEID_DISCONNECT);
+	this.done = function(asyncResult) {
+		this._internalCancelAllRequests(MESSAGEID_DISCONNECT, asyncResult);
 	};
 	
-	this.cancelAllRequests = function() {
-		this._internalCancelAllRequests(MESSAGEID_CANCEL_ALL_REQUESTS);
+	this.cancelAllRequests = function(asyncResult) {
+		this._internalCancelAllRequests(MESSAGEID_CANCEL_ALL_REQUESTS, asyncResult);
 	};
 
-	this._internalCancelAllRequests = function(cancelMessageId) {
+	this._internalCancelAllRequests = function(cancelMessageId, asyncResult) {
 		
 		for (requestId in this.openRequestsToCancel) {
 			var xhr = this.openRequestsToCancel[requestId];
@@ -707,17 +769,23 @@ byps.BWireClient = function(url, flags, timeoutSeconds) {
 		
 		// Notify the server about the canceled messages
 		if (cancelMessageId) {
-			this._sendCancelMessage(cancelMessageId);
+			this._sendCancelMessage(cancelMessageId, asyncResult);
 		}
 		
 		this.openRequestsToCancel = {};
 	};
 	
-	this._sendCancelMessage = function(cancelMessageId) {
+	this._sendCancelMessage = function(cancelMessageId, asyncResult) {
 		var destUrl = me.url + "?messageid=" + cancelMessageId + "&cancel=1";
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', destUrl, true);
 		xhr.withCredentials = true;
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState != 4) return;
+			if (asyncResult) {
+				asyncResult(true, null);
+			}
+		};
 		xhr.send();
 	};
 
@@ -773,13 +841,19 @@ byps.BTransport = function(apiDesc, wire, targetId) {
 
 	this.apiDesc = apiDesc;
 	this.wire = wire;
-	this.targetId = targetId || "";
 
 	this._authentication = null;
 	this._lastAuthenticationTime = 0;
 	this._lastAuthenticationException = null;
 	this._asyncResultsWaitingForAuthentication = [];
 	this._RETRY_AUTHENTICATION_AFTER_MILLIS = 1 * 1000;
+	this._negotiateActive = false;
+	
+	this.setTargetId = function(targetId) {
+		this.targetId = targetId;
+		this.connectedToServerId = targetId.serverId;
+	};
+	this.setTargetId(targetId);
 
 	this.getOutput = function() {
 		return new byps.BInputOutput(this);
@@ -961,6 +1035,16 @@ byps.BTransport = function(apiDesc, wire, targetId) {
 	};
 
 	this.negotiateProtocolClient = function(asyncResult, processAsync) { // BAsyncResult<Boolean>
+		
+		if (this._negotiateActive) {
+			var ex = new byps.BException(byps.BExceptionC.FORBIDDEN,
+					"Authentication procedure failed. Server returned 401 for every request. " +
+					"A common reason for this error is slow authentication handling.");
+					// ... or calling a function that requires authentication in BAuthentication.authenticate() - see. TestRemoteWithAuthentication.testAuthenticateBlocksRecursion 
+			asyncResult(null, ex);
+			return;
+		}
+		this._negotiateActive = true;
 
 		var me = this;
 
@@ -979,7 +1063,7 @@ byps.BTransport = function(apiDesc, wire, targetId) {
 				else {
 					var arr = JSON.parse(responseMessage.jsonText);
 					nego.fromArray(arr);
-					me.targetId = nego.targetId;
+					me.setTargetId(nego.targetId);
 				}
 			}
 			catch (ex2) {
@@ -1004,12 +1088,15 @@ byps.BTransport = function(apiDesc, wire, targetId) {
 		return new byps.BServerR(this, server);
 	};
 
-	this.setAuthentication = function(auth, onlyIfNull) {
-		if (onlyIfNull && this._authentication) return;
+	this.setAuthentication = function(auth) {
 		this._authentication = auth;
 		this._asyncResultsWaitingForAuthentication = [];
 		this._lastAuthenticationTime = 0;
 		this._lastAuthenticationException = null;
+	};
+	
+	this.hasAuthentication = function() {
+		return !!this._authentication;
 	};
 
 	this._internalAuthenticate = function(asyncResult, processAsync) {
@@ -1034,6 +1121,8 @@ byps.BTransport = function(apiDesc, wire, targetId) {
 						me._lastAuthenticationTime = (new Date()).getTime();
 						me._lastAuthenticationException = ex;
 
+						me._negotiateActive = false;
+						
 						for ( var i = 0; i < arr.length; i++) {
 							var result_i = arr[i];
 							result_i(result, ex);
@@ -1104,12 +1193,15 @@ byps.BTransport = function(apiDesc, wire, targetId) {
 		var ret = false;
 		if (ex && ex.code) {
 			ret = ex.code == byps.BExceptionC.UNAUTHORIZED;
-			if (!ret) {
-				ret = ex.code == byps.BExceptionC.IOERROR && ("" + ex).indexOf("403") >= 0;
-			}
 		}
 		return ret;
 	};
+};
+
+byps.createTransportForRemote = function(transport, targetId) {
+	var t = new byps.BTransport(transport.apiDesc, transport.wire, targetId);
+	t.connectedToServerId = transport.connectedToServerId;
+	return t;
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -1119,7 +1211,7 @@ byps.BInputOutput = function(transport, header, jsonText) {
 	this.transport = transport;
 	this.registry = transport.apiDesc.registry;
 	this.header = header || new byps.BMessageHeader(transport.wire.makeMessageId());
-	this.header.targetId = transport.targetId;
+	this.header.targetId = transport.targetId.toString();
 
 	this.store = function(root) {
 		this._root = root;
@@ -1353,6 +1445,10 @@ byps.BClient = function() {
 	// this._serverR;
 
 	this.start = function(asyncResult) { // BAsyncResult<BClient>
+		
+		if (!this.transport.hasAuthentication()) {
+			this.setAuthentication(null);
+		}
 
 		var processAsync = !!asyncResult;
 		if (!processAsync) {
@@ -1361,13 +1457,11 @@ byps.BClient = function() {
 			};
 		}
 
-		this.setAuthentication(null);
-
 		this.transport.negotiateProtocolClient(asyncResult, processAsync);
 	};
 
-	this.done = function() {
-		this.transport.wire.cancelAllRequests();
+	this.done = function(asyncResult) {
+		this.transport.wire.done(asyncResult);
 	};
 
 	this.addRemote = function(remoteImpl) {
@@ -1466,7 +1560,7 @@ byps.BClient = function() {
 
 		};
 
-		this.transport.setAuthentication(authentication, innerAuth == null);
+		this.transport.setAuthentication(authentication);
 	};
 };
 
@@ -1482,7 +1576,7 @@ byps.BClient_subclass.prototype = new byps.BClient();
 byps.BTransportFactory = function(apiDesc, wire, nbOfServerRConns) {
 
 	this._nbOfServerRConns = nbOfServerRConns;
-	this._transport = new byps.BTransport(apiDesc, wire, null);
+	this._transport = new byps.BTransport(apiDesc, wire, new byps.BTargetId());
 
 	this.createClientTransport = function() {
 		return this._transport;

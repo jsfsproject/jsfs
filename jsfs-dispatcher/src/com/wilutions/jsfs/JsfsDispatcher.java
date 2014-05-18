@@ -100,7 +100,7 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
         // The context.xml file in the Servers/Tomcatv7.0... folder describes
         // how to use multiple JSFS Dispatcher services.
         
-        final Collection<BClient> clients = mySession.getForwardClientsToOtherServers();
+        final Collection<BClient> clients = mySession.getServerContext().getServerRegistry().getForwardClientsToOtherServers();
         
         BAsyncResult<FileSystemService> outerResult = new BAsyncResult<FileSystemService>() {
           boolean finished;
@@ -180,7 +180,7 @@ public class JsfsDispatcher extends BSkeleton_DispatcherService {
       }
       else {
         
-        final Collection<BClient> clients = mySession.getForwardClientsToOtherServers();
+        final Collection<BClient> clients = mySession.getServerContext().getServerRegistry().getForwardClientsToOtherServers();
         
         BAsyncResult<FileSystemNotify> outerResult = new BAsyncResult<FileSystemNotify>() {
           boolean finished;
