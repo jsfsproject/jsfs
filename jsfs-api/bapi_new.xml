@@ -1611,7 +1611,8 @@
                         </comment>
                         <comment>
                             <kind>@param</kind>
-                            <text>args Arguments</text>
+                            <text>args Arguments, first argument is the program to be executed or file name to be opened. 
+ Further arguments are passed as program arguments in the command line.</text>
                         </comment>
                         <comment>
                             <kind>@param</kind>
