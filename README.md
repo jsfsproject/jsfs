@@ -11,3 +11,5 @@ JSFS is available under the MIT license.
 
 Regards
 Wolfgang Imig
+
+(Icon is from Visual Pharm - http://icons8.com/)
